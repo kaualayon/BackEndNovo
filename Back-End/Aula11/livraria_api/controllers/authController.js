@@ -2,6 +2,7 @@ const User = require('../models/user');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const express = require('express');
+require("dotenv").config();
 // Middleware to parse URL-encoded bodies (optional, but useful for form submissions)
 //app.use(express.urlencoded({ extended: true }));
 
