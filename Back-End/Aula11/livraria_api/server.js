@@ -1,6 +1,5 @@
 // arquivo principal da api
 // inicia o servidor
-require('dotenv').config() // Carrega as variaveis do arquivo venv
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
