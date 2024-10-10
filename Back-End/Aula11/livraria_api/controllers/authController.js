@@ -19,12 +19,12 @@ const { username, password } = req.body;
         }
 
         // Criptografa a senha antes de salvar no banco
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 10); //O numero 10 representa o "sait rounds para tornar o hash mais seguro"
 
         // Cria um novo usuário
         const newUser = new User({ username, password: hashedPassword });
-        await newUser.save();
-        res.status(201).json({ message: 'Usuário registrado com sucesso' });
+        await newUser.save(); //Salva o usuario no banco de dados
+        res.status(201).json({ message: 'Usuário registrado com sucesso' }); //Responde com sucesso ao digitar
     } catch (error) {
         console.error(error); // Loga o erro
         res.status(500).json({ error: 'Erro ao registrar usuário' });
