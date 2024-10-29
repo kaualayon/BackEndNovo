@@ -3,7 +3,7 @@
     <header>
       <nav class="navbar">
         <ul class="nav-right">
-          <li><router-link to="/">Início</router-link></li>
+          <li><router-link to="/home">Início</router-link></li>
           <li><router-link to="/produtos">Produtos</router-link></li>
           <li><router-link to="/sobre">Sobre</router-link></li>
           <li><router-link to="/login">Entrar</router-link></li>
@@ -24,7 +24,7 @@
         </div>
         <div class="footer-middle">
           <ul>
-            <li><router-link to="/">Início</router-link></li>
+            <li><router-link to="/home">Início</router-link></li>
             <li><router-link to="/produtos">Produtos</router-link></li>
             <li><router-link to="/sobre">Sobre</router-link></li>
           </ul>
@@ -45,3 +45,4 @@ export default {
   name: 'App',
 };
 </script>
+

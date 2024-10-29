@@ -2,7 +2,7 @@
     <div>
       <nav class="navbar">
         <ul class="nav-right">
-          <li><router-link to="/">Início</router-link></li>
+          <li><router-link to="/home">Início</router-link></li>
           <li><router-link to="/produtos">Produtos</router-link></li>
           <li><router-link to="/sobre">Sobre</router-link></li>
           <li><router-link to="/login">Entrar</router-link></li>
@@ -96,7 +96,7 @@
   
   <script>
   export default {
-    name: 'Home',
+    name: 'HomePage',
     
     data() {
       return {
@@ -134,8 +134,4 @@
     }
   };
   </script>
-  
-  <style scoped>
-  /* Adicione estilos específicos do Home aqui, se necessário */
-  </style>
   

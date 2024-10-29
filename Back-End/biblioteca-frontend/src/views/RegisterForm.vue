@@ -2,7 +2,7 @@
     <div>
       <nav class="navbar">
         <ul class="nav-right">
-          <li><a href="/App.vue">Início</a></li>
+          <li><a href="/home">Início</a></li>
           <li><a href="/produtos.html">Produtos</a></li>
           <li><a href="/sobre.html">Sobre</a></li>
           <li><a href="/login.html">Entrar</a></li>
@@ -36,8 +36,14 @@
     </div>
   </template>
 
+  
+
 <script>
 export default {
   name: 'RegisterForm'
 };
 </script>
+
+<style scoped>
+@import '@/assets/css/login.css';
+</style>
