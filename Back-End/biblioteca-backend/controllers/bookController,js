@@ -1,0 +1,20 @@
+const Book = require('../models/book');
+
+exports.getAllBooks = async (req, res) => {
+  try {
+    const books = await Book.find();
+    res.status(200).json(books);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching books' });
+  }
+};
+
+exports.createBook = async (req, res) => {
+  const book = new Book(req.body);
+  try {
+    await book.save();
+    res.status(201).json(book);
+  } catch (error) {
+    res.status(400).json({ message: 'Error creating book' });
+  }
+};
