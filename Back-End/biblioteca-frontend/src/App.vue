@@ -2,11 +2,11 @@
   <div>
     <nav class="navbar">
       <ul class="nav-right">
-        <li><a href="/index.html">Início</a></li>
-        <li><a href="/produtos.html">Produtos</a></li>
-        <li><a href="/sobre.html">Sobre</a></li>
-        <li><a href="/login.html">Entrar</a></li>
-        <li><a href="/registro.html">Criar Conta</a></li>
+        <li><router-link to="/">Início</router-link></li>
+        <li><router-link to="/produtos">Produtos</router-link></li>
+        <li><router-link to="/sobre">Sobre</router-link></li>
+        <li><router-link to="/login">Entrar</router-link></li>
+        <li><router-link to="/RegisterForm">Criar Conta</router-link></li>
       </ul>
     </nav>
 
@@ -14,7 +14,7 @@
       <div class="section-1-text">
         <h1>Bem-vindo ao MANGE BOOK!</h1>
         <p>Aqui você encontra os livros que procura.</p>
-        <a href="/produtos.html" class="btn">Explore Aqui <i class="fa fa-arrow-right" aria-hidden="true"></i></a>
+        <router-link to="/produtos" class="btn">Explore Aqui <i class="fa fa-arrow-right" aria-hidden="true"></i></router-link>
       </div>
     </header>
 
@@ -78,9 +78,9 @@
         </div>
         <div class="footer-middle">
           <ul>
-            <li><a href="/index.html">Início</a></li>
-            <li><a href="/produtos.html">Produtos</a></li>
-            <li><a href="/sobre.html">Sobre</a></li>
+            <li><router-link to="/">Início</router-link></li>
+            <li><router-link to="/produtos">Produtos</router-link></li>
+            <li><router-link to="/sobre">Sobre</router-link></li>
           </ul>
         </div>
         <div class="footer-right">
@@ -104,10 +104,9 @@ export default {
         { src: './images/img_4.jpg' },
         // Adicione os demais produtos aqui
       ],
-      
       productCards: [
         { imgSrc: './images/img_11.jpg', name: 'João da Silva', profession: 'Arquiteto & Engenheiro' },
-        { imgSrc: './images/img_11.jpg', name: 'João da Silva', profession: 'Arquiteto & Engenheiro' },
+        { imgSrc: './images/img_12.jpg', name: 'Maria Oliveira', profession: 'Designer Gráfico' },
         // Adicione outros cards de produtos aqui
       ],
       featuredBrands: [
@@ -134,4 +133,3 @@ export default {
 </script>
 
 <style src="@/assets/css/style.css"></style>
-
