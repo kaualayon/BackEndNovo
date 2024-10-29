@@ -1,13 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import RegisterForm from './views/RegisterForm.vue'; // Verifique se o caminho está correto
+import RegisterForm from '../views/RegisterForm.vue'; // Certifique-se de que este caminho esteja correto
 
 const routes = [
-  
   {
-    path: '/register',  // Certifique-se de que a rota está correta
-    name: 'Register',
-    component: RegisterForm
-  }
+ 
+  
+    path: '/register',
+    name: 'RegisterForm',
+    component: RegisterForm,
+  },
+  // Adicione mais rotas conforme necessário
 ];
 
 const router = createRouter({
