@@ -80,9 +80,9 @@
           // Adicione outros cards de produtos aqui
         ],
         featuredBrands: [
-          { src: './images/book_logo1.png' },
-          { src: './images/book_logo_6.png' },
-          { src: './images/book_logo3.png' },
+          { src: './images/marca1.png' },
+          { src: './images/marca2.png' },
+          { src: './images/marca3.jpg' },
           // Adicione outras marcas aqui
         ],
         formData: {
