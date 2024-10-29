@@ -6,7 +6,7 @@
         <li><router-link to="/produtos">Produtos</router-link></li>
         <li><router-link to="/sobre">Sobre</router-link></li>
         <li><router-link to="/login">Entrar</router-link></li>
-        <li><router-link to="/RegisterForm">Criar Conta</router-link></li>
+        <li><router-link to="/register">Criar Conta</router-link></li>
       </ul>
     </nav>
 
@@ -95,7 +95,9 @@
 </template>
 
 <script>
+
 export default {
+  
   data() {
     return {
       featuredProducts: [
@@ -131,5 +133,3 @@ export default {
   }
 };
 </script>
-
-<style src="./assets/css/style.css"></style>

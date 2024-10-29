@@ -41,5 +41,3 @@ export default {
   name: 'RegisterForm'
 };
 </script>
-
-<style src="@/assets/css/login.css"></style>
