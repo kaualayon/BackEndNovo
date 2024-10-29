@@ -1,15 +1,5 @@
 <template>
     <div>
-      <nav class="navbar">
-        <ul class="nav-right">
-          <li><router-link to="/home">Início</router-link></li>
-          <li><router-link to="/produtos">Produtos</router-link></li>
-          <li><router-link to="/sobre">Sobre</router-link></li>
-          <li><router-link to="/login">Entrar</router-link></li>
-          <li><router-link to="/register">Criar Conta</router-link></li>
-        </ul>
-      </nav>
-  
       <header class="section-1">
         <div class="section-1-text">
           <h1>Bem-vindo ao MANGE BOOK!</h1>
@@ -69,28 +59,6 @@
           <input type="submit" value="Enviar">
         </form>
       </section>
-  
-      <footer class="footer">
-        <div class="footer-content">
-          <div class="footer-left">
-            <h4>MANGE BOOK</h4>
-            <p>© 2024 Todos os direitos reservados.</p>
-          </div>
-          <div class="footer-middle">
-            <ul>
-              <li><router-link to="/">Início</router-link></li>
-              <li><router-link to="/produtos">Produtos</router-link></li>
-              <li><router-link to="/sobre">Sobre</router-link></li>
-            </ul>
-          </div>
-          <div class="footer-right">
-            <p>Siga-nos:</p>
-            <a href="#"><i class="fa fa-facebook"></i></a>
-            <a href="#"><i class="fa fa-twitter"></i></a>
-            <a href="#"><i class="fa fa-instagram"></i></a>
-          </div>
-        </div>
-      </footer>
     </div>
   </template>
   
@@ -101,9 +69,9 @@
     data() {
       return {
         featuredProducts: [
-          { src: './images/img_2.jpg' },
-          { src: './images/img_3.jpeg' },
-          { src: './images/img_4.jpg' },
+          { src: './images/o_codigo_da_vinci.jpg' },
+          { src: './images/o_senhor_dos_aneis.jpg' },
+          { src: './images/dom_casmurro.jpg' },
           // Adicione os demais produtos aqui
         ],
         productCards: [

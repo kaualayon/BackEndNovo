@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import RegisterForm from '../views/RegisterForm.vue'; // Certifique-se de que este caminho esteja correto
 import HomePage from '../views/HomePage.vue'; // Certifique-se de que este caminho esteja correto
+import ProductBooks from '../views/ProductBooks.vue';
 
 const routes = [
   {
@@ -16,6 +17,14 @@ const routes = [
     path: '/home',
     name: 'HomePage',
     component: HomePage,
+  },
+
+  {
+ 
+  
+    path: '/produtos',
+    name: 'ProductBooks',
+    component: ProductBooks,
   },
   // Adicione mais rotas conforme necessário
 ];
