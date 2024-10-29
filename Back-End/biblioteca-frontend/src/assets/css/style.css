@@ -3,8 +3,9 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-  }
-  .button {
+}
+
+.button {
     display: inline-block;
     padding: 8px 16px;
     color: white;
@@ -13,71 +14,71 @@
     cursor: pointer;
     border-radius: 5px;
     text-decoration: none;
-  }
-  
-  .button:hover {
+}
+
+.button:hover {
     background-color: #e64a19;
-  }
-  
-  /* Estilo para o corpo da página */
-  body {
+}
+
+/* Estilo para o corpo da página */
+body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     background-color: #f4f4f4;
-  }
-  
-  /* Estilo para a barra de navegação */
-  .navbar {
+}
+
+/* Estilo para a barra de navegação */
+.navbar {
     background: #ff5722;
     color: #fff;
     padding: 10px;
     text-align: center;
-  }
-  
-  .navbar .nav-right {
+}
+
+.navbar .nav-right {
     list-style: none;
     padding: 0;
-  }
-  
-  .navbar .nav-right li {
+}
+
+.navbar .nav-right li {
     display: inline;
     margin: 0 10px;
-  }
-  
-  .navbar .nav-right a {
+}
+
+.navbar .nav-right a {
     color: #fff;
     text-decoration: none;
-  }
-  
-  .nav-right a:hover {
+}
+
+.nav-right a:hover {
     background-color: #ff5722;
     border-radius: 4px;
-  }
-  
-  .nav-right .active {
+}
+
+.nav-right .active {
     background-color: #ff5722;
-  }
-  
-  /* Estilo para o cabeçalho principal */
-  .section-1 {
+}
+
+/* Estilo para o cabeçalho principal */
+.section-1 {
     background: #333;
     color: #fff;
     text-align: center;
     padding: 60px 20px;
     position: relative;
-  }
-  
-  .section-1 h1 {
+}
+
+.section-1 h1 {
     font-size: 2.5em;
     margin-bottom: 10px;
-  }
-  
-  .section-1 p {
+}
+
+.section-1 p {
     font-size: 1.2em;
     margin-bottom: 20px;
-  }
-  
-  .section-1 .btn {
+}
+
+.section-1 .btn {
     text-decoration: none;
     background-color: #ff5722;
     color: #fff;
@@ -86,231 +87,296 @@
     font-size: 16px;
     display: inline-flex;
     align-items: center;
-  }
-  .section-1 .btn:hover {
+}
+
+.section-1 .btn:hover {
     background-color: #e64a19;
-  }
-  
-  .section-1 .btn i {
+}
+
+.section-1 .btn i {
     margin-left: 5px;
-  }
-  
-  /* Estilo para a seção de produtos em destaque */
-  .section-2 {
+}
+
+/* Estilo para a seção de produtos em destaque */
+.section-2 {
     padding: 40px 20px;
     text-align: center;
-  }
-  
-  .section-2 h2 {
+}
+
+.section-2 h2 {
     margin-bottom: 20px;
-  }
-  
-  .gallery {
+}
+
+.gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 15px;
-  }
-  
-  .gallery .image-holder {
+}
+
+.gallery .image-holder {
     background: #fff;
     border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
-  
-  .gallery img {
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.gallery img {
     width: 100%;
     height: auto;
     display: block;
-  }
-  
-  /* Estilo para a seção de produtos (cards) */
-  .section-3 {
+}
+
+/* Estilo para a seção de produtos (cards) */
+.section-3 {
     padding: 40px 20px;
     background: #fff;
-  }
-  
-  .section-3 h3 {
+}
+
+.section-3 h3 {
     text-align: center;
     margin-bottom: 20px;
-  }
-  
-  .view-card {
+}
+
+.view-card {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-  }
-  
-  .card {
+}
+
+.card {
     background: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
     width: 200px;
     text-align: center;
-  }
-  
-  .card img {
+}
+
+.card img {
     width: 100%;
     height: 150px;
     object-fit: cover;
-  }
-  
-  .card .container {
+}
+
+.card .container {
     padding: 10px;
-  }
-  
-  .card h4 {
+}
+
+.card h4 {
     margin-bottom: 10px;
-  }
-  
-  .card p {
+}
+
+.card p {
     color: #666;
-  }
-  
-  /* Estilo para a seção de marcas em destaque */
-  .section-4 {
+}
+
+/* Estilo para a seção de marcas em destaque */
+.section-4 {
     padding: 40px 20px;
     background: #f4f4f4;
     text-align: center;
-  }
-  
-  .section-4 h2 {
+}
+
+.section-4 h2 {
     margin-bottom: 20px;
-  }
-  
-  .brands {
+}
+
+.brands {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-  }
-  
-  .brands .brand {
+}
+
+.brands .brand {
     background: #fff;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     flex: 1 0 150px;
     max-width: 150px;
     text-align: center;
-  }
-  
-  .brands img {
+}
+
+.brands img {
     max-width: 100%;
     height: auto;
     display: block;
-  }
-  
-  /* Estilo para a seção de contato */
-  .section-5 {
+}
+
+/* Estilo para a seção de contato */
+.section-5 {
     padding: 40px 20px;
     background: #fff;
     text-align: center;
-  }
-  
-  .section-5 h2 {
+}
+
+.section-5 h2 {
     margin-bottom: 20px;
-  }
-  
-  .section-5 p {
+}
+
+.section-5 p {
     margin-bottom: 20px;
-  }
-  
-  .section-5 form {
+}
+
+.section-5 form {
     max-width: 600px;
     margin: 0 auto;
     text-align: left;
-  }
-  
-  .section-5 label {
+}
+
+.section-5 label {
     display: block;
     margin-bottom: 5px;
     font-weight: bold;
-  }
-  
-  .section-5 input[type="text"],
-  .section-5 select,
-  .section-5 textarea {
+}
+
+.section-5 input[type="text"],
+.section-5 select,
+.section-5 textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
-  }
-  
-  .section-5 input[type="submit"] {
+}
+
+.section-5 input[type="submit"] {
     background-color: #ff5722;
     color: #fff;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .section-5 input[type="submit"]:hover {
+}
+
+.section-5 input[type="submit"]:hover {
     background-color: #e64a19;
-  }
-  
-  /* Estilo para o rodapé */
-  .footer {
+}
+
+/* Estilo para o rodapé */
+.footer {
     background-color: #333;
     color: #fff;
     padding: 20px;
     text-align: center;
-  }
-  
-  .footer-content {
+}
+
+.footer-content {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-  }
-  
-  .footer-left, .footer-middle, .footer-right {
+}
+
+.footer-left,
+.footer-middle,
+.footer-right {
     flex: 1;
     padding: 10px;
-  }
-  
-  .footer-left h4 {
+}
+
+.footer-left h4 {
     margin-bottom: 10px;
     font-size: 1.2em;
-  }
-  
-  .footer-left p {
+}
+
+.footer-left p {
     margin: 0;
-  }
-  
-  .footer-middle ul {
+}
+
+.footer-middle ul {
     list-style: none;
     padding: 0;
-  }
-  
-  .footer-middle ul li {
+}
+
+.footer-middle ul li {
     margin: 5px 0;
-  }
-  
-  .footer-middle ul li a {
+}
+
+.footer-middle ul li a {
     color: #fff;
     text-decoration: none;
-  }
-  
-  .footer-middle ul li a:hover {
+}
+
+.footer-middle ul li a:hover {
     text-decoration: underline;
-  }
-  
-  .footer-right p {
+}
+
+.footer-right p {
     margin-bottom: 10px;
-  }
-  
-  .footer-right a {
+}
+
+.footer-right a {
     color: #fff;
     margin: 0 5px;
     font-size: 1.2em;
     text-decoration: none;
-  }
-  
-  .footer-right a:hover {
+}
+
+.footer-right a:hover {
     color: #ff5722; /* Cor do hover para os ícones de redes sociais */
-  }
-  
+}
+
+/* Media Queries para Responsividade */
+@media (max-width: 1200px) {
+    .section-1 h1 {
+        font-size: 2.2em;
+    }
+
+    .section-1 p {
+        font-size: 1.1em;
+    }
+
+    .navbar .nav-right li {
+        margin: 0 5px;
+    }
+
+    .card {
+        width: 180px; /* Cartões menores em telas médias */
+    }
+}
+
+@media (max-width: 768px) {
+    .section-1 {
+        padding: 40px 20px; /* Reduzir padding em telas menores */
+    }
+
+    .section-1 h1 {
+        font-size: 1.8em;
+    }
+
+    .section-1 p {
+        font-size: 1em;
+    }
+
+    .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Ajusta a grade */
+    }
+
+    .card {
+        width: 100%; /* Cartões ocupam 100% da largura */
+    }
+
+    .navbar .nav-right li {
+        display: block; /* Itens empilhados em telas pequenas */
+        margin: 5px 0;
+    }
+
+    .footer-content {
+        flex-direction: column; /* Empilhar itens do rodapé */
+        align-items: center; /* Centralizar conteúdo */
+    }
+}
+
+@media (max-width: 480px) {
+    .section-1 h1 {
+        font-size: 1.5em; /* Reduzir tamanho da fonte em telas pequenas */
+    }
+
+    .footer-left,
+    .footer-middle,
+    .footer-right {
+        text-align: center; /* Centralizar texto em rodapé */
+    }
+}
