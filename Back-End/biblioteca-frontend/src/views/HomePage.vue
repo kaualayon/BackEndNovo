@@ -1,5 +1,17 @@
 <template>
   <div>
+    <header class="navbar">
+      <div class="sidebar" :class="{ open: sidebarOpen }">
+        <button class="sidebar-close" @click="toggleSidebar">&times;</button>
+        <ul>
+          <li><router-link to="/">Início</router-link></li>
+          <li><router-link to="/produtos">Produtos</router-link></li>
+          <li><router-link to="/contato">Contato</router-link></li>
+          <!-- Adicione mais links conforme necessário -->
+        </ul>
+      </div>
+    </header>
+
     <header class="section-1">
       <div class="section-1-text">
         <h1>Bem-vindo ao MANGE BOOK!</h1>
@@ -73,6 +85,7 @@ export default {
   
   data() {
     return {
+      sidebarOpen: false, // Controla a visibilidade do sidebar
       featuredProducts: [
         { src: './images/o_codigo_da_vinci.jpg' },
         { src: './images/o_senhor_dos_aneis.jpg' },
@@ -97,6 +110,9 @@ export default {
   },
   
   methods: {
+    toggleSidebar() {
+      this.sidebarOpen = !this.sidebarOpen; // Alterna a visibilidade do sidebar
+    },
     handleSubmit() {
       // Verificação de campos obrigatórios
       if (!this.formData.firstname || !this.formData.lastname || !this.formData.country || !this.formData.subject) {

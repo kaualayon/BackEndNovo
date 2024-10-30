@@ -51,7 +51,7 @@ body {
     left: -250px; /* Escondido inicialmente */
     width: 250px;
     height: 100%;
-    background: #4285f4; /* Azul */
+    background: #3d5b99; /* Azul */
     color: white;
     padding: 20px;
     transition: left 0.3s ease; /* Animação ao abrir/fechar */
@@ -80,14 +80,66 @@ body {
 .sidebar ul li a:hover {
     text-decoration: underline;
 }
+.sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px;
+    display: block; /* Garante que o link ocupe todo o espaço do item */
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; /* Adiciona transição suave */
+}
+
+.sidebar ul li a:hover {
+    background-color: #2c4a77; /* Cor de fundo ao passar o mouse (uma variação mais escura do azul) */
+    transform: scale(1.05); /* Aumenta levemente o tamanho ao passar o mouse */
+}
+
 
 /* Estilo para o cabeçalho principal */
 .section-1 {
-    background: #333;
+    background: url('/public/images/imagem_fundo.jpg') no-repeat center center;
+    background-size: cover; 
     color: #fff;
     text-align: center;
-    padding: 60px 20px;
+    padding: 0; /* Remover padding */
+    width: 100vw; /* Largura total da tela */
+    height: 30vh; /* Altura total da tela */
     position: relative;
+}
+.section-1::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Escurecer com uma camada preta semi-transparente */
+    z-index: 1; /* Coloca a sobreposição abaixo do texto */
+}
+
+/* Para garantir que todos os elementos de texto e botões na seção-1 apareçam acima da sobreposição */
+.section-1 h1,
+.section-1 p,
+.section-1 .btn { /* Adicione a classe do elemento aqui */
+    position: relative; /* Para que os elementos fiquem acima da sobreposição */
+    z-index: 2; /* Coloca os elementos acima da sobreposição */
+}
+
+
+.section-1 .btn {
+    
+    text-decoration: none;
+    background-color: #4285f4; /* Azul */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+}
+
+.section-1 .btn:hover {
+    background-color: #357ae8; /* Azul escuro */
 }
 
 .section-1 h1 {

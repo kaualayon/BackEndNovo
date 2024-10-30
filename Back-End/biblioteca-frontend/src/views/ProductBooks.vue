@@ -3,7 +3,7 @@
     <header class="section-1">
       <h1>Livros Disponíveis</h1>
       <input
-        type="text"
+        type="text" class="pesquisar-livros"
         placeholder="Pesquisar livros..."
         v-model="searchQuery"
         @input="filterBooks"
@@ -72,3 +72,9 @@ export default {
 };
 </script>
 
+<style scoped>
+.pesquisar-livros { /* Adicione a classe do elemento aqui */
+    position: relative; /* Para que os elementos fiquem acima da sobreposição */
+    z-index: 2; /* Coloca os elementos acima da sobreposição */
+}
+</style>
