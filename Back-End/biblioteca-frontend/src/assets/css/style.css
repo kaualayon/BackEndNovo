@@ -9,7 +9,7 @@
     display: inline-block;
     padding: 8px 16px;
     color: white;
-    background-color: #ff5722;
+    background-color: #4285f4; /* Azul */
     text-align: center;
     cursor: pointer;
     border-radius: 5px;
@@ -17,7 +17,7 @@
 }
 
 .button:hover {
-    background-color: #e64a19;
+    background-color: #357ae8; /* Azul escuro */
 }
 
 /* Estilo para o corpo da página */
@@ -29,7 +29,7 @@ body {
 
 /* Estilo para a barra de navegação */
 .navbar {
-    background: #ff5722;
+    background: #4285f4; /* Azul */
     color: #fff;
     padding: 10px;
     text-align: center;
@@ -51,12 +51,12 @@ body {
 }
 
 .nav-right a:hover {
-    background-color: #ff5722;
+    background-color: #4285f4; /* Azul */
     border-radius: 4px;
 }
 
 .nav-right .active {
-    background-color: #ff5722;
+    background-color: #4285f4; /* Azul */
 }
 
 /* Estilo para o cabeçalho principal */
@@ -80,7 +80,7 @@ body {
 
 .section-1 .btn {
     text-decoration: none;
-    background-color: #ff5722;
+    background-color: #4285f4; /* Azul */
     color: #fff;
     padding: 10px 20px;
     border-radius: 5px;
@@ -90,7 +90,7 @@ body {
 }
 
 .section-1 .btn:hover {
-    background-color: #e64a19;
+    background-color: #357ae8; /* Azul escuro */
 }
 
 .section-1 .btn i {
@@ -243,7 +243,7 @@ body {
 }
 
 .section-5 input[type="submit"] {
-    background-color: #ff5722;
+    background-color: #4285f4; /* Azul */
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -252,7 +252,7 @@ body {
 }
 
 .section-5 input[type="submit"]:hover {
-    background-color: #e64a19;
+    background-color: #357ae8; /* Azul escuro */
 }
 
 /* Estilo para o rodapé */
@@ -315,7 +315,7 @@ body {
 }
 
 .footer-right a:hover {
-    color: #ff5722; /* Cor do hover para os ícones de redes sociais */
+    color: #4285f4; /* Azul para ícones de redes sociais */
 }
 
 /* Media Queries para Responsividade */
