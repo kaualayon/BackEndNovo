@@ -27,7 +27,7 @@
               <p>{{ card.profession }}</p>
             </div>
           </div>
-        </div>
+        </div> 
       </section>
   
       <section class="section-4">
