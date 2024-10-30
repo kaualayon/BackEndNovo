@@ -1,21 +1,30 @@
 <template>
   <div id="app">
-    <header>
-      <nav class="navbar">
-        <ul class="nav-right">
-          <li><router-link to="/home">Início</router-link></li>
-          <li><router-link to="/produtos">Produtos</router-link></li>
-          <li><router-link to="/sobre">Sobre</router-link></li>
-          <li><router-link to="/login">Entrar</router-link></li>
-          <li><router-link to="/register">Criar Conta</router-link></li>
-        </ul>
-      </nav>
+    <!-- Sidebar -->
+    <aside :class="{'sidebar': true, 'open': sidebarOpen}">
+      <ul>
+        <li><router-link to="/home" @click="toggleSidebar">Início</router-link></li>
+        <li><router-link to="/produtos" @click="toggleSidebar">Produtos</router-link></li>
+        <li><router-link to="/sobre" @click="toggleSidebar">Sobre</router-link></li>
+        <li><router-link to="/login" @click="toggleSidebar">Entrar</router-link></li>
+        <li><router-link to="/register" @click="toggleSidebar">Criar Conta</router-link></li>
+      </ul>
+    </aside>
+
+    <!-- Navbar with hamburger icon -->
+    <header class="navbar">
+      <button @click="toggleSidebar" class="hamburger">
+        ☰
+      </button>
+      <h1>MANGE BOOK</h1>
     </header>
 
+    <!-- Main content -->
     <main>
-      <router-view></router-view> <!-- Renderiza o componente correspondente à rota -->
+      <router-view></router-view>
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-left">
@@ -43,7 +52,15 @@
 <script>
 export default {
   name: 'App',
+  data() {
+    return {
+      sidebarOpen: false,
+    };
+  },
+  methods: {
+    toggleSidebar() {
+      this.sidebarOpen = !this.sidebarOpen;
+    },
+  },
 };
 </script>
-
-

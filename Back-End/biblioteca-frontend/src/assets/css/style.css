@@ -33,30 +33,66 @@ body {
     color: #fff;
     padding: 10px;
     text-align: center;
+    position: relative;
 }
 
-.navbar .nav-right {
+.hamburger {
+    background: none;
+    border: none;
+    color: #fff; /* Cor dos risquinhos */
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.3s ease;
+}
+
+.hamburger:hover {
+    transform: scale(1.1); /* Efeito de escala ao passar o mouse */
+}
+
+/* Estilo para o sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Escondido inicialmente */
+    width: 250px;
+    height: 100%;
+    background: #0c47a1; /* Azul escuro */
+    color: white;
+    padding: 20px;
+    transition: left 0.3s ease, background-color 0.3s ease; /* Animação ao abrir/fechar */
+    z-index: 1000;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Sombra ao lado */
+}
+
+.sidebar.open {
+    left: 0; /* Mostra o sidebar */
+}
+
+.sidebar ul {
     list-style: none;
     padding: 0;
 }
 
-.navbar .nav-right li {
-    display: inline;
-    margin: 0 10px;
+.sidebar ul li {
+    margin: 20px 0;
+    transition: transform 0.3s ease; /* Animação ao passar o mouse */
 }
 
-.navbar .nav-right a {
+.sidebar ul li:hover {
+    transform: translateX(10px); /* Desloca o item ao passar o mouse */
+}
+
+.sidebar ul li a {
     color: #fff;
     text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease; /* Animação ao passar o mouse */
 }
 
-.nav-right a:hover {
-    background-color: #4285f4; /* Azul */
-    border-radius: 4px;
-}
-
-.nav-right .active {
-    background-color: #4285f4; /* Azul */
+.sidebar ul li a:hover {
+    color: #ffeb3b; /* Cor de destaque ao passar o mouse */
 }
 
 /* Estilo para o cabeçalho principal */
@@ -315,7 +351,7 @@ body {
 }
 
 .footer-right a:hover {
-    color: #4285f4; /* Azul para ícones de redes sociais */
+    color: #ffeb3b; /* Cor de destaque para ícones de redes sociais */
 }
 
 /* Media Queries para Responsividade */
@@ -379,4 +415,29 @@ body {
     .footer-right {
         text-align: center; /* Centralizar texto em rodapé */
     }
+}
+
+.navbar .nav-right a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+    font-size: 1em;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar .nav-right a:hover {
+    background-color: #333; /* Cor de fundo ao passar o mouse */
+    border-radius: 5px;
+}
+
+/* Estilos para o botão de fechar o sidebar */
+.sidebar-close {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
 }
