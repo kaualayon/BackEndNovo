@@ -39,16 +39,9 @@ body {
 .hamburger {
     background: none;
     border: none;
-    color: #fff; /* Cor dos risquinhos */
+    color: #fff;
     font-size: 24px;
     cursor: pointer;
-    position: relative;
-    z-index: 2;
-    transition: transform 0.3s ease;
-}
-
-.hamburger:hover {
-    transform: scale(1.1); /* Efeito de escala ao passar o mouse */
 }
 
 /* Estilo para o sidebar */
@@ -58,12 +51,11 @@ body {
     left: -250px; /* Escondido inicialmente */
     width: 250px;
     height: 100%;
-    background: #0c47a1; /* Azul escuro */
+    background: #4285f4; /* Azul */
     color: white;
     padding: 20px;
-    transition: left 0.3s ease, background-color 0.3s ease; /* Animação ao abrir/fechar */
+    transition: left 0.3s ease; /* Animação ao abrir/fechar */
     z-index: 1000;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3); /* Sombra ao lado */
 }
 
 .sidebar.open {
@@ -77,22 +69,16 @@ body {
 
 .sidebar ul li {
     margin: 20px 0;
-    transition: transform 0.3s ease; /* Animação ao passar o mouse */
-}
-
-.sidebar ul li:hover {
-    transform: translateX(10px); /* Desloca o item ao passar o mouse */
 }
 
 .sidebar ul li a {
     color: #fff;
     text-decoration: none;
     font-size: 18px;
-    transition: color 0.3s ease; /* Animação ao passar o mouse */
 }
 
 .sidebar ul li a:hover {
-    color: #ffeb3b; /* Cor de destaque ao passar o mouse */
+    text-decoration: underline;
 }
 
 /* Estilo para o cabeçalho principal */
@@ -351,7 +337,7 @@ body {
 }
 
 .footer-right a:hover {
-    color: #ffeb3b; /* Cor de destaque para ícones de redes sociais */
+    color: #4285f4; /* Azul para ícones de redes sociais */
 }
 
 /* Media Queries para Responsividade */
