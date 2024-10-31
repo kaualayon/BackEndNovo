@@ -1,5 +1,24 @@
 <template>
+
+  <!-- Sidebar -->
+  <aside :class="{'sidebar': true, 'open': sidebarOpen}">
+      <ul>
+        <li><router-link to="/home" @click="toggleSidebar">Início</router-link></li>
+        <li><router-link to="/produtos" @click="toggleSidebar">Produtos</router-link></li>
+        <li><router-link to="/sobre" @click="toggleSidebar">Sobre</router-link></li>
+      </ul>
+    </aside>
+
+    <!-- Navbar with hamburger icon -->
+    <header class="navbar">
+      <button @click="toggleSidebar" class="hamburger">
+        ☰
+      </button>
+      <h1>MANGE BOOK</h1>
+    </header>
     <div class="about-container">
+      
+
       <h1>Sobre o Mange Book</h1>
       <p>
         O <strong>Mange Book</strong> é um sistema de biblioteca online projetado para facilitar o acesso a livros e materiais de leitura para todos os usuários. Nossa missão é promover a leitura e o aprendizado, tornando a literatura mais acessível e disponível em qualquer lugar.
@@ -19,16 +38,33 @@
         No Mange Book, acreditamos que a leitura é uma ferramenta poderosa que pode transformar vidas. Estamos comprometidos em fornecer uma plataforma amigável, segura e acessível para todos os amantes de livros. Junte-se a nós na jornada do conhecimento e da descoberta!
       </p>
   
-      <div class="message">
-        <router-link to="/register" class="cta">Comece agora sua jornada de leitura!</router-link>
-      </div>
+      
     </div>
   </template>
   
   <script>
+import '../assets/css/style.css';
+
   export default {
-    name: 'AboutPage'
+    name: 'AboutPage',
+    data() {
+    return {
+      sidebarOpen: false,
+
+    }},
+    methods: {
+    toggleSidebar() {
+      this.sidebarOpen = !this.sidebarOpen;
+    }
+
+    
+
+  }
+
+    
   };
+
+  
   </script>
   
   <style scoped>
@@ -77,18 +113,5 @@
     margin-top: 30px;
   }
   
-  .cta {
-    background-color: #4285f4;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: background-color 0.3s;
-  }
-  
-  .cta:hover {
-    background-color: #4285f4; /* Efeito hover para o botão */
-  }
   </style>
   

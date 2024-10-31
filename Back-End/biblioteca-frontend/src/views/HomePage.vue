@@ -1,16 +1,22 @@
 <template>
   <div>
+    <!-- Sidebar -->
+    <aside :class="{'sidebar': true, 'open': sidebarOpen}">
+      <ul>
+        <li><router-link to="/home" @click="toggleSidebar">Início</router-link></li>
+        <li><router-link to="/produtos" @click="toggleSidebar">Produtos</router-link></li>
+        <li><router-link to="/sobre" @click="toggleSidebar">Sobre</router-link></li>
+      </ul>
+    </aside>
+
+    <!-- Navbar with hamburger icon -->
     <header class="navbar">
-      <div class="sidebar" :class="{ open: sidebarOpen }">
-        <button class="sidebar-close" @click="toggleSidebar">&times;</button>
-        <ul>
-          <li><router-link to="/">Início</router-link></li>
-          <li><router-link to="/produtos">Produtos</router-link></li>
-          <li><router-link to="/contato">Contato</router-link></li>
-          <!-- Adicione mais links conforme necessário -->
-        </ul>
-      </div>
+      <button @click="toggleSidebar" class="hamburger">
+        ☰
+      </button>
+      <h1>MANGE BOOK</h1>
     </header>
+
 
     <header class="section-1">
       <div class="section-1-text">
@@ -91,6 +97,8 @@
 </template>
 
 <script>
+
+import '../assets/css/style.css';
 export default {
   name: 'HomePage',
 

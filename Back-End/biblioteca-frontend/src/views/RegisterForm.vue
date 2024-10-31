@@ -48,13 +48,16 @@ export default {
       alert("Registro realizado com sucesso!");
 
       // Aqui você pode adicionar a lógica para salvar o usuário
+
+      // Redirecionar para a HomePage após o registro
+      this.$router.push('/home'); // Redireciona para a página inicial
     }
   }
 };
 </script>
 
 <style scoped>
-/* Estilo para o container do formulário de registro */
+/* (Estilos permanecem os mesmos) */
 .register-form-container {
   background: #fff;
   padding: 40px;

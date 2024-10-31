@@ -1,5 +1,23 @@
 <template>
   <div>
+    <!-- Sidebar -->
+    <aside :class="{'sidebar': true, 'open': sidebarOpen}">
+      <ul>
+        <li><router-link to="/home" @click="toggleSidebar">Início</router-link></li>
+        <li><router-link to="/produtos" @click="toggleSidebar">Produtos</router-link></li>
+        <li><router-link to="/sobre" @click="toggleSidebar">Sobre</router-link></li>
+      </ul>
+    </aside>
+
+    <!-- Navbar with hamburger icon -->
+    <header class="navbar">
+      <button @click="toggleSidebar" class="hamburger">
+        ☰
+      </button>
+      <h1>MANGE BOOK</h1>
+    </header>
+
+
     <header class="section-1">
       <h1>Livros Disponíveis</h1>
       <input
@@ -30,9 +48,14 @@
 </template>
 
 <script>
+import '../assets/css/style.css';
+
+
+
 export default {
   data() {
     return {
+      sidebarOpen: false,
       searchQuery: '',
       books: [
         { id: 1, title: 'O Alquimista', author: 'Paulo Coelho', image: './images/o_alquimista.jpg' },
@@ -65,6 +88,10 @@ export default {
         book.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
     },
+    toggleSidebar() {
+      this.sidebarOpen = !this.sidebarOpen;
+    },
+    
   },
   mounted() {
     this.filteredBooks = this.books; // Inicialmente, exibir todos os livros
