@@ -21,13 +21,17 @@
     </header>
 
     <section class="section-2">
-      <h2>Produtos em Destaque</h2>
-      <div class="gallery">
-        <div class="image-holder" v-for="(image, index) in featuredProducts" :key="index">
-          <a href="#"><img :src="image.src" :alt="`img-${index + 1}`"></a>
-        </div>
+  <h2>Produtos em Destaque</h2>
+  <div class="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item" v-for="(image, index) in featuredProducts" :key="index">
+        <img :src="image.src" :alt="`img-${index + 1}`">
       </div>
-    </section>
+    </div>
+    <button class="carousel-control prev" @click="prevSlide">❮</button>
+    <button class="carousel-control next" @click="nextSlide">❯</button>
+  </div>
+</section>
 
     <section class="section-3">
       <h3>Autores com livros mais vendidos</h3>
@@ -119,6 +123,7 @@ export default {
         alert("Por favor, preencha todos os campos obrigatórios.");
         return;
       }
+      
 
       console.log("Formulário enviado:", this.formData);
       alert("Mensagem enviada!");
@@ -128,6 +133,12 @@ export default {
       this.formData.lastname = '';
       this.formData.country = '';
       this.formData.subject = '';
+    },
+    nextSlide() {
+      this.currentSlide = (this.currentSlide + 1) % this.featuredProducts.length;
+    },
+    prevSlide() {
+      this.currentSlide = (this.currentSlide - 1 + this.featuredProducts.length) % this.featuredProducts.length;
     }
   }
 };

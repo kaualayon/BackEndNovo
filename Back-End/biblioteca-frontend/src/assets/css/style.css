@@ -181,6 +181,53 @@ body {
     margin-bottom: 20px;
 }
 
+.carousel {
+    position: relative;
+    max-width: 550px; /* Ajuste conforme necessário */
+    margin: auto;
+    overflow: hidden;
+  }
+  
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+  }
+  
+  .carousel-item {
+    min-width: 100%; /* Cada item ocupa 100% da largura do carrossel */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center;
+  }
+  
+  .carousel-item img {
+    width: 40%;
+    height: auto;
+    display: block;
+  }
+  
+  .carousel-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.5);
+    border: none;
+    cursor: pointer;
+    font-size: 2em;
+    padding: 0 10px;
+    z-index: 10;
+  }
+  
+  .prev {
+    left: 10px;
+  }
+  
+  .next {
+    right: 10px;
+  }
+
 .gallery {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
