@@ -3,7 +3,7 @@
       <h1>Selecione uma Opção</h1>
       <div class="options">
         <button @click="redirectTo('register')">Entrar como Cliente</button>
-        <button @click="redirectTo('admin')">Entrar como Admin</button>
+        <button @click="redirectTo('adminlogin')">Entrar como Admin</button>
       </div>
     </div>
   </template>
@@ -15,8 +15,8 @@
       redirectTo(role) {
         if (role === 'register') {
           this.$router.push('/register'); // Redireciona para a página de registro
-        } else if (role === 'admin') {
-          this.$router.push('/admin'); // Redireciona para a página de administração
+        } else if (role === 'adminlogin') {
+          this.$router.push('/adminlogin'); // Redireciona para a página de administração
         }
       }
     }
