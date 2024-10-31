@@ -29,7 +29,7 @@ body {
 
 /* Estilo para a barra de navegação */
 .navbar {
-    background: #4285f4; /* Azul */
+    background: linear-gradient(to right, #070707, #77a6f1);
     color: #fff;
     padding: 20px;
     text-align: center;
