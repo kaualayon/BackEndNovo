@@ -5,7 +5,6 @@
       <ul>
         <li><router-link to="/home" @click="toggleSidebar">Início</router-link></li>
         <li><router-link to="/produtos" @click="toggleSidebar">Produtos</router-link></li>
-        <li><router-link to="/sobre" @click="toggleSidebar">Sobre</router-link></li>
       </ul>
     </aside>
 
@@ -40,6 +39,27 @@
   
       
     </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-left">
+          <h4>MANGE BOOK</h4>
+          <p>© 2024 Todos os direitos reservados.</p>
+        </div>
+        <div class="footer-middle">
+          <ul>
+            <li><router-link to="/home">Início</router-link></li>
+            <li><router-link to="/produtos">Produtos</router-link></li>
+          </ul>
+        </div>
+        <div class="footer-right">
+      <p>Siga-nos:</p>
+      <a><img src="/images/logofacebook.png" alt="Facebook" /></a>
+      <a><img src="/images/logotwitter.png" alt="Twitter" /></a>
+      <a><img src="/images/logoinstagram.png" alt="Instagram" /></a>
+    </div>
+      </div>
+    </footer>
   </template>
   
   <script>
