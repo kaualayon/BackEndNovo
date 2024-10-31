@@ -6,6 +6,8 @@ import LoginForm from '../views/LoginForm.vue';
 import AboutPage from '../views/AboutPage.vue';
 import FirstPage from '../views/FirstPage.vue';
 import BookDetail from '../views/BookDetail.vue';
+import AdminPage from '../views/AdminPage.vue';
+import AdminLogin from '../views/AdminLogin.vue';
 
 const routes = [
   {
@@ -58,6 +60,22 @@ const routes = [
     path: '/book/:id',
     name: 'BookDetail',
     component: BookDetail,
+  },
+
+  {
+ 
+  
+    path: '/admin',
+    name: 'AdminPage',
+    component: AdminPage,
+  },
+
+  {
+ 
+  
+    path: '/adminlogin',
+    name: 'AdminLogin',
+    component: AdminLogin,
   },
   // Adicione mais rotas conforme necessário
 ];
