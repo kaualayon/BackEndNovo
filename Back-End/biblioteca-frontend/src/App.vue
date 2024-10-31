@@ -39,11 +39,11 @@
           </ul>
         </div>
         <div class="footer-right">
-          <p>Siga-nos:</p>
-          <a href="#"><i class="fa fa-facebook"></i></a>
-          <a href="#"><i class="fa fa-twitter"></i></a>
-          <a href="#"><i class="fa fa-instagram"></i></a>
-        </div>
+      <p>Siga-nos:</p>
+      <a><img src="/images/logofacebook.png" alt="Facebook" /></a>
+      <a><img src="/images/logotwitter.png" alt="Twitter" /></a>
+      <a><img src="/images/logoinstagram.png" alt="Instagram" /></a>
+    </div>
       </div>
     </footer>
   </div>

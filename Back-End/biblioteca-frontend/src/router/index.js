@@ -3,8 +3,16 @@ import RegisterForm from '../views/RegisterForm.vue'; // Certifique-se de que es
 import HomePage from '../views/HomePage.vue'; // Certifique-se de que este caminho esteja correto
 import ProductBooks from '../views/ProductBooks.vue';
 import LoginForm from '../views/LoginForm.vue';
+import AboutPage from '../views/AboutPage.vue';
+import FirstPage from '../views/FirstPage.vue';
 
 const routes = [
+  {
+    path: '/',
+    name: 'FirstPage',
+    component: FirstPage, // Define a nova página inicial
+  },
+
   {
  
   
@@ -33,6 +41,14 @@ const routes = [
     path: '/login',
     name: 'LoginForm',
     component: LoginForm,
+  },
+
+  {
+ 
+  
+    path: '/sobre',
+    name: 'AboutPage',
+    component: AboutPage,
   },
   // Adicione mais rotas conforme necessário
 ];

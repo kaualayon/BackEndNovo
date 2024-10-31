@@ -538,3 +538,18 @@ body {
     top: 20px;
     right: 20px;
 }
+
+.footer-right a {
+    margin-right: 10px; /* Espaçamento entre os ícones */
+  }
+  
+  .footer-right img {
+    width: 24px; /* Tamanho dos ícones */
+    height: 24px; /* Tamanho dos ícones */
+    transition: transform 0.3s; /* Efeito de transição */
+  }
+  
+  .footer-right img:hover {
+    transform: scale(1.1); /* Aumentar o ícone ao passar o mouse */
+  }
+  
