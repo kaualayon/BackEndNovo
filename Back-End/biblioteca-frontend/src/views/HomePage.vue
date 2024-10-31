@@ -14,8 +14,8 @@
         ☰
       </button>
       <h1>MANGE BOOK</h1>
+      <button @click="logout" class="logout-button">Sair</button>
     </header>
-
 
     <header class="section-1">
       <div class="section-1-text">
@@ -26,25 +26,26 @@
     </header>
 
     <div>
-    <!-- Carrossel de Produtos em Destaque -->
-    <section class="section-2">
-      <h2>Produtos em Destaque</h2>
-      <div class="carousel">
-  <div class="carousel-inner">
-    <div
-      v-for="(image, index) in featuredProducts"
-      :key="index"
-      class="carousel-item"
-      :style="{ display: index === currentSlide ? 'block' : 'none' }"
-    >
-      <img :src="image.src" :alt="`img-${index + 1}`" />
+      <!-- Carrossel de Produtos em Destaque -->
+      <section class="section-2">
+        <h2>Produtos em Destaque</h2>
+        <div class="carousel">
+          <div class="carousel-inner">
+            <div
+              v-for="(image, index) in featuredProducts"
+              :key="index"
+              class="carousel-item"
+              :style="{ display: index === currentSlide ? 'block' : 'none' }"
+            >
+              <img :src="image.src" :alt="`img-${index + 1}`" />
+            </div>
+          </div>
+          <button class="carousel-control prev" @click="prevSlide">❮</button>
+          <button class="carousel-control next" @click="nextSlide">❯</button>
+        </div>
+      </section>
     </div>
-  </div>
-  <button class="carousel-control prev" @click="prevSlide">❮</button>
-  <button class="carousel-control next" @click="nextSlide">❯</button>
-</div>
-    </section>
-  </div>
+
     <section class="section-3">
       <h3>Autores com livros mais vendidos</h3>
       <div class="view-card">
@@ -95,30 +96,29 @@
   </div>
 
   <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-left">
-          <h4>MANGE BOOK</h4>
-          <p>© 2024 Todos os direitos reservados.</p>
-        </div>
-        <div class="footer-middle">
-          <ul>
-            <li><router-link to="/produtos">Produtos</router-link></li>
-            <li><router-link to="/sobre">Sobre</router-link></li>
-          </ul>
-        </div>
-        <div class="footer-right">
-      <p>Siga-nos:</p>
-      <a><img src="/images/logofacebook.png" alt="Facebook" /></a>
-      <a><img src="/images/logotwitter.png" alt="Twitter" /></a>
-      <a><img src="/images/logoinstagram.png" alt="Instagram" /></a>
-    </div>
+    <div class="footer-content">
+      <div class="footer-left">
+        <h4>MANGE BOOK</h4>
+        <p>© 2024 Todos os direitos reservados.</p>
       </div>
-    </footer>
+      <div class="footer-middle">
+        <ul>
+          <li><router-link to="/produtos">Produtos</router-link></li>
+          <li><router-link to="/sobre">Sobre</router-link></li>
+        </ul>
+      </div>
+      <div class="footer-right">
+        <p>Siga-nos:</p>
+        <a><img src="/images/logofacebook.png" alt="Facebook" /></a>
+        <a><img src="/images/logotwitter.png" alt="Twitter" /></a>
+        <a><img src="/images/logoinstagram.png" alt="Instagram" /></a>
+      </div>
+    </div>
+  </footer>
 
 </template>
 
 <script>
-
 import '../assets/css/style.css';
 export default {
   name: 'HomePage',
@@ -173,19 +173,22 @@ export default {
       this.formData.subject = '';
     },
     nextSlide() {
-    this.currentSlide = (this.currentSlide + 1) % this.featuredProducts.length;
-  },
-  prevSlide() {
-    this.currentSlide = (this.currentSlide - 1 + this.featuredProducts.length) % this.featuredProducts.length;
-  },
-  startCarousel() {
-    if (this.carouselInterval) clearInterval(this.carouselInterval);
-    this.carouselInterval = setInterval(() => {
-      this.nextSlide();
-    }, 3000);
-  }
-
+      this.currentSlide = (this.currentSlide + 1) % this.featuredProducts.length;
+    },
+    prevSlide() {
+      this.currentSlide = (this.currentSlide - 1 + this.featuredProducts.length) % this.featuredProducts.length;
+    },
+    startCarousel() {
+      if (this.carouselInterval) clearInterval(this.carouselInterval);
+      this.carouselInterval = setInterval(() => {
+        this.nextSlide();
+      }, 3000);
+    },
+    logout() {
+      // Redireciona para a página de login do usuário
+      this.$router.push('/login');
+      // Aqui você pode adicionar qualquer lógica adicional de logout, como limpar tokens ou dados de sessão
+    }
   }
 };
-
 </script>

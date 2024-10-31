@@ -31,9 +31,13 @@ body {
 .navbar {
     background: #4285f4; /* Azul */
     color: #fff;
-    padding: 10px;
+    padding: 20px;
     text-align: center;
     position: relative;
+    display: flex; /* Usar flexbox para alinhar os itens da navbar */
+  
+  align-items: center; /* Alinha os itens verticalmente */
+  
 }
 
 .hamburger {
@@ -551,5 +555,20 @@ body {
   
   .footer-right img:hover {
     transform: scale(1.1); /* Aumentar o ícone ao passar o mouse */
+  }
+  
+  .logout-button {
+    background-color: #ff4d4d; /* Cor de fundo vermelha */
+    color: white; /* Cor do texto */
+    border: none; /* Sem borda */
+    border-radius: 5px; /* Bordas arredondadas */
+    padding: 10px 15px; /* Espaçamento interno */
+    font-size: 1em; /* Tamanho da fonte */
+    cursor: pointer; /* Muda o cursor para indicar que é clicável */
+    transition: background-color 0.3s; /* Animação suave ao passar o mouse */
+  }
+  
+  .logout-button:hover {
+    background-color: #ff1a1a; /* Cor de fundo ao passar o mouse */
   }
   
