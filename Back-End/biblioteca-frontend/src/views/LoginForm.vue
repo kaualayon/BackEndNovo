@@ -1,47 +1,55 @@
-/* Reset básico para garantir consistência entre navegadores */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+<template>
+    <div class="login-form-container">
+      <div class="login-header">
+        <h2>Entrar</h2>
+        <p>Bem-vindo de volta! Por favor, insira suas credenciais.</p>
+      </div>
   
-  /* Estilo para o corpo da página */
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: #f0f2f5; /* Cor de fundo da página */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Ocupa toda a altura da viewport */
-    margin: 0;
-  }
+      <form @submit.prevent="handleLogin" class="login-form">
+        <label for="email">E-mail</label>
+        <input type="text" id="email" v-model="formData.email" placeholder="Digite seu e-mail" required>
   
-  .navbar .nav-right {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+        <label for="password">Senha</label>
+        <input type="password" id="password" v-model="formData.password" placeholder="Digite sua senha" required>
   
-  .navbar .nav-right li {
-    display: inline;
-    margin: 0 15px;
-  }
+        <input type="submit" value="Entrar">
+      </form>
   
-  .navbar .nav-right a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px 15px;
-    font-size: 1em;
-    transition: background-color 0.3s, color 0.3s;
-  }
+      <div class="message">
+        <p>Ainda não tem uma conta? <router-link to="/register">Cadastre-se</router-link></p>
+      </div>
+    </div>
+  </template>
   
-  .navbar .nav-right a:hover {
-    background-color: #e64a19; /* Efeito hover para links da navegação */
-    border-radius: 5px;
-    color: #fff;
-  }
+  <script>
+  export default {
+    name: 'LoginPage',
   
+    data() {
+      return {
+        formData: {
+          email: '',
+          password: ''
+        }
+      };
+    },
+  
+    methods: {
+      handleLogin() {
+        if (!this.formData.email || !this.formData.password) {
+          alert("Por favor, preencha todos os campos.");
+          return;
+        }
+        console.log("Login realizado com sucesso:", this.formData);
+        alert("Login realizado com sucesso!");
+        
+        // Aqui você pode adicionar a lógica de autenticação
+      }
+    }
+  };
+  </script>
+  
+  <style scoped>
   /* Estilo para o container do formulário de login */
   .login-form-container {
     background: #fff;
@@ -50,10 +58,9 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 400px; /* Tamanho máximo do container */
-    margin-top: 80px; /* Espaço para não ficar sob a navbar */
+    margin: 40px auto; /* Espaço de 40px acima e abaixo, e centraliza o formulário horizontalmente */
   }
   
-  /* Estilo para o cabeçalho do formulário de login */
   .login-header {
     text-align: center;
     margin-bottom: 30px;
@@ -116,12 +123,12 @@
   }
   
   .login-form input[type="submit"]:hover {
-    background-color: #e64a19;
+    background-color: #4285f4;
     transform: translateY(-2px);
   }
   
   .login-form input[type="submit"]:active {
-    background-color: #d84315;
+    background-color: #4285f4;
     transform: translateY(0);
   }
   
@@ -137,15 +144,15 @@
   }
   
   .message a {
-    color: #ff5722;
+    color: #4285f4;
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s;
   }
   
   .message a:hover {
-    color: #e64a19;
+    color: #4285f4;
     text-decoration: underline;
   }
-  
+  </style>
   
