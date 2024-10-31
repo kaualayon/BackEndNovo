@@ -25,19 +25,19 @@
     <section class="section-2">
       <h2>Produtos em Destaque</h2>
       <div class="carousel">
-        <div class="carousel-inner">
-          <div
-            class="carousel-item"
-            v-for="(image, index) in featuredProducts"
-            :key="index"
-            :class="{ active: index === currentSlide }"
-          >
-            <img :src="image.src" :alt="`img-${index + 1}`">
-          </div>
-        </div>
-        <button class="carousel-control prev" @click="prevSlide">❮</button>
-        <button class="carousel-control next" @click="nextSlide">❯</button>
-      </div>
+  <div class="carousel-inner">
+    <div
+      v-for="(image, index) in featuredProducts"
+      :key="index"
+      class="carousel-item"
+      :style="{ display: index === currentSlide ? 'block' : 'none' }"
+    >
+      <img :src="image.src" :alt="`img-${index + 1}`" />
+    </div>
+  </div>
+  <button class="carousel-control prev" @click="prevSlide">❮</button>
+  <button class="carousel-control next" @click="nextSlide">❯</button>
+</div>
     </section>
   </div>
     <section class="section-3">
@@ -98,19 +98,19 @@ export default {
     return {
       sidebarOpen: false,
       featuredProducts: [
-        { src: './images/o_codigo_da_vinci.jpg' },
-        { src: './images/o_senhor_dos_aneis.jpg' },
-        { src: './images/dom_casmurro.jpg' },
+        { src: '/images/o_codigo_da_vinci.jpg' },
+        { src: '/images/o_senhor_dos_aneis.jpg' },
+        { src: '/images/dom_casmurro.jpg' },
       ],
       currentSlide: 0,
       productCards: [
-        { imgSrc: './images/machado_de_assis.jpg', name: 'Machado de Assis', profession: '85 livros vendidos' },
-        { imgSrc: './images/george_orwell.jpg', name: 'George Orwell', profession: '79 livros vendidos' },
+        { imgSrc: '/images/machado_de_assis.jpg', name: 'Machado de Assis', profession: '85 livros vendidos' },
+        { imgSrc: '/images/george_orwell.jpg', name: 'George Orwell', profession: '79 livros vendidos' },
       ],
       featuredBrands: [
-        { src: './images/marca1.png' },
-        { src: './images/marca2.png' },
-        { src: './images/marca3.jpg' },
+        { src: '/images/marca1.png' },
+        { src: '/images/marca2.png' },
+        { src: '/images/marca3.jpg' },
       ],
       formData: {
         firstname: '',
@@ -144,16 +144,18 @@ export default {
       this.formData.subject = '';
     },
     nextSlide() {
-      this.currentSlide = (this.currentSlide + 1) % this.featuredProducts.length;
-    },
-    prevSlide() {
-      this.currentSlide = (this.currentSlide - 1 + this.featuredProducts.length) % this.featuredProducts.length;
-    },
-    startCarousel() {
-      setInterval(() => {
-        this.nextSlide();
-      }, 3000); // Altera o slide a cada 3 segundos
-    },
+    this.currentSlide = (this.currentSlide + 1) % this.featuredProducts.length;
+  },
+  prevSlide() {
+    this.currentSlide = (this.currentSlide - 1 + this.featuredProducts.length) % this.featuredProducts.length;
+  },
+  startCarousel() {
+    if (this.carouselInterval) clearInterval(this.carouselInterval);
+    this.carouselInterval = setInterval(() => {
+      this.nextSlide();
+    }, 3000);
+  }
+
   }
 };
 
