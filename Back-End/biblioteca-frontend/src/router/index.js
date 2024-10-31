@@ -5,6 +5,7 @@ import ProductBooks from '../views/ProductBooks.vue';
 import LoginForm from '../views/LoginForm.vue';
 import AboutPage from '../views/AboutPage.vue';
 import FirstPage from '../views/FirstPage.vue';
+import BookDetail from '../views/BookDetail.vue';
 
 const routes = [
   {
@@ -49,6 +50,14 @@ const routes = [
     path: '/sobre',
     name: 'AboutPage',
     component: AboutPage,
+  },
+
+  {
+ 
+  
+    path: '/book/:id',
+    name: 'BookDetail',
+    component: BookDetail,
   },
   // Adicione mais rotas conforme necessário
 ];
