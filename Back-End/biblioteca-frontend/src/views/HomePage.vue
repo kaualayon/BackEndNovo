@@ -199,6 +199,7 @@ export default {
       this.updateCartCount(); // Atualiza a contagem após adicionar
       alert(`${book.title} adicionado ao carrinho!`);
     },
+    
     logout() {
       this.$router.push('/login');
     }

@@ -14,6 +14,10 @@
         ☰
       </button>
       <h1>MANGE BOOK</h1>
+      <router-link to="/cart" class="cart-icon">
+        <i class="fa fa-shopping-cart"></i>
+        <span class="cart-count">{{ cartCount }}</span> <!-- Mostra a contagem de itens -->
+      </router-link>
       <button @click="logout" class="logout-button">Sair</button>
     </header>
     <div class="about-container">
@@ -71,21 +75,34 @@ import '../assets/css/style.css';
     data() {
     return {
       sidebarOpen: false,
+      cartCount: 0, // Contagem de itens no carrinho
 
     }},
     methods: {
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen;
     },
+
+    updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      this.cartCount = cart.length; // Atualiza a contagem de itens
+    },
+    addToCart(book) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(book);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      this.updateCartCount(); // Atualiza a contagem após adicionar
+      alert(`${book.title} adicionado ao carrinho!`);
+    },
     logout() {
     this.$router.push('/login'); // Redireciona para a página de login
   },
-
-    
+  mounted() {
+    this.updateCartCount(); // Carrega a contagem de itens no carrinho
 
   }
 
-    
+}
   };
 
   

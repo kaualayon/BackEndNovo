@@ -14,6 +14,10 @@
         ☰
       </button>
       <h1>MANGE BOOK</h1>
+      <router-link to="/cart" class="cart-icon">
+        <i class="fa fa-shopping-cart"></i>
+        <span class="cart-count">{{ cartCount }}</span> <!-- Mostra a contagem de itens -->
+      </router-link>
       <button @click="logout" class="logout-button">Sair</button>
     </header>
 
@@ -102,6 +106,7 @@ export default {
         { id: 20, title: 'O Código Da Vinci', author: 'Dan Brown', image: './images/o_codigo_da_vinci.jpg' },
       ],
       filteredBooks: [],
+      cartCount: 0, // Contagem de itens no carrinho
     };
   },
   methods: {
@@ -109,6 +114,17 @@ export default {
       this.filteredBooks = this.books.filter((book) =>
         book.title.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
+    },
+    updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      this.cartCount = cart.length; // Atualiza a contagem de itens
+    },
+    addToCart(book) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(book);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      this.updateCartCount(); // Atualiza a contagem após adicionar
+      alert(`${book.title} adicionado ao carrinho!`);
     },
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen;
@@ -120,6 +136,7 @@ export default {
     
   },
   mounted() {
+    this.updateCartCount(); // Carrega a contagem de itens no carrinho
     this.filteredBooks = this.books; // Inicialmente, exibir todos os livros
   },
 };
