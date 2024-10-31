@@ -156,6 +156,7 @@ export default {
 
   mounted() {
     this.updateCartCount(); // Carrega a contagem de itens no carrinho
+    this.startCarousel(); // Inicia o carrossel automático
   },
 
   methods: {
