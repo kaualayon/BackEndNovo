@@ -566,6 +566,7 @@ body {
     font-size: 1em; /* Tamanho da fonte */
     cursor: pointer; /* Muda o cursor para indicar que é clicável */
     transition: background-color 0.3s; /* Animação suave ao passar o mouse */
+    margin-left: auto;
   }
   
   .logout-button:hover {

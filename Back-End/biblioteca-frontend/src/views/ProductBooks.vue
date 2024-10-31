@@ -14,6 +14,7 @@
         ☰
       </button>
       <h1>MANGE BOOK</h1>
+      <button @click="logout" class="logout-button">Sair</button>
     </header>
 
 
@@ -112,6 +113,10 @@ export default {
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen;
     },
+
+    logout() {
+    this.$router.push('/login'); // Redireciona para a página de login
+  },
     
   },
   mounted() {
