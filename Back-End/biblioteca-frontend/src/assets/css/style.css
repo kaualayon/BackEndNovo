@@ -572,4 +572,22 @@ body {
   .logout-button:hover {
     background-color: #ff1a1a; /* Cor de fundo ao passar o mouse */
   }
+
+  .cart-icon {
+    position: relative;
+    margin-left: 20px;
+    text-decoration: none;
+    color: black; /* Ajuste a cor conforme necessário */
+  }
+  
+  .cart-count {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background-color: red; /* Cor do fundo da contagem */
+    color: white; /* Cor do texto da contagem */
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 12px;
+  }
   

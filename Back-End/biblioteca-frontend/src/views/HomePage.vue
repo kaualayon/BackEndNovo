@@ -14,6 +14,10 @@
         ☰
       </button>
       <h1>MANGE BOOK</h1>
+      <router-link to="/cart" class="cart-icon">
+        <i class="fa fa-shopping-cart"></i>
+        <span class="cart-count">{{ cartCount }}</span> <!-- Mostra a contagem de itens -->
+      </router-link>
       <button @click="logout" class="logout-button">Sair</button>
     </header>
 
@@ -115,7 +119,6 @@
       </div>
     </div>
   </footer>
-
 </template>
 
 <script>
@@ -141,6 +144,7 @@ export default {
         { src: '/images/marca2.png' },
         { src: '/images/marca3.jpg' },
       ],
+      cartCount: 0, // Contagem de itens no carrinho
       formData: {
         firstname: '',
         lastname: '',
@@ -151,8 +155,7 @@ export default {
   },
 
   mounted() {
-    // Inicia o carrossel automático
-    this.startCarousel();
+    this.updateCartCount(); // Carrega a contagem de itens no carrinho
   },
 
   methods: {
@@ -172,22 +175,31 @@ export default {
       this.formData.country = '';
       this.formData.subject = '';
     },
+
+    startCarousel() {
+      this.carouselInterval = setInterval(() => {
+        this.nextSlide();
+      }, 3000); // Muda o slide a cada 3 segundos
+    },
     nextSlide() {
       this.currentSlide = (this.currentSlide + 1) % this.featuredProducts.length;
     },
     prevSlide() {
       this.currentSlide = (this.currentSlide - 1 + this.featuredProducts.length) % this.featuredProducts.length;
     },
-    startCarousel() {
-      if (this.carouselInterval) clearInterval(this.carouselInterval);
-      this.carouselInterval = setInterval(() => {
-        this.nextSlide();
-      }, 3000);
+    updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      this.cartCount = cart.length; // Atualiza a contagem de itens
+    },
+    addToCart(book) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      cart.push(book);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      this.updateCartCount(); // Atualiza a contagem após adicionar
+      alert(`${book.title} adicionado ao carrinho!`);
     },
     logout() {
-      // Redireciona para a página de login do usuário
       this.$router.push('/login');
-      // Aqui você pode adicionar qualquer lógica adicional de logout, como limpar tokens ou dados de sessão
     }
   }
 };

@@ -15,7 +15,7 @@
         </div>
   
         <div class="button-container">
-          <button @click="addToCart" class="add-to-cart">Adicionar ao Carrinho</button>
+          <button @click="addToCart(book)">Adicionar ao Carrinho</button> <!-- Botão para adicionar ao carrinho -->
           <button @click="addToWishlist" class="add-to-wishlist">Adicionar à Lista de Desejos</button>
           <button @click="shareBook" class="share-button">Compartilhar</button>
         </div>
@@ -252,11 +252,11 @@
       this.book = this.books.find(b => b.id === Number(bookId)) || null; // Define o livro com base no ID, ou null se não encontrado
     },
     methods: {
-      addToCart() {
-        if (this.book) {
-          console.log(`${this.book.title} foi adicionado ao carrinho!`);
-          alert(`${this.book.title} foi adicionado ao carrinho!`);
-        }
+      addToCart(book) {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.push(book);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  alert(`${book.title} adicionado ao carrinho!`);
       },
       addToWishlist() {
         if (this.book) {
