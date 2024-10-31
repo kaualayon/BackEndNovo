@@ -20,19 +20,26 @@
       </div>
     </header>
 
+    <div>
+    <!-- Carrossel de Produtos em Destaque -->
     <section class="section-2">
-  <h2>Produtos em Destaque</h2>
-  <div class="carousel">
-    <div class="carousel-inner">
-      <div class="carousel-item" v-for="(image, index) in featuredProducts" :key="index">
-        <img :src="image.src" :alt="`img-${index + 1}`">
+      <h2>Produtos em Destaque</h2>
+      <div class="carousel">
+        <div class="carousel-inner">
+          <div
+            class="carousel-item"
+            v-for="(image, index) in featuredProducts"
+            :key="index"
+            :class="{ active: index === currentSlide }"
+          >
+            <img :src="image.src" :alt="`img-${index + 1}`">
+          </div>
+        </div>
+        <button class="carousel-control prev" @click="prevSlide">❮</button>
+        <button class="carousel-control next" @click="nextSlide">❯</button>
       </div>
-    </div>
-    <button class="carousel-control prev" @click="prevSlide">❮</button>
-    <button class="carousel-control next" @click="nextSlide">❯</button>
+    </section>
   </div>
-</section>
-
     <section class="section-3">
       <h3>Autores com livros mais vendidos</h3>
       <div class="view-card">
@@ -86,15 +93,16 @@
 <script>
 export default {
   name: 'HomePage',
-  
+
   data() {
     return {
-      sidebarOpen: false, // Controla a visibilidade do sidebar
+      sidebarOpen: false,
       featuredProducts: [
         { src: './images/o_codigo_da_vinci.jpg' },
         { src: './images/o_senhor_dos_aneis.jpg' },
         { src: './images/dom_casmurro.jpg' },
       ],
+      currentSlide: 0,
       productCards: [
         { imgSrc: './images/machado_de_assis.jpg', name: 'Machado de Assis', profession: '85 livros vendidos' },
         { imgSrc: './images/george_orwell.jpg', name: 'George Orwell', profession: '79 livros vendidos' },
@@ -112,23 +120,24 @@ export default {
       }
     };
   },
-  
+
+  mounted() {
+    // Inicia o carrossel automático
+    this.startCarousel();
+  },
+
   methods: {
     toggleSidebar() {
-      this.sidebarOpen = !this.sidebarOpen; // Alterna a visibilidade do sidebar
+      this.sidebarOpen = !this.sidebarOpen;
     },
     handleSubmit() {
-      // Verificação de campos obrigatórios
       if (!this.formData.firstname || !this.formData.lastname || !this.formData.country || !this.formData.subject) {
         alert("Por favor, preencha todos os campos obrigatórios.");
         return;
       }
-      
-
       console.log("Formulário enviado:", this.formData);
       alert("Mensagem enviada!");
 
-      // Limpar os campos do formulário
       this.formData.firstname = '';
       this.formData.lastname = '';
       this.formData.country = '';
@@ -139,7 +148,13 @@ export default {
     },
     prevSlide() {
       this.currentSlide = (this.currentSlide - 1 + this.featuredProducts.length) % this.featuredProducts.length;
-    }
+    },
+    startCarousel() {
+      setInterval(() => {
+        this.nextSlide();
+      }, 3000); // Altera o slide a cada 3 segundos
+    },
   }
 };
+
 </script>
