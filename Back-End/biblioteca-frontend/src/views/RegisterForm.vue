@@ -25,9 +25,10 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'RegisterForm',
-
   data() {
     return {
       formData: {
@@ -37,20 +38,26 @@ export default {
       }
     };
   },
-
   methods: {
-    handleRegister() {
+    async handleRegister() {
       if (!this.formData.username || !this.formData.email || !this.formData.password) {
         alert("Por favor, preencha todos os campos.");
         return;
       }
-      console.log("Registro realizado com sucesso:", this.formData);
-      alert("Registro realizado com sucesso!");
-
-      // Aqui você pode adicionar a lógica para salvar o usuário
-
-      // Redirecionar para a HomePage após o registro
-      this.$router.push('/home'); // Redireciona para a página inicial
+      
+      try {
+        const response = await axios.post('https://sua-api-url.com/register', this.formData);
+        
+        if (response.data.success) {
+          alert("Registro realizado com sucesso!");
+          this.$router.push('/login'); // Redireciona para a página inicial
+        } else {
+          alert("Falha no registro: " + response.data.message);
+        }
+      } catch (error) {
+        console.error("Erro ao registrar:", error);
+        alert("Erro ao registrar. Tente novamente mais tarde.");
+      }
     }
   }
 };
@@ -64,8 +71,8 @@ export default {
   border-radius: 12px;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 400px; /* Tamanho máximo do container */
-  margin: 40px auto; /* Espaço de 40px acima e abaixo, e centraliza o formulário horizontalmente */
+  max-width: 400px;
+  margin: 40px auto;
 }
 
 .register-header {
@@ -84,7 +91,6 @@ export default {
   font-size: 1.1em;
 }
 
-/* Estilo para o formulário de registro */
 .register-form {
   display: flex;
   flex-direction: column;
@@ -141,7 +147,6 @@ export default {
   transform: translateY(0);
 }
 
-/* Estilo para a mensagem de registro */
 .message {
   margin-top: 20px;
   text-align: center;
