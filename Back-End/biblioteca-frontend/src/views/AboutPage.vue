@@ -94,16 +94,18 @@ import '../assets/css/style.css';
       this.updateCartCount(); // Atualiza a contagem após adicionar
       alert(`${book.title} adicionado ao carrinho!`);
     },
+    
     logout() {
     this.$router.push('/login'); // Redireciona para a página de login
   },
+},
   mounted() {
     this.updateCartCount(); // Carrega a contagem de itens no carrinho
 
   }
 
 }
-  };
+  ;
 
   
   </script>
