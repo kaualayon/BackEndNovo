@@ -7,19 +7,39 @@
 
     <form @submit.prevent="handleRegister" class="register-form">
       <label for="username">Nome de usuário</label>
-      <input type="text" id="username" v-model="formData.username" placeholder="Digite seu nome de usuário" required>
+      <input
+        type="text"
+        id="username"
+        v-model="formData.username"
+        placeholder="Digite seu nome de usuário"
+        required
+      />
 
       <label for="email">E-mail</label>
-      <input type="email" id="email" v-model="formData.email" placeholder="Digite seu e-mail" required>
+      <input
+        type="email"
+        id="email"
+        v-model="formData.email"
+        placeholder="Digite seu e-mail"
+        required
+      />
 
       <label for="password">Senha</label>
-      <input type="password" id="password" v-model="formData.password" placeholder="Digite sua senha" required>
+      <input
+        type="password"
+        id="password"
+        v-model="formData.password"
+        placeholder="Digite sua senha"
+        required
+      />
 
-      <input type="submit" value="Registrar">
+      <input type="submit" :disabled="loading" value="Registrar" />
     </form>
 
     <div class="message">
-      <p>Já tem uma conta? <router-link to="/login">Entrar</router-link></p>
+      <p>
+        Já tem uma conta? <router-link to="/login">Entrar</router-link>
+      </p>
     </div>
   </div>
 </template>
@@ -60,9 +80,9 @@ export default {
           alert("Falha no registro: " + response.data.message);
         }
       } catch (error) {
-    console.error("Erro ao registrar:", error.response ? error.response.data : error);
-    alert("Erro ao registrar. Tente novamente mais tarde.");
-  } finally {
+        console.error("Erro ao registrar:", error.response ? error.response.data : error);
+        alert("Erro ao registrar. Tente novamente mais tarde.");
+      } finally {
         this.loading = false; // Finaliza o loading
       }
     }
@@ -71,7 +91,6 @@ export default {
 </script>
 
 <style scoped>
-/* (Estilos permanecem os mesmos) */
 .register-form-container {
   background: #fff;
   padding: 40px;
@@ -145,13 +164,12 @@ export default {
 }
 
 .register-form input[type="submit"]:hover {
-  background-color: #4285f4;
-  transform: translateY(-2px);
+  background-color: #357ae8;
 }
 
-.register-form input[type="submit"]:active {
-  background-color: #4285f4;
-  transform: translateY(0);
+.register-form input[type="submit"]:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
 }
 
 .message {
@@ -172,7 +190,6 @@ export default {
 }
 
 .message a:hover {
-  color: #4285f4;
   text-decoration: underline;
 }
 </style>

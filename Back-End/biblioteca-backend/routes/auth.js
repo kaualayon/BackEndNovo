@@ -32,4 +32,15 @@ router.post('/register', async (req, res) => {
   }
 });
 
+// Rota para buscar todos os usuários
+router.get('/users', async (req, res) => {
+    try {
+      const users = await User.find(); // Busca todos os usuários
+      res.json({ success: true, users });
+    } catch (error) {
+      console.error("Erro ao buscar usuários:", error);
+      res.status(500).json({ success: false, message: "Erro ao buscar usuários." });
+    }
+  });
+
 module.exports = router;
