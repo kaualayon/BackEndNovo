@@ -50,7 +50,7 @@ export default {
         
         if (response.data.success) {
           alert("Registro realizado com sucesso!");
-          this.$router.push('/login'); // Redireciona para a página inicial
+          this.$router.push('/login'); // Redireciona para a página inicial //frrf
         } else {
           alert("Falha no registro: " + response.data.message);
         }
