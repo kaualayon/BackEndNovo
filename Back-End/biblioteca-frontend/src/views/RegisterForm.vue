@@ -35,7 +35,8 @@ export default {
         username: '',
         email: '',
         password: ''
-      }
+      },
+      loading: false // Para controle de loading
     };
   },
   methods: {
@@ -44,19 +45,23 @@ export default {
         alert("Por favor, preencha todos os campos.");
         return;
       }
-      
+
+      this.loading = true; // Inicia o loading
+
       try {
         const response = await axios.post('https://sua-api-url.com/register', this.formData);
-        
+
         if (response.data.success) {
           alert("Registro realizado com sucesso!");
-          this.$router.push('/login'); // Redireciona para a página inicial //frrf
+          this.$router.push('/login'); // Redireciona para a página de login
         } else {
           alert("Falha no registro: " + response.data.message);
         }
       } catch (error) {
         console.error("Erro ao registrar:", error);
         alert("Erro ao registrar. Tente novamente mais tarde.");
+      } finally {
+        this.loading = false; // Finaliza o loading
       }
     }
   }
