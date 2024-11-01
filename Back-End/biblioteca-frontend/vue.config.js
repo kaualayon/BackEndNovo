@@ -10,7 +10,14 @@ module.exports = {
       .use('babel-loader')
       .loader('babel-loader')
       .options({
-        requireConfigFile: false
+
       });
   }
+};
+
+module.exports = {
+  presets: [
+    '@babel/preset-env',
+    '@babel/preset-vue' // Se você estiver usando Vue
+  ]
 };
