@@ -49,7 +49,7 @@ export default {
       this.loading = true; // Inicia o loading
 
       try {
-        const response = await axios.post('https://sua-api-url.com/register', this.formData);
+        const response = await axios.post('localhost:5000/api/auth/register', this.formData);
 
         if (response.data.success) {
           alert("Registro realizado com sucesso!");
