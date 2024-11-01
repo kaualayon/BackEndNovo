@@ -46,10 +46,12 @@ export default {
         return;
       }
 
+      console.log("Dados a serem enviados:", this.formData); // Log dos dados
       this.loading = true; // Inicia o loading
 
       try {
-        const response = await axios.post('localhost:5000/api/auth/register', this.formData);
+        const response = await axios.post('http://localhost:5000/api/auth/register', this.formData);
+        console.log("Resposta do servidor:", response.data); // Log da resposta
 
         if (response.data.success) {
           alert("Registro realizado com sucesso!");
@@ -58,9 +60,9 @@ export default {
           alert("Falha no registro: " + response.data.message);
         }
       } catch (error) {
-        console.error("Erro ao registrar:", error);
-        alert("Erro ao registrar. Tente novamente mais tarde.");
-      } finally {
+    console.error("Erro ao registrar:", error.response ? error.response.data : error);
+    alert("Erro ao registrar. Tente novamente mais tarde.");
+  } finally {
         this.loading = false; // Finaliza o loading
       }
     }

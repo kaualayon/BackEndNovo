@@ -7,6 +7,7 @@ require("dotenv").config();
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
+    console.log("Dados recebidos:", req.body); // Log dos dados recebidos
   const { username, email, password } = req.body;
 
   try {
@@ -16,18 +17,18 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ success: false, message: 'Usuário já existe' });
     }
 
-    // Criar um novo usuário
-    user = new User({
-      username,
-      email,
-      password: await bcrypt.hash(password, 10), // Hash da senha
-    });
+    // Criar novo usuário
+    const newUser = new User({
+        username,
+        email,
+        password: hashedPassword,
+      });
 
     await user.save();
-    res.status(201).json({ success: true, message: 'Usuário registrado com sucesso' });
+    res.json({ success: true, message: 'Usuário registrado com sucesso!' });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: 'Erro no servidor' });
+    console.error("Erro no registro:", error); // Log do erro
+    res.status(500).json({ success: false, message: 'Erro ao registrar usuário.' });
   }
 });
 
