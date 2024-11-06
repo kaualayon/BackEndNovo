@@ -1,34 +1,8 @@
 <template>
   <div>
-    <!-- Sidebar -->
-    <aside :class="{'sidebar': true, 'open': sidebarOpen}">
-      <ul>
-        <li><router-link to="/produtos" @click="toggleSidebar">Produtos</router-link></li>
-        <li><router-link to="/sobre" @click="toggleSidebar">Sobre</router-link></li>
-      </ul>
-    </aside>
 
-    <!-- Navbar with hamburger icon -->
-    <header class="navbar">
-      <button @click="toggleSidebar" class="hamburger">
-        ☰
-      </button>
-      <h1>MANGE BOOK</h1>
-      <router-link to="/cart" class="cart-icon">
-        <i class="fa fa-shopping-cart"></i>
-        <span class="cart-count">{{ cartCount }}</span> <!-- Mostra a contagem de itens -->
-      </router-link>
-      <button @click="logout" class="logout-button">Sair</button>
-    </header>
 
-    <header class="section-1">
-      <div class="section-1-text">
-        <h1>Bem-vindo ao MANGE BOOK!</h1>
-        <p>Aqui você encontra os livros que procura.</p>
-        <router-link to="/produtos" class="btn">Explore Aqui <i class="fa fa-arrow-right" aria-hidden="true"></i></router-link>
-      </div>
-    </header>
-
+    <HeaderElement /> <!-- Uso do componente Header -->
     <div>
       <!-- Carrossel de Produtos em Destaque -->
       <section class="section-2">
@@ -122,6 +96,7 @@
 </template>
 
 <script>
+import HeaderElement from '@/components/HeaderElement.vue';
 import '../assets/css/style.css';
 export default {
   name: 'HomePage',
@@ -202,7 +177,13 @@ export default {
     
     logout() {
       this.$router.push('/login');
-    }
+    },
+
+    components: {
+    HeaderElement
+  }
   }
 };
+
+
 </script>
