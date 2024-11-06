@@ -3,11 +3,8 @@
     <!-- Header -->
     <header class="header">
       <h1 class="header-title">Administração - Mange Book</h1>
-      
       <!-- Ícone de menu para abrir a sidebar -->
-      <div class="menu-icon" @click="toggleSidebar">
-        ☰
-      </div>
+      <div class="menu-icon" @click="toggleSidebar">☰</div>
     </header>
 
     <!-- Conteúdo principal -->
@@ -28,15 +25,15 @@
       <!-- Dashboard Content -->
       <div class="content">
         <section class="dashboard">
-          <h2>Visão Geral</h2>
-          
-          <!-- Div para agrupar os cards e centralizar -->
+          <h2 class="dashboard-title">Dashboard</h2>
+
+          <!-- Div para agrupar os cards e alinhar à esquerda -->
           <div class="dashboard-cards-container">
             <div class="dashboard-card">
               <h3>{{ booksCount }}</h3>
               <p>Total de Livros</p>
             </div>
-            <div class="dashboard-card">
+            <div class="dashboard-card middle-card">
               <h3>{{ usersCount }}</h3>
               <p>Total de Usuários</p>
             </div>
@@ -55,15 +52,15 @@
 export default {
   data() {
     return {
-      sidebarOpen: false, // Estado para controlar a visibilidade da sidebar
-      booksCount: 100, // Exemplo de contagem de livros
-      usersCount: 50, // Exemplo de contagem de usuários
-      loansCount: 30, // Exemplo de contagem de empréstimos
+      sidebarOpen: false,
+      booksCount: 100,
+      usersCount: 50,
+      loansCount: 30,
     };
   },
   methods: {
     toggleSidebar() {
-      this.sidebarOpen = !this.sidebarOpen; // Alterna o estado da sidebar
+      this.sidebarOpen = !this.sidebarOpen;
     },
   },
 };
@@ -91,7 +88,6 @@ export default {
   margin-left: 250px; /* Espaço para a sidebar */
   padding: 20px;
   width: 100%;
-  justify-content: center; /* Alinha o conteúdo no centro */
 }
 
 /* Estilo do header */
@@ -211,27 +207,38 @@ export default {
 .content {
   width: 100%;
   margin-top: 80px; /* Distância do topo para não sobrepor o header */
-  text-align: center;
+  display: flex;
+  justify-content: flex-start; /* Alinha o conteúdo à esquerda */
+  flex-direction: column;
+  align-items: flex-start; /* Alinha os itens no início */
+  padding-left: 20px; /* Adiciona um pouco de espaço à esquerda */
 }
 
 .dashboard {
-  margin-top: 20px;
+  width: 100%;
+  max-width: 1000px; /* Define um tamanho máximo para o conteúdo */
+  text-align: left; /* Alinha o texto à esquerda */
 }
 
 .dashboard h2 {
   font-size: 28px;
   margin-bottom: 20px;
+  position: relative;
+  left: 50%; /* Centraliza horizontalmente */
+  transform: translateX(-50%); /* Ajusta o posicionamento para que o título esteja sobre o card do meio */
 }
 
 /* Agrupando os cards */
 .dashboard-cards-container {
   display: flex;
-  justify-content: center; /* Centraliza os cards */
+  justify-content: flex-start; /* Alinha os cards à esquerda */
   gap: 20px; /* Espaçamento entre os cards */
   flex-wrap: wrap; /* Permite que os cards se movam para a linha seguinte se necessário */
   max-width: 1000px; /* Define um tamanho máximo para a área dos cards */
   margin-left: auto;
   margin-right: auto;
+  align-items: center; /* Alinha os itens verticalmente */
+  margin-top: 20px;
 }
 
 /* Estilo dos cards */
@@ -243,6 +250,12 @@ export default {
   max-width: 250px; /* Limita o tamanho máximo do card */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+}
+
+/* Estilo especial para o card do meio */
+.middle-card {
+  position: relative;
+  z-index: 1; /* Faz com que o card do meio fique mais proeminente */
 }
 
 .dashboard-card h3 {
