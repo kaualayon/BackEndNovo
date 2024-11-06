@@ -1,39 +1,155 @@
 <template>
-    <v-container>
-      <v-form @submit.prevent="saveBook">
-        <v-text-field v-model="book.title" label="Título" required></v-text-field>
-        <v-text-field v-model="book.author" label="Autor" required></v-text-field>
-        <v-text-field v-model="book.genre" label="Gênero"></v-text-field>
-        <v-text-field v-model="book.isbn" label="ISBN"></v-text-field>
-        <v-text-field v-model="book.quantity" label="Quantidade" type="number"></v-text-field>
-        <v-btn color="primary" type="submit">Salvar</v-btn>
-      </v-form>
-    </v-container>
-  </template>
-  
-  <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        book: {
-          title: '',
-          author: '',
-          genre: '',
-          isbn: '',
-          quantity: 0,
-        },
+  <div class="book-form">
+    <!-- Título da Página -->
+    <h1>{{ isEditing ? "Editar Livro" : "Adicionar Livro" }}</h1>
+
+    <!-- Formulário de Adição/Edição -->
+    <form @submit.prevent="submitForm">
+      <!-- Campo Título -->
+      <label for="title">Título:</label>
+      <input type="text" id="title" v-model="book.title" required />
+
+      <!-- Campo Autor -->
+      <label for="author">Autor:</label>
+      <input type="text" id="author" v-model="book.author" required />
+
+      <!-- Campo Descrição -->
+      <label for="description">Descrição:</label>
+      <textarea id="description" v-model="book.description" rows="4" required></textarea>
+
+      <!-- Campo Ano de Publicação -->
+      <label for="publicationYear">Ano de Publicação:</label>
+      <input type="number" id="publicationYear" v-model="book.publicationYear" min="0" required />
+
+      <!-- Campo Gênero -->
+      <label for="genre">Gênero:</label>
+      <input type="text" id="genre" v-model="book.genre" required />
+
+      <!-- Campo ISBN -->
+      <label for="isbn">ISBN:</label>
+      <input type="text" id="isbn" v-model="book.isbn" required />
+
+      <!-- Campo Número de Cópias Disponíveis -->
+      <label for="copiesAvailable">Número de Cópias Disponíveis:</label>
+      <input type="number" id="copiesAvailable" v-model="book.copiesAvailable" min="0" required />
+
+      <!-- Botão de Envio -->
+      <button type="submit">{{ isEditing ? "Salvar Alterações" : "Adicionar Livro" }}</button>
+    </form>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+export default {
+  name: "BookForm",
+  data() {
+    return {
+      isEditing: false, // Define como true se estiver editando um livro
+      book: {
+        title: "",
+        author: "",
+        description: "",
+        publicationYear: "",
+        genre: "",
+        isbn: "",
+        copiesAvailable: 0,
+      },
+    };
+  },
+  methods: {
+    async submitForm() {
+      if (this.isEditing) {
+        // Chame um método para editar o livro (não implementado aqui)
+        console.log("Salvando alterações:", this.book);
+      } else {
+        // Adiciona um novo livro
+        await this.addBook();
+      }
+    },
+    async addBook() {
+      try {
+        const response = await axios.post('http://localhost:5000/api/books/add', this.book);
+        if (response.status === 201) {
+          alert("Livro adicionado com sucesso!");
+          this.updateCatalog(response.data.book); // Atualiza o catálogo com o novo livro
+          this.clearForm(); // Limpa o formulário após adicionar o livro
+        }
+      } catch (error) {
+        console.error("Erro ao adicionar o livro:", error);
+        alert("Erro ao adicionar o livro. Tente novamente.");
+      }
+    },
+    updateCatalog(book) {
+      // Aqui você pode atualizar o catálogo de livros no front-end
+      console.log("Livro adicionado ao catálogo:", book);
+      // Supondo que `books` seja uma lista global de livros no seu catálogo.
+      // Em um projeto com Vuex, você poderia disparar uma ação para atualizar a lista.
+    },
+    clearForm() {
+      // Limpa o formulário após a adição de um livro
+      this.book = {
+        title: "",
+        author: "",
+        description: "",
+        publicationYear: "",
+        genre: "",
+        isbn: "",
+        copiesAvailable: 0,
       };
     },
-    methods: {
-      saveBook() {
-        axios.post('http://localhost:5000/api/books', this.book)
-          .then(() => {
-            this.$router.push('/books');
-          });
-      },
-    },
-  };
-  </script>
-  
+  },
+};
+</script>
+
+<style scoped>
+/* Estilos baseados no CSS do site */
+.book-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.book-form h1 {
+  font-size: 28px;
+  color: #D32F2F;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.book-form label {
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.book-form input,
+.book-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.book-form button {
+  background-color: #D32F2F;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+
+.book-form button:hover {
+  background-color: #B71C1C;
+}
+</style>
