@@ -1,184 +1,187 @@
 <template>
-  <div>
-    <HeaderElement /> <!-- Uso do componente Header -->
-    <div>
-      <!-- Carrossel de Produtos em Destaque -->
-      <section class="section-2">
-        <h2>Produtos em Destaque</h2>
-        <div class="carousel">
-          <div class="carousel-inner">
-            <div
-              v-for="(image, index) in featuredProducts"
-              :key="index"
-              class="carousel-item"
-              :style="{ display: index === currentSlide ? 'block' : 'none' }"
-            >
-              <img :src="image.src" :alt="`img-${index + 1}`" />
-            </div>
-          </div>
-          <button class="carousel-control prev" @click="prevSlide">❮</button>
-          <button class="carousel-control next" @click="nextSlide">❯</button>
-        </div>
-      </section>
+  <div class="home-page">
+    <!-- Incluindo o HeaderElement -->
+    <HeaderElement />
+
+    <!-- Título da HomePage -->
+    <h2 class="page-title">Dashboard</h2>
+
+    <!-- Status de Empréstimos, Devoluções e Reservas -->
+    <div class="status-cards">
+      <!-- Empréstimos -->
+      <div class="status-card">
+        <h3>Empréstimos Ativos</h3>
+        <p class="status-number">3</p>
+        <p class="status-info">Livros emprestados atualmente</p>
+      </div>
+
+      <!-- Devoluções -->
+      <div class="status-card">
+        <h3>Devoluções Pendentes</h3>
+        <p class="status-number">1</p>
+        <p class="status-info">Livros aguardando devolução</p>
+      </div>
+
+      <!-- Reservas -->
+      <div class="status-card">
+        <h3>Reservas</h3>
+        <p class="status-number">2</p>
+        <p class="status-info">Livros reservados</p>
+      </div>
     </div>
 
-    <section class="section-3">
-      <h3>Autores com livros mais vendidos</h3>
-      <div class="view-card">
-        <div class="card" v-for="(card, index) in productCards" :key="index">
-          <img :src="card.imgSrc" alt="Avatar">
-          <div class="container">
-            <h4><b>{{ card.name }}</b></h4>
-            <p>{{ card.profession }}</p>
-          </div>
-        </div>
+    <!-- Seção para ações do usuário -->
+    <div class="actions">
+      <!-- Botão para ver livros disponíveis -->
+      <div class="action-card">
+        <button @click="viewBooks" class="action-button">
+           Ver Livros Disponíveis
+        </button>
       </div>
-    </section>
-
-    <section class="section-4">
-      <h2>Marcas em Destaque</h2>
-      <div class="brands">
-        <div class="brand" v-for="(brand, index) in featuredBrands" :key="index">
-          <img :src="brand.src" :alt="`Logo ${index + 1}`">
-        </div>
-      </div>
-    </section>
-
-    <section class="section-5">
-      <h2>Entre em Contato</h2>
-      <p>Deixe-nos uma mensagem ou sugestão:</p>
-      <form @submit.prevent="handleSubmit">
-        <label for="fname">Nome</label>
-        <input type="text" id="fname" v-model="formData.firstname" placeholder="Seu nome.." required>
-        
-        <label for="lname">Sobrenome</label>
-        <input type="text" id="lname" v-model="formData.lastname" placeholder="Seu sobrenome.." required>
-        
-        <label for="country">País</label>
-        <select id="country" v-model="formData.country" required>
-          <option value="">Selecione um país</option>
-          <option value="brasil">Brasil</option>
-          <option value="australia">Austrália</option>
-          <option value="canada">Canadá</option>
-          <option value="usa">EUA</option>
-        </select>
-        
-        <label for="subject">Assunto</label>
-        <textarea id="subject" v-model="formData.subject" placeholder="Escreva algo.." style="height:170px" required></textarea>
-        
-        <input type="submit" value="Enviar">
-      </form>
-    </section>
+    </div>
   </div>
-
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-left">
-        <h4>MANGE BOOK</h4>
-        <p>© 2024 Todos os direitos reservados.</p>
-      </div>
-      <div class="footer-middle">
-        <ul>
-          <li><router-link to="/produtos">Produtos</router-link></li>
-          <li><router-link to="/sobre">Sobre</router-link></li>
-        </ul>
-      </div>
-      <div class="footer-right">
-        <p>Siga-nos:</p>
-        <a><img src="/images/logofacebook.png" alt="Facebook" /></a>
-        <a><img src="/images/logotwitter.png" alt="Twitter" /></a>
-        <a><img src="/images/logoinstagram.png" alt="Instagram" /></a>
-      </div>
-    </div>
-  </footer>
 </template>
 
 <script>
-import HeaderElement from '@/components/HeaderElement.vue';
-import '../assets/css/style.css';
+// Importando o HeaderElement
+import HeaderElement from "@/components/HeaderElement.vue";
 
 export default {
-  name: 'HomePage',
-
   components: {
-    HeaderElement
+    HeaderElement,
   },
-
-  data() {
-    return {
-      sidebarOpen: false,
-      featuredProducts: [
-        { src: '/images/o_codigo_da_vinci.jpg' },
-        { src: '/images/o_senhor_dos_aneis.jpg' },
-        { src: '/images/dom_casmurro.jpg' },
-      ],
-      currentSlide: 0,
-      productCards: [
-        { imgSrc: '/images/machado_de_assis.jpg', name: 'Machado de Assis', profession: '85 livros vendidos' },
-        { imgSrc: '/images/george_orwell.jpg', name: 'George Orwell', profession: '79 livros vendidos' },
-      ],
-      featuredBrands: [
-        { src: '/images/marca1.png' },
-        { src: '/images/marca2.png' },
-        { src: '/images/marca3.jpg' },
-      ],
-      cartCount: 0,
-      formData: {
-        firstname: '',
-        lastname: '',
-        country: '',
-        subject: ''
-      }
-    };
-  },
-
-  mounted() {
-    this.updateCartCount();
-    this.startCarousel();
-  },
-
   methods: {
-    toggleSidebar() {
-      this.sidebarOpen = !this.sidebarOpen;
-    },
-    handleSubmit() {
-      if (!this.formData.firstname || !this.formData.lastname || !this.formData.country || !this.formData.subject) {
-        alert("Por favor, preencha todos os campos obrigatórios.");
-        return;
-      }
-      console.log("Formulário enviado:", this.formData);
-      alert("Mensagem enviada!");
-
-      this.formData.firstname = '';
-      this.formData.lastname = '';
-      this.formData.country = '';
-      this.formData.subject = '';
-    },
-    startCarousel() {
-      this.carouselInterval = setInterval(() => {
-        this.nextSlide();
-      }, 3000);
-    },
-    nextSlide() {
-      this.currentSlide = (this.currentSlide + 1) % this.featuredProducts.length;
-    },
-    prevSlide() {
-      this.currentSlide = (this.currentSlide - 1 + this.featuredProducts.length) % this.featuredProducts.length;
-    },
-    updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      this.cartCount = cart.length;
-    },
-    addToCart(book) {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push(book);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      this.updateCartCount();
-      alert(`${book.title} adicionado ao carrinho!`);
-    },
-    logout() {
-      this.$router.push('/login');
+    viewBooks() {
+      console.log('Abrir a página para visualizar livros disponíveis');
+      // Lógica para redirecionar ou abrir a página de visualização de livros
     }
   }
-};
+}
 </script>
+
+<style scoped>
+/* Estilo geral da HomePage */
+.home-page {
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+/* Título da página */
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #D32F2F;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Cards de Status */
+.status-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.status-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 250px;
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.status-card h3 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.status-number {
+  font-size: 36px;
+  font-weight: bold;
+  color: #D32F2F;
+}
+
+.status-info {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Efeito de transformação suave ao passar o mouse */
+.status-card:hover {
+  transform: scale(1.05);
+}
+
+/* Seção de Ações (botões) */
+.actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.action-card {
+  flex: 1;
+  max-width: 300px; /* Limitar largura */
+}
+
+.action-button {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #D32F2F;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.action-button:hover {
+  background-color: #B71C1C;
+}
+
+.material-icons {
+  font-size: 24px;
+}
+
+/* Media Queries para telas menores (responsividade) */
+@media (max-width: 768px) {
+  .status-card {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .status-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .action-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 24px;
+  }
+
+  .status-card {
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .action-button {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+</style>
