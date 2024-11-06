@@ -40,7 +40,6 @@
       <ul>
         <li><router-link to="/home">Dashboard</router-link></li>
         <li><router-link to="/produtos">Catálogo de Livros</router-link></li>
-        <li><router-link to="/sobre">Relatórios e Estatísticas</router-link></li>
         <li><router-link to="/notificacao">Notificações</router-link></li>
         <li><router-link to="/perfil">Conta</router-link></li>
       </ul>

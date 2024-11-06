@@ -21,12 +21,13 @@
       <div class="book-info">
         <h1>{{ book.title }}</h1>
         <p class="author">Autor: {{ book.author }}</p>
-        <p class="price">Preço para reserva: R$ {{ book.price ? book.price.toFixed(2) : 'N/A' }}</p>
 
         <div class="ratings">
           <h2>Avaliações:</h2>
-          <p>{{ book.rating }} ★</p>
-          <p>{{ book.reviewCount }} avaliações</p>
+          <div class="rating-stars">
+            <p>{{ book.rating }} ★</p>
+            <p>{{ book.reviewCount }} avaliações</p>
+          </div>
         </div>
 
         <div class="book-history">
@@ -47,7 +48,12 @@
 
         <div class="user-review">
           <h2>Deixe sua avaliação:</h2>
-          <textarea v-model="userReview" placeholder="Escreva sua avaliação aqui..."></textarea>
+          <div class="star-rating">
+            <span v-for="star in 5" :key="star" class="star" @click="setRating(star)">
+              <span :class="{'filled': star <= userRating}">★</span>
+            </span>
+          </div>
+          <textarea v-model="userReview" placeholder="Escreva sua avaliação aqui..." rows="4"></textarea>
           <button @click="submitReview" class="submit-review">Enviar Avaliação</button>
         </div>
 
@@ -74,32 +80,32 @@ export default {
   data() {
     return {
       books: [
-        { id: 1, title: 'O Alquimista', author: 'Paulo Coelho', image: './images/o_alquimista.jpg' },
-        { id: 2, title: '1984', author: 'George Orwell', image: './images/1984.jpg' },
-        { id: 3, title: 'Dom Casmurro', author: 'Machado de Assis', image: './images/dom_casmurro.jpg' },
-        { id: 4, title: 'A Moreninha', author: 'Joaquim Manuel de Macedo', image: './images/a_moreninha.jpg' },
-        { id: 5, title: 'O Pequeno Príncipe', author: 'Antoine de Saint-Exupéry', image: './images/o_pequeno_principe.jpg' },
-        { id: 6, title: 'Cem Anos de Solidão', author: 'Gabriel García Márquez', image: './images/cem_anos_de_solidao.jpg' },
-        { id: 7, title: 'A Revolução dos Bichos', author: 'George Orwell', image: './images/a_revolucao_dos_bichos.jpg' },
-        { id: 8, title: 'O Senhor dos Anéis', author: 'J.R.R. Tolkien', image: './images/o_senhor_dos_aneis.jpg' },
-        { id: 9, title: 'Fahrenheit 451', author: 'Ray Bradbury', image: './images/fahrenheit_451.jpg' },
-        { id: 10, title: 'A Menina que Roubava Livros', author: 'Markus Zusak', image: './images/a_menina_que_roubava_livros.jpg' },
-        { id: 11, title: 'O Sol é para Todos', author: 'Harper Lee', image: './images/o_sol_e_para_todos.jpg' },
-        { id: 12, title: 'Orgulho e Preconceito', author: 'Jane Austen', image: './images/orgulho_e_preconceito.jpg' },
-        { id: 13, title: 'O Hobbit', author: 'J.R.R. Tolkien', image: './images/o_hobbit.jpg' },
-        { id: 14, title: 'O Conto da Aia', author: 'Margaret Atwood', image: './images/o_conto_da_aia.jpg' },
-        { id: 15, title: 'A Sombra do Vento', author: 'Carlos Ruiz Zafón', image: './images/a_sombra_do_vento.jpg' },
-        { id: 16, title: 'Os Miseráveis', author: 'Victor Hugo', image: './images/os_miseraveis.jpg' },
-        { id: 17, title: 'O Lobo da Estepe', author: 'Hermann Hesse', image: './images/o_lobo_da_estepe.jpg' },
-        { id: 18, title: 'Crime e Castigo', author: 'Fiódor Dostoiévski', image: './images/crime_e_castigo.jpg' },
-        { id: 19, title: 'A Insustentável Leveza do Ser', author: 'Milan Kundera', image: './images/a_insustentavel_leveza_do_ser.jpg' },
-        { id: 20, title: 'O Código Da Vinci', author: 'Dan Brown', image: './images/o_codigo_da_vinci.jpg' },
+        { id: 1, title: 'O Alquimista', author: 'Paulo Coelho', image: '/images/o_alquimista.jpg' },
+        { id: 2, title: '1984', author: 'George Orwell', image: '/images/1984.jpg' },
+        { id: 3, title: 'Dom Casmurro', author: 'Machado de Assis', image: '/images/dom_casmurro.jpg' },
+        { id: 4, title: 'A Moreninha', author: 'Joaquim Manuel de Macedo', image: '/images/a_moreninha.jpg' },
+        { id: 5, title: 'O Pequeno Príncipe', author: 'Antoine de Saint-Exupéry', image: '/images/o_pequeno_principe.jpg' },
+        { id: 6, title: 'Cem Anos de Solidão', author: 'Gabriel García Márquez', image: '/images/cem_anos_de_solidao.jpg' },
+        { id: 7, title: 'A Revolução dos Bichos', author: 'George Orwell', image: '/images/a_revolucao_dos_bichos.jpg' },
+        { id: 8, title: 'O Senhor dos Anéis', author: 'J.R.R. Tolkien', image: '/images/o_senhor_dos_aneis.jpg' },
+        { id: 9, title: 'Fahrenheit 451', author: 'Ray Bradbury', image: '/images/fahrenheit_451.jpg' },
+        { id: 10, title: 'A Menina que Roubava Livros', author: 'Markus Zusak', image: '/images/a_menina_que_roubava_livros.jpg' },
+        { id: 11, title: 'O Sol é para Todos', author: 'Harper Lee', image: '/images/o_sol_e_para_todos.jpg' },
+        { id: 12, title: 'Orgulho e Preconceito', author: 'Jane Austen', image: '/images/orgulho_e_preconceito.jpg' },
+        { id: 13, title: 'O Hobbit', author: 'J.R.R. Tolkien', image: '/images/o_hobbit.jpg' },
+        { id: 14, title: 'O Conto da Aia', author: 'Margaret Atwood', image: '/images/o_conto_da_aia.jpg' },
+        { id: 15, title: 'A Sombra do Vento', author: 'Carlos Ruiz Zafón', image: '/images/a_sombra_do_vento.jpg' },
+        { id: 16, title: 'Os Miseráveis', author: 'Victor Hugo', image: '/images/os_miseraveis.jpg' },
+        { id: 17, title: 'O Lobo da Estepe', author: 'Hermann Hesse', image: '/images/o_lobo_da_estepe.jpg' },
+        { id: 18, title: 'Crime e Castigo', author: 'Fiódor Dostoiévski', image: '/images/crime_e_castigo.jpg' },
+        { id: 19, title: 'A Insustentável Leveza do Ser', author: 'Milan Kundera', image: '/images/a_insustentavel_leveza_do_ser.jpg' },
+        { id: 20, title: 'O Código Da Vinci', author: 'Dan Brown', image: '/images/o_codigo_da_vinci.jpg' },
       ],
       book: null,
       userReview: '',
       comments: [],
       nextCommentId: 1,
-      searchQuery: '',
+      userRating: 0, // A avaliação do usuário em estrelas
       sidebarOpen: false,
     };
   },
@@ -143,14 +149,11 @@ export default {
         alert('Por favor, escreva uma avaliação.');
       }
     },
+    setRating(star) {
+      this.userRating = star;  // Atualiza a avaliação com o valor da estrela clicada
+    },
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen;
-    },
-    searchBooks(query) {
-      if (query.trim() !== '') {
-        alert(`Pesquisando por: ${query}`);
-        // Implementar a lógica de busca
-      }
     },
   },
 };
@@ -158,125 +161,122 @@ export default {
 
 <style scoped>
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-/* Detalhes do Livro */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f7fb;
+  color: #333;
+}
+
 .book-detail-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  background-color: #fff;
   padding: 30px;
-  max-width: 900px;
-  margin: 20px auto;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  background-color: #ffffff;
+  margin: 30px auto;
+  max-width: 1100px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .book-image img {
-  max-width: 300px;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 250px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 8px;
 }
 
 .book-info {
-  max-width: 500px;
-  margin-left: 20px;
+  max-width: 700px;
 }
 
 h1 {
-  font-size: 2em;
-  color: #2c3e50;
-  margin-bottom: 10px;
-}
-
-.author {
-  font-size: 1.1em;
-  color: #7f8c8d;
-}
-
-.price {
-  font-size: 1.4em;
-  color: #e74c3c;
-  margin: 10px 0;
-}
-
-.ratings {
-  margin: 20px 0;
-}
-
-.book-history {
-  margin-top: 20px;
-}
-
-.book-history ul {
-  list-style: none;
-  padding: 0;
-}
-
-.book-history li {
-  background-color: #ecf0f1;
-  margin: 5px 0;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.button-container {
-  display: flex;
-  gap: 10px;
+  font-size: 2rem;
   margin-bottom: 20px;
 }
 
-.reserve-button,
-.borrow-button,
-.add-to-wishlist,
-.share-button,
-.submit-review {
-  background-color: #3498db;
+.author {
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+.ratings {
+  margin-bottom: 20px;
+}
+
+.rating-stars p {
+  font-size: 1.2rem;
+  margin: 5px 0;
+}
+
+.button-container button {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #4caf50;
   color: white;
-  padding: 12px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background-color: #45a049;
+}
+
+.star-rating {
+  display: flex;
+  font-size: 2.5rem;
+  color: #ddd;
+}
+
+.star {
+  cursor: pointer;
+  margin-right: 5px;
+  transition: color 0.2s ease-in-out;
+}
+
+.star.filled {
+  color: #f39c12;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.submit-review {
+  margin-top: 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
 }
 
-.reserve-button:hover,
-.borrow-button:hover,
-.add-to-wishlist:hover,
-.share-button:hover,
 .submit-review:hover {
-  background-color: #2980b9;
-  transform: scale(1.05);
-}
-
-.user-review {
-  margin-top: 20px;
-}
-
-.user-review textarea {
-  width: 100%;
-  height: 100px;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  resize: none;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  background-color: #0056b3;
 }
 
 .comments {
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .comments ul {
-  list-style: none;
-  padding: 0;
+  list-style-type: none;
 }
 
 .comments li {
-  background-color: #ecf0f1;
-  margin: 5px 0;
   padding: 10px;
-  border-radius: 5px;
+  border-bottom: 1px solid #ddd;
 }
+
 </style>

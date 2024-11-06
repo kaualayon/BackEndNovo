@@ -102,7 +102,6 @@
   /* Estilo geral da página de perfil */
   .user-profile {
     background-color: #f9f9f9;
-    padding: 20px;
     box-sizing: border-box;
   }
   
@@ -113,6 +112,14 @@
     color: #D32F2F;
     margin-bottom: 20px;
     text-align: center;
+  }
+
+  .reservations{
+    padding: 20px;
+  }
+  
+  .loan-history{
+    padding: 20px;
   }
   
   /* Seção de Informações do Usuário */

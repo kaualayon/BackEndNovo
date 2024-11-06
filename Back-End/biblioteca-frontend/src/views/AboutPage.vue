@@ -1,25 +1,6 @@
 <template>
 
-  <!-- Sidebar -->
-  <aside :class="{'sidebar': true, 'open': sidebarOpen}">
-      <ul>
-        <li><router-link to="/home" @click="toggleSidebar">Início</router-link></li>
-        <li><router-link to="/produtos" @click="toggleSidebar">Produtos</router-link></li>
-      </ul>
-    </aside>
-
-    <!-- Navbar with hamburger icon -->
-    <header class="navbar">
-      <button @click="toggleSidebar" class="hamburger">
-        ☰
-      </button>
-      <h1>MANGE BOOK</h1>
-      <router-link to="/cart" class="cart-icon">
-        <i class="fa fa-shopping-cart"></i>
-        <span class="cart-count">{{ cartCount }}</span> <!-- Mostra a contagem de itens -->
-      </router-link>
-      <button @click="logout" class="logout-button">Sair</button>
-    </header>
+<HeaderElement />
     <div class="about-container">
       
 
