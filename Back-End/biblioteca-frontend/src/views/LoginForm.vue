@@ -36,14 +36,11 @@ export default {
 
   methods: {
     handleLogin() {
-      if (!this.formData.email || !this.formData.password) {
-        alert("Por favor, preencha todos os campos.");
-        return;
-      }
-      console.log("Login realizado com sucesso:", this.formData);
+      // Sem validação ou envio de dados
       alert("Login realizado com sucesso!");
       
-      // Aqui você pode adicionar a lógica de autenticação
+      // Redireciona para a página inicial (ou para onde o login deveria redirecionar)
+      this.$router.push('/home');
     }
   }
 };
