@@ -30,21 +30,38 @@
       </div>
     </div>
 
+    <!-- Botões para Explorar Catálogo e Reservar Livro -->
+    <div class="action-buttons">
+      <button @click="exploreCatalog">Explorar Catálogo de Livros</button>
+      <button @click="reserveBook">Reservar Livro</button>
+    </div>
   </div>
+<FooterElement />
+  
 </template>
 
 <script>
 // Importando o HeaderElement
 import HeaderElement from "@/components/HeaderElement.vue";
+import FooterElement from "@/components/FooterElement.vue";
 
 export default {
   components: {
-    HeaderElement,
+    HeaderElement, FooterElement
   },
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    exploreCatalog() {
+      // Redireciona para a rota de produtos (catálogo de livros)
+      this.$router.push("/produtos");
+    },
+    reserveBook() {
+      // Lógica para reservar um livro
+      this.$router.push("/reserve"); // Substitua "/reserve" pelo caminho real
+    }
+  }
 }
 </script>
 
@@ -104,6 +121,29 @@ export default {
   transform: scale(1.05);
 }
 
+/* Seção de Botões de Ação */
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+
+.action-buttons button {
+  background-color: #D32F2F;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.action-buttons button:hover {
+  background-color: #B71C1C;
+}
+
 /* Media Queries para telas menores (responsividade) */
 @media (max-width: 768px) {
   .status-card {
@@ -112,6 +152,11 @@ export default {
   }
 
   .status-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .action-buttons {
     flex-direction: column;
     align-items: center;
   }
@@ -125,6 +170,10 @@ export default {
   .status-card {
     width: 90%;
     max-width: 400px;
+  }
+
+  .action-buttons button {
+    width: 100%;
   }
 }
 </style>

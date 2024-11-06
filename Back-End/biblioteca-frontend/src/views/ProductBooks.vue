@@ -25,15 +25,18 @@
       </div>
     </div>
   </div>
+
+  <FooterElement />
 </template>
 
 <script>
 // Importando o HeaderElement
 import HeaderElement from "@/components/HeaderElement.vue";
+import FooterElement from "@/components/FooterElement.vue";
 
 export default {
   components: {
-    HeaderElement
+    HeaderElement, FooterElement
   },
   data() {
     return {
