@@ -144,13 +144,13 @@ export default {
 .register-form input[type="text"]:focus,
 .register-form input[type="email"]:focus,
 .register-form input[type="password"]:focus {
-  border-color: #4285f4;
-  box-shadow: 0 0 5px rgba(255, 87, 34, 0.3);
+  border-color: #D32F2F; /* Cor do foco vermelha */
+  box-shadow: 0 0 5px rgba(211, 47, 47, 0.3); /* Sombra vermelha */
   outline: none;
 }
 
 .register-form input[type="submit"] {
-  background-color: #4285f4;
+  background-color: #D32F2F; /* Vermelho claro */
   color: #fff;
   border: none;
   padding: 15px;
@@ -160,11 +160,17 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.3s, transform 0.3s;
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
 .register-form input[type="submit"]:hover {
-  background-color: #357ae8;
+  background-color: #B71C1C; /* Tom mais escuro de vermelho para hover */
+  transform: translateY(-2px); /* Efeito de subida */
+}
+
+.register-form input[type="submit"]:active {
+  transform: translateY(0); /* Efeito de clique */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra leve ao clicar */
 }
 
 .register-form input[type="submit"]:disabled {
@@ -183,7 +189,7 @@ export default {
 }
 
 .message a {
-  color: #4285f4;
+  color: #D32F2F; /* Vermelho */
   text-decoration: none;
   font-weight: bold;
   transition: color 0.3s;
