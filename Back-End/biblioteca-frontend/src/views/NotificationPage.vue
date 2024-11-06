@@ -1,38 +1,44 @@
 <template>
     <div class="notifications-page">
-      <!-- Componente de Header com o logo e outras funcionalidades -->
+      <!-- Componente de HeaderElement -->
       <HeaderElement />
-  
+    
       <!-- Seção de Título -->
       <section class="notifications-title">
         <h2>Notificações</h2>
       </section>
-  
+    
       <!-- Lista de Notificações -->
-      <div class="notifications-list">
-        <ul>
-          <li v-if="notifications.length === 0" class="no-notifications">Nenhuma notificação.</li>
-          <li v-for="(notification, index) in notifications" :key="index" class="notification-item">
-            <span>{{ notification }}</span>
-            <button @click="removeNotification(index)" class="remove-notification-btn">Excluir</button>
-          </li>
-        </ul>
+      <div class="notifications-list-container">
+        <div class="notifications-list">
+          <ul>
+            <li v-if="notifications.length === 0" class="no-notifications">Nenhuma notificação.</li>
+            <li v-for="(notification, index) in notifications" :key="index" class="notification-item">
+              <span>{{ notification }}</span>
+              <button @click="removeNotification(index)" class="remove-notification-btn">Excluir</button>
+            </li>
+          </ul>
+        </div>
       </div>
-  
+    
       <!-- Botão para limpar todas as notificações -->
       <div v-if="notifications.length > 0" class="clear-btn-container">
         <button @click="clearNotifications" class="clear-notifications-btn">Limpar Todas as Notificações</button>
       </div>
     </div>
+
+    <FooterElement />
   </template>
   
   <script>
-  // Importe seu HeaderElement, garantindo que seja o mesmo que o do seu projeto
+  // Importe o HeaderElement corretamente
   import HeaderElement from '@/components/HeaderElement.vue';
+  import FooterElement from "@/components/FooterElement.vue";
+
   
   export default {
     components: {
-      HeaderElement,
+      HeaderElement, FooterElement
     },
     data() {
       return {
@@ -59,10 +65,8 @@
   /* Estilo geral da página de notificações */
   .notifications-page {
     font-family: 'Arial', sans-serif;
-    
     background-color: #f7f7f7;
     min-height: 100vh;
-    display: flex;
     flex-direction: column;
     align-items: center;
   }
@@ -81,9 +85,15 @@
     margin: 0;
   }
   
-  /* Lista de notificações */
-  .notifications-list {
+  /* Container que vai centralizar a lista de notificações */
+  .notifications-list-container {
+    display: flex;
+    justify-content: center; /* Centraliza a lista horizontalmente */
+    width: 100%;
     margin-top: 30px;
+  }
+  
+  .notifications-list {
     width: 100%;
     max-width: 600px;
     background-color: white;
