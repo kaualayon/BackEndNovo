@@ -1,147 +1,257 @@
 <template>
-    <div>
-      <!-- Navbar -->
-      <header class="navbar">
-        <button class="hamburger" @click="toggleSidebar">☰</button>
-        <h1>Painel do Administrador</h1>
-      </header>
-  
+  <div class="admin-page">
+    <!-- Header -->
+    <header class="header">
+      <h1 class="header-title">Administração - Mange Book</h1>
+      
+      <!-- Ícone de menu para abrir a sidebar -->
+      <div class="menu-icon" @click="toggleSidebar">
+        ☰
+      </div>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <div class="main-container">
       <!-- Sidebar -->
-      <aside :class="['sidebar', { open: isSidebarOpen }]">
-        <button class="sidebar-close" @click="toggleSidebar">X</button>
+      <div :class="{'sidebar': true, 'open': sidebarOpen}">
+        <button class="close-btn" @click="toggleSidebar">X</button>
         <ul>
-          <li><a href="#">Dashboard</a></li>
-          <li><a href="#">Livros</a></li>
-          <li><a href="#">Usuários</a></li>
-          <li><a href="#">Empréstimos</a></li>
-          <li><a href="#">Configurações</a></li>
-          <li><a href='/adminlogin'>Sair</a></li>
+          <li><router-link to="/admin/dashboard">Dashboard</router-link></li>
+          <li><router-link to="/admin/add-book">Adicionar Livros</router-link></li>
+          <li><router-link to="/admin/manage-users">Gerenciar Usuários</router-link></li>
         </ul>
-      </aside>
-  
-      <!-- Admin Panel -->
-      <main class="admin-panel">
-        <section class="content-section">
-          <h2>Bem-vindo, Administrador</h2>
-          <p>Gerencie o sistema da biblioteca com facilidade.</p>
+      </div>
+
+      <!-- Overlay -->
+      <div v-if="sidebarOpen" class="overlay" @click="toggleSidebar"></div>
+
+      <!-- Dashboard Content -->
+      <div class="content">
+        <section class="dashboard">
+          <h2>Visão Geral</h2>
+          
+          <!-- Div para agrupar os cards e centralizar -->
+          <div class="dashboard-cards-container">
+            <div class="dashboard-card">
+              <h3>{{ booksCount }}</h3>
+              <p>Total de Livros</p>
+            </div>
+            <div class="dashboard-card">
+              <h3>{{ usersCount }}</h3>
+              <p>Total de Usuários</p>
+            </div>
+            <div class="dashboard-card">
+              <h3>{{ loansCount }}</h3>
+              <p>Total de Empréstimos</p>
+            </div>
+          </div>
         </section>
-      </main>
+      </div>
     </div>
-  </template>
-  
-  <script>
-  export default {
-    data() {
-      return {
-        isSidebarOpen: false,
-      };
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      sidebarOpen: false, // Estado para controlar a visibilidade da sidebar
+      booksCount: 100, // Exemplo de contagem de livros
+      usersCount: 50, // Exemplo de contagem de usuários
+      loansCount: 30, // Exemplo de contagem de empréstimos
+    };
+  },
+  methods: {
+    toggleSidebar() {
+      this.sidebarOpen = !this.sidebarOpen; // Alterna o estado da sidebar
     },
-    methods: {
-      toggleSidebar() {
-        this.isSidebarOpen = !this.isSidebarOpen;
-      },
-    },
-  };
-  </script>
-  
-  <style scoped>
-  /* Estilo para garantir consistência */
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Navbar */
-  .navbar {
-    background: #4285f4;
-    color: #fff;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-  }
-  
-  .hamburger {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 24px;
-    cursor: pointer;
-    margin-right: 15px;
-  }
-  
-  /* Sidebar */
-  .sidebar {
-    position: fixed;
-    top: 0;
-    left: -250px;
-    width: 250px;
-    height: 100%;
-    background: #3d5b99;
-    color: white;
-    padding: 20px;
-    transition: left 0.3s ease;
-    z-index: 1000;
-  }
-  .sidebar.open {
-    left: 0;
-  }
-  .sidebar ul {
-    list-style: none;
-    padding: 0;
-  }
-  .sidebar ul li {
-    margin: 20px 0;
-  }
-  .sidebar ul li a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 10px;
-    display: block;
-    transition: background-color 0.3s, transform 0.3s;
-  }
-  .sidebar ul li a:hover {
-    background-color: #2c4a77;
-    transform: scale(1.05);
-  }
-  
-  /* Botão de fechar o sidebar */
-  .sidebar-close {
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 20px;
-    cursor: pointer;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-  }
-  
-  /* Admin Panel */
-  .admin-panel {
-    margin-left: 0;
-    padding: 20px;
-    transition: margin-left 0.3s ease;
-    min-height: 100vh;
-    background-color: #f4f4f4;
-  }
-  .content-section {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    color: #333;
-    max-width: 800px;
-    margin: auto;
-  }
-  .content-section h2 {
-    font-size: 1.8em;
-    margin-bottom: 10px;
-  }
-  .content-section p {
-    font-size: 1.1em;
-    line-height: 1.6;
-  }
-  </style>
-  
+  },
+};
+</script>
+
+<style scoped>
+/* Resetando margens e padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Layout da página de admin */
+.admin-page {
+  font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-container {
+  display: flex;
+  flex: 1;
+  margin-left: 250px; /* Espaço para a sidebar */
+  padding: 20px;
+  width: 100%;
+  justify-content: center; /* Alinha o conteúdo no centro */
+}
+
+/* Estilo do header */
+.header {
+  background-color: #D32F2F;
+  color: white;
+  padding: 15px 20px;
+  text-align: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between; /* Distribui os itens */
+  align-items: center; /* Alinha os itens verticalmente */
+}
+
+/* Título do header */
+.header-title {
+  font-size: 24px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Ícone do menu */
+.menu-icon {
+  font-size: 30px;
+  cursor: pointer;
+  padding: 10px;
+  background-color: transparent;
+  border: none;
+  color: white; /* Cor branca */
+  transition: transform 0.3s ease-in-out;
+}
+
+.menu-icon:hover {
+  transform: scale(1.2); /* Aumenta um pouco o ícone ao passar o mouse */
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px; /* Inicialmente escondida à esquerda */
+  width: 250px;
+  height: 100%;
+  background-color: #B71C1C; /* Tom de vermelho mais escuro para combinar com o cabeçalho */
+  color: white;
+  padding: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: left 0.3s ease-in-out;
+}
+
+.sidebar.open {
+  left: 0; /* A sidebar desliza para a direita */
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 20px 0;
+  font-size: 18px;
+}
+
+.sidebar a {
+  color: white;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  transition: background-color 0.2s ease;
+  border-radius: 5px;
+}
+
+.sidebar a:hover {
+  background-color: #FF6F6F;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* Overlay de fundo */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+  display: none;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Estilo do conteúdo */
+.content {
+  width: 100%;
+  margin-top: 80px; /* Distância do topo para não sobrepor o header */
+  text-align: center;
+}
+
+.dashboard {
+  margin-top: 20px;
+}
+
+.dashboard h2 {
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Agrupando os cards */
+.dashboard-cards-container {
+  display: flex;
+  justify-content: center; /* Centraliza os cards */
+  gap: 20px; /* Espaçamento entre os cards */
+  flex-wrap: wrap; /* Permite que os cards se movam para a linha seguinte se necessário */
+  max-width: 1000px; /* Define um tamanho máximo para a área dos cards */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Estilo dos cards */
+.dashboard-card {
+  background-color: #FFEBEE;
+  padding: 20px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 250px; /* Limita o tamanho máximo do card */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.dashboard-card h3 {
+  font-size: 32px;
+  margin: 0;
+}
+
+.dashboard-card p {
+  font-size: 16px;
+  margin-top: 10px;
+}
+</style>
