@@ -1,6 +1,5 @@
 <template>
   <div class="home-page">
-    <!-- Incluindo o HeaderElement -->
     <HeaderElement />
 
     <!-- Saudação ao usuário -->
@@ -14,21 +13,18 @@
 
     <!-- Status de Empréstimos, Devoluções e Reservas -->
     <div class="status-cards">
-      <!-- Empréstimos -->
       <div class="status-card">
         <h3>Empréstimos Ativos</h3>
         <p class="status-number">3</p>
         <p class="status-info">Livros emprestados atualmente</p>
       </div>
 
-      <!-- Devoluções -->
       <div class="status-card">
         <h3>Devoluções Pendentes</h3>
         <p class="status-number">1</p>
         <p class="status-info">Livros aguardando devolução</p>
       </div>
 
-      <!-- Reservas -->
       <div class="status-card">
         <h3>Reservas</h3>
         <p class="status-number">2</p>
@@ -39,28 +35,32 @@
     <!-- Últimas Notícias -->
     <div class="news-section">
       <h3>Últimas Notícias</h3>
-      <ul>
-        <li>Catálogo de livros atualizado com novos títulos.</li>
-        <li>Evento de leitura de fim de semana, participe!</li>
-        <li>Novos livros de ficção científica chegaram à biblioteca.</li>
+      <ul class="news-list">
+        <li class="news-item">Catálogo de livros atualizado com novos títulos.</li>
+        <li class="news-item">Evento de leitura de fim de semana, participe!</li>
+        <li class="news-item">Novos livros de ficção científica chegaram à biblioteca.</li>
       </ul>
     </div>
 
     <!-- Atividade Recente -->
     <div class="recent-activity">
       <h3>Atividade Recente</h3>
-      <ul>
-        <li>Você reservou "A Arte da Programação".</li>
-        <li>Devolveu "Moby Dick".</li>
-        <li>Fez uma reserva para "1984".</li>
+      <ul class="recent-activity-list">
+        <li class="activity-item">Você reservou "A Arte da Programação".</li>
+        <li class="activity-item">Devolveu "Moby Dick".</li>
+        <li class="activity-item">Fez uma reserva para "1984".</li>
       </ul>
     </div>
 
     <!-- Destaque de Livro -->
     <div class="book-highlight">
       <h3>Destaque do Livro</h3>
+      
+      <!-- Card do Livro com Imagem Clicável -->
       <div class="book-card">
-        <img src="path/to/book-image.jpg" alt="Destaque do Livro" />
+        <router-link to='/book/8'>
+          <img src="/images/o_senhor_dos_aneis.jpg" alt="Destaque do Livro" />
+        </router-link>
         <div>
           <h4>"O Senhor dos Anéis"</h4>
           <p>Uma aventura épica na Terra Média. Não perca essa leitura!</p>
@@ -73,12 +73,12 @@
       <button @click="exploreCatalog">Explorar Catálogo de Livros</button>
       <button @click="reserveBook">Reservar Livro</button>
     </div>
+    
+    <FooterElement />
   </div>
-  <FooterElement />
 </template>
 
 <script>
-// Importando o HeaderElement e FooterElement
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
 
@@ -91,12 +91,10 @@ export default {
   },
   methods: {
     exploreCatalog() {
-      // Redireciona para a rota de produtos (catálogo de livros)
       this.$router.push("/produtos");
     },
     reserveBook() {
-      // Lógica para reservar um livro
-      this.$router.push("/reserve"); // Substitua "/reserve" pelo caminho real
+      this.$router.push("/reserve");
     }
   }
 }
@@ -107,8 +105,6 @@ export default {
 .home-page {
   background-color: #f4f6f8;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  
   color: #333;
 }
 
@@ -190,6 +186,8 @@ export default {
 .news-section {
   margin-bottom: 40px;
   text-align: center;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
 }
 
 .news-section h3 {
@@ -201,6 +199,8 @@ export default {
 .news-section ul {
   list-style: none;
   padding: 0;
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
 }
 
 .news-section li {
@@ -208,12 +208,19 @@ export default {
   color: #555;
   margin-bottom: 10px;
   line-height: 1.6;
+  transition: transform 0.3s ease;
+}
+
+.news-section li:hover {
+  transform: translateX(10px);
 }
 
 /* Seção de Atividade Recente */
 .recent-activity {
   margin-bottom: 40px;
   text-align: center;
+  opacity: 0;
+  animation: fadeIn 1s forwards;
 }
 
 .recent-activity h3 {
@@ -225,6 +232,8 @@ export default {
 .recent-activity ul {
   list-style: none;
   padding: 0;
+  opacity: 0;
+  animation: fadeIn 1.5s forwards;
 }
 
 .recent-activity li {
@@ -232,6 +241,11 @@ export default {
   color: #555;
   margin-bottom: 10px;
   line-height: 1.6;
+  transition: transform 0.3s ease;
+}
+
+.recent-activity li:hover {
+  transform: translateX(10px);
 }
 
 /* Destaque de Livro */
@@ -272,73 +286,44 @@ export default {
 
 .book-card h4 {
   font-size: 20px;
-  color: #333;
-  margin-bottom: 10px;
+  font-weight: 700;
+  color: #D32F2F;
 }
 
 .book-card p {
   font-size: 16px;
-  color: #777;
+  color: #555;
 }
 
-/* Seção de Botões de Ação */
+/* Botões de Ação */
 .action-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 40px;
+  text-align: center;
+  margin-top: 50px;
 }
 
 .action-buttons button {
   background-color: #D32F2F;
   color: white;
   border: none;
-  padding: 14px 32px;
-  border-radius: 8px;
+  padding: 12px 30px;
+  margin: 10px;
+  border-radius: 5px;
+  font-size: 16px;
   cursor: pointer;
-  font-size: 18px;
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .action-buttons button:hover {
   background-color: #B71C1C;
-  transform: translateY(-3px);
 }
 
-/* Media Queries para telas menores (responsividade) */
-@media (max-width: 768px) {
-  .status-card {
-    width: 100%;
-    max-width: 350px;
+/* Animação de fade-in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-
-  .status-cards {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .book-card {
-    flex-direction: column;
-  }
-
-  .action-buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-}
-
-@media (max-width: 480px) {
-  .page-title {
-    font-size: 24px;
-  }
-
-  .status-card {
-    width: 90%;
-    max-width: 400px;
-  }
-
-  .action-buttons button {
-    width: 100%;
+  to {
+    opacity: 1;
   }
 }
 </style>
