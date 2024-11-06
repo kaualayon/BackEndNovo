@@ -8,7 +8,7 @@ import FirstPage from '../views/FirstPage.vue';
 import BookDetail from '../views/BookDetail.vue';
 import AdminPage from '../views/AdminPage.vue';
 import AdminLogin from '../views/AdminLogin.vue';
-import CartPage from '../views/CartPage.vue';
+import UserProfile from '../views/UserProfile.vue';
 
 const routes = [
   {
@@ -78,13 +78,12 @@ const routes = [
     name: 'AdminLogin',
     component: AdminLogin,
   },
-
   {
  
   
-    path: '/cart',
-    name: 'CartPage',
-    component: CartPage,
+    path: '/perfil',
+    name: 'UserProfile',
+    component: UserProfile,
   },
   // Adicione mais rotas conforme necessário
 ];
