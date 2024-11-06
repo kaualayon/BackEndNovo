@@ -1,7 +1,5 @@
 <template>
   <div>
-
-
     <HeaderElement /> <!-- Uso do componente Header -->
     <div>
       <!-- Carrossel de Produtos em Destaque -->
@@ -98,8 +96,13 @@
 <script>
 import HeaderElement from '@/components/HeaderElement.vue';
 import '../assets/css/style.css';
+
 export default {
   name: 'HomePage',
+
+  components: {
+    HeaderElement
+  },
 
   data() {
     return {
@@ -119,7 +122,7 @@ export default {
         { src: '/images/marca2.png' },
         { src: '/images/marca3.jpg' },
       ],
-      cartCount: 0, // Contagem de itens no carrinho
+      cartCount: 0,
       formData: {
         firstname: '',
         lastname: '',
@@ -130,8 +133,8 @@ export default {
   },
 
   mounted() {
-    this.updateCartCount(); // Carrega a contagem de itens no carrinho
-    this.startCarousel(); // Inicia o carrossel automático
+    this.updateCartCount();
+    this.startCarousel();
   },
 
   methods: {
@@ -151,11 +154,10 @@ export default {
       this.formData.country = '';
       this.formData.subject = '';
     },
-
     startCarousel() {
       this.carouselInterval = setInterval(() => {
         this.nextSlide();
-      }, 3000); // Muda o slide a cada 3 segundos
+      }, 3000);
     },
     nextSlide() {
       this.currentSlide = (this.currentSlide + 1) % this.featuredProducts.length;
@@ -165,25 +167,18 @@ export default {
     },
     updateCartCount() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      this.cartCount = cart.length; // Atualiza a contagem de itens
+      this.cartCount = cart.length;
     },
     addToCart(book) {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
       cart.push(book);
       localStorage.setItem('cart', JSON.stringify(cart));
-      this.updateCartCount(); // Atualiza a contagem após adicionar
+      this.updateCartCount();
       alert(`${book.title} adicionado ao carrinho!`);
     },
-    
     logout() {
       this.$router.push('/login');
-    },
-
-    components: {
-    HeaderElement
-  }
+    }
   }
 };
-
-
 </script>
