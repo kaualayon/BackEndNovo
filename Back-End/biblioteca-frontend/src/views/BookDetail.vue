@@ -74,7 +74,26 @@ export default {
   data() {
     return {
       books: [
-        // Definição de livros como já estava antes
+        { id: 1, title: 'O Senhor dos Anéis', author: 'J.R.R. Tolkien', price: 15.99, rating: 4.8, reviewCount: 500, image: 'https://example.com/lotr.jpg', loans: [{ id: 1, user: 'João', date: '2024-10-01' }] },
+        { id: 2, title: 'Dom Quixote', author: 'Miguel de Cervantes', price: 12.50, rating: 4.7, reviewCount: 350, image: 'https://example.com/donquixote.jpg', loans: [{ id: 2, user: 'Lucas', date: '2024-09-20' }] },
+        { id: 3, title: '1984', author: 'George Orwell', price: 18.00, rating: 4.9, reviewCount: 800, image: 'https://example.com/1984.jpg', loans: [{ id: 3, user: 'Carlos', date: '2024-08-10' }] },
+        { id: 4, title: 'O Pequeno Príncipe', author: 'Antoine de Saint-Exupéry', price: 8.00, rating: 4.6, reviewCount: 250, image: 'https://example.com/pequenoprincipe.jpg', loans: [{ id: 4, user: 'Beatriz', date: '2024-07-05' }] },
+        { id: 5, title: 'Harry Potter e a Pedra Filosofal', author: 'J.K. Rowling', price: 20.00, rating: 4.8, reviewCount: 1000, image: 'https://example.com/harrypotter1.jpg', loans: [{ id: 5, user: 'Eduardo', date: '2024-06-20' }] },
+        { id: 6, title: 'A Revolução dos Bichos', author: 'George Orwell', price: 10.50, rating: 4.7, reviewCount: 600, image: 'https://example.com/revolucaobichos.jpg', loans: [{ id: 6, user: 'Juliana', date: '2024-05-15' }] },
+        { id: 7, title: 'O Hobbit', author: 'J.R.R. Tolkien', price: 14.99, rating: 4.9, reviewCount: 750, image: 'https://example.com/hobbit.jpg', loans: [{ id: 7, user: 'Fernanda', date: '2024-04-10' }] },
+        { id: 8, title: 'Cem Anos de Solidão', author: 'Gabriel García Márquez', price: 22.00, rating: 4.9, reviewCount: 1200, image: 'https://example.com/cemanosdesolidão.jpg', loans: [{ id: 8, user: 'Rafael', date: '2024-03-01' }] },
+        { id: 9, title: 'A Menina que Roubava Livros', author: 'Markus Zusak', price: 16.50, rating: 4.8, reviewCount: 650, image: 'https://example.com/meninadaroubalivros.jpg', loans: [{ id: 9, user: 'Gabriela', date: '2024-02-10' }] },
+        { id: 10, title: 'O Código Da Vinci', author: 'Dan Brown', price: 25.00, rating: 4.7, reviewCount: 500, image: 'https://example.com/codigodavinci.jpg', loans: [{ id: 10, user: 'Felipe', date: '2024-01-15' }] },
+        { id: 11, title: 'O Processo', author: 'Franz Kafka', price: 12.00, rating: 4.6, reviewCount: 300, image: 'https://example.com/processo.jpg', loans: [{ id: 11, user: 'Alana', date: '2024-01-10' }] },
+        { id: 12, title: 'A Metamorfose', author: 'Franz Kafka', price: 9.00, rating: 4.8, reviewCount: 450, image: 'https://example.com/metamorfose.jpg', loans: [{ id: 12, user: 'Luana', date: '2023-12-20' }] },
+        { id: 13, title: 'Orgulho e Preconceito', author: 'Jane Austen', price: 18.00, rating: 4.9, reviewCount: 800, image: 'https://example.com/orgulhoepreconceito.jpg', loans: [{ id: 13, user: 'Joana', date: '2023-11-25' }] },
+        { id: 14, title: 'O Grande Gatsby', author: 'F. Scott Fitzgerald', price: 17.00, rating: 4.6, reviewCount: 700, image: 'https://example.com/grandegatsby.jpg', loans: [{ id: 14, user: 'Marcos', date: '2023-11-15' }] },
+        { id: 15, title: 'Domínio Público', author: 'Vários', price: 5.00, rating: 4.5, reviewCount: 400, image: 'https://example.com/dominiopublico.jpg', loans: [{ id: 15, user: 'Ricardo', date: '2023-10-10' }] },
+        { id: 16, title: 'O Corcunda de Notre-Dame', author: 'Victor Hugo', price: 15.00, rating: 4.7, reviewCount: 600, image: 'https://example.com/corcundadenotredame.jpg', loans: [{ id: 16, user: 'Clara', date: '2023-09-05' }] },
+        { id: 17, title: 'Frankenstein', author: 'Mary Shelley', price: 13.00, rating: 4.6, reviewCount: 500, image: 'https://example.com/frankenstein.jpg', loans: [{ id: 17, user: 'Pedro', date: '2023-08-15' }] },
+        { id: 18, title: 'Drácula', author: 'Bram Stoker', price: 16.00, rating: 4.8, reviewCount: 700, image: 'https://example.com/dracula.jpg', loans: [{ id: 18, user: 'Mariana', date: '2023-07-20' }] },
+        { id: 19, title: 'O Retrato de Dorian Gray', author: 'Oscar Wilde', price: 14.00, rating: 4.7, reviewCount: 550, image: 'https://example.com/retratodoriangray.jpg', loans: [{ id: 19, user: 'Júlia', date: '2023-06-10' }] },
+        { id: 20, title: 'As Aventuras de Sherlock Holmes', author: 'Arthur Conan Doyle', price: 19.00, rating: 4.9, reviewCount: 900, image: 'https://example.com/sherlockholmes.jpg', loans: [{ id: 20, user: 'Ricardo', date: '2023-05-05' }] }
       ],
       book: null,
       userReview: '',

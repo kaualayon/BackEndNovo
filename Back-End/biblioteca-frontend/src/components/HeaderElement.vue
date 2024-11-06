@@ -26,6 +26,8 @@
         <li><router-link to="/contato">Notificações</router-link></li>
         <li><router-link to="/perfil">Conta</router-link></li>
       </ul>
+      <!-- Botão de Logout posicionado no canto inferior -->
+      <button class="logout-btn" @click="logout">Sair</button>
     </div>
     
     <!-- Sobreposição do fundo quando a sidebar está aberta -->
@@ -43,6 +45,14 @@ export default {
   methods: {
     toggleSidebar() {
       this.sidebarOpen = !this.sidebarOpen; // Alterna o estado da sidebar
+    },
+    logout() {
+      // Lógica para deslogar o usuário
+      console.log("Usuário deslogado");
+      // Limpar os dados de login (exemplo com localStorage)
+      localStorage.removeItem('user'); // Caso tenha usado o localStorage para armazenar o usuário
+      // Redireciona para a página de login
+      this.$router.push('/login');
     },
   },
 };
@@ -191,5 +201,25 @@ export default {
 .overlay.active {
   display: block;
   opacity: 1; /* Mostra o fundo quando a sidebar está aberta */
+}
+
+/* Estilo para o botão de logout */
+.logout-btn {
+  background-color: #FF6F6F; /* Cor de fundo do botão */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: auto; /* Isso garante que o botão fique na parte inferior */
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  position: absolute;
+  bottom: 20px; /* Ajusta a posição para o fundo */
+  left: 50%;
+  transform: translateX(-50%); /* Centraliza o botão horizontalmente */
+}
+
+.logout-btn:hover {
+  background-color: #D32F2F; /* Cor mais forte de vermelho ao passar o mouse */
 }
 </style>
