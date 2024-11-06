@@ -6,6 +6,9 @@
     <!-- Título do Catálogo de Livros -->
     <h2 class="page-title">Catálogo de Livros</h2>
 
+    <!-- Exibindo o formulário para adicionar livro -->
+    <BookForm @bookAdded="addBookToCatalog" />
+
     <!-- Catálogo de Livros -->
     <div class="book-catalog">
       <div v-if="books.length === 0" class="no-books">
@@ -33,10 +36,11 @@
 // Importando o HeaderElement
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
+import BookForm from "@/views/BookForm.vue"; // Importa o formulário
 
 export default {
   components: {
-    HeaderElement, FooterElement
+    HeaderElement, FooterElement, BookForm
   },
   data() {
     return {
@@ -70,7 +74,11 @@ export default {
       console.log(`Visualizando detalhes do livro com ID: ${bookId}`);
       // Lógica para redirecionar para a página de detalhes do livro, por exemplo:
       this.$router.push(`/book/${bookId}`);
-    }
+    },
+    // Método para adicionar o livro ao catálogo quando o evento for emitido
+    addBookToCatalog(newBook) {
+      this.books.push(newBook); // Adiciona o novo livro à lista de livros
+    },
   }
 }
 </script>

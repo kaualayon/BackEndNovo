@@ -72,9 +72,9 @@ export default {
       try {
         const response = await axios.post('http://localhost:5000/api/books/add', this.book);
         if (response.status === 201) {
+          this.$emit('bookAdded', response.data.book); // Emite o evento com o livro adicionado
           alert("Livro adicionado com sucesso!");
-          this.updateCatalog(response.data.book); // Atualiza o catálogo com o novo livro
-          this.clearForm(); // Limpa o formulário após adicionar o livro
+          this.clearForm();
         }
       } catch (error) {
         console.error("Erro ao adicionar o livro:", error);
