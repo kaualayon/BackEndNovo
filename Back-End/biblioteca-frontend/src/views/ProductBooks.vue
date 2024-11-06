@@ -80,6 +80,7 @@ export default {
 .catalog-page {
   background-color: #f9f9f9;
   box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 /* Título do catálogo */
