@@ -20,10 +20,10 @@
     <div :class="{'sidebar': true, 'open': sidebarOpen}">
       <button class="close-btn" @click="toggleSidebar">X</button>
       <ul>
-        <li><router-link to="/home">Home</router-link></li>
-        <li><router-link to="/produtos">Produtos</router-link></li>
-        <li><router-link to="/sobre">Sobre</router-link></li>
-        <li><router-link to="/contato">Contato</router-link></li>
+        <li><router-link to="/home">Dashboard</router-link></li>
+        <li><router-link to="/produtos">Catálogo de Livros</router-link></li>
+        <li><router-link to="/sobre">Relatórios e Estatísticas</router-link></li>
+        <li><router-link to="/contato">Notificações</router-link></li>
       </ul>
     </div>
     
