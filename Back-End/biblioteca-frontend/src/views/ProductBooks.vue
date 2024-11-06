@@ -1,88 +1,43 @@
 <template>
-  <div>
-    <!-- Sidebar -->
-    <aside :class="{'sidebar': true, 'open': sidebarOpen}">
-      <ul>
-        <li><router-link to="/home" @click="toggleSidebar">Início</router-link></li>
-        <li><router-link to="/sobre" @click="toggleSidebar">Sobre</router-link></li>
-      </ul>
-    </aside>
+  <div class="catalog-page">
+    <!-- Incluindo o HeaderElement -->
+    <HeaderElement />
 
-    <!-- Navbar with hamburger icon -->
-    <header class="navbar">
-      <button @click="toggleSidebar" class="hamburger">
-        ☰
-      </button>
-      <h1>MANGE BOOK</h1>
-      <router-link to="/cart" class="cart-icon">
-        <i class="fa fa-shopping-cart"></i>
-        <span class="cart-count">{{ cartCount }}</span> <!-- Mostra a contagem de itens -->
-      </router-link>
-      <button @click="logout" class="logout-button">Sair</button>
-    </header>
+    <!-- Título do Catálogo de Livros -->
+    <h2 class="page-title">Catálogo de Livros</h2>
 
-
-    <header class="section-1">
-      <h1>Livros Disponíveis</h1>
-      <input
-        type="text" class="pesquisar-livros"
-        placeholder="Pesquisar livros..."
-        v-model="searchQuery"
-        @input="filterBooks"
-      />
-    </header>
-
-    <section class="section-2">
-      <h2>Resultados da Busca</h2>
-      <div class="gallery">
-        <div
-          class="image-holder"
-          v-for="book in filteredBooks"
-          :key="book.id"
-        >
-          <router-link :to="`/book/${book.id}`">
-            <img :src="book.image" :alt="book.title" />
-            <p>{{ book.title }}</p>
-            <p>Autor: {{ book.author }}</p>
-          </router-link>
+    <!-- Catálogo de Livros -->
+    <div class="book-catalog">
+      <div v-if="books.length === 0" class="no-books">
+        <p>Não há livros disponíveis no catálogo.</p>
+      </div>
+      <div v-else>
+        <div class="book-list">
+          <div class="book-card" v-for="book in books" :key="book.id">
+            <div class="book-image">
+              <img :src="book.image" alt="Capa do livro" />
+            </div>
+            <h4>{{ book.title }}</h4>
+            <p>{{ book.author }}</p>
+            <button @click="viewBookDetails(book.id)">Ver Detalhes</button>
+          </div>
         </div>
       </div>
-    </section>
-  </div>
-
-  <footer class="footer">
-      <div class="footer-content">
-        <div class="footer-left">
-          <h4>MANGE BOOK</h4>
-          <p>© 2024 Todos os direitos reservados.</p>
-        </div>
-        <div class="footer-middle">
-          <ul>
-            <li><router-link to="/home">Início</router-link></li>
-            <li><router-link to="/sobre">Sobre</router-link></li>
-          </ul>
-        </div>
-        <div class="footer-right">
-      <p>Siga-nos:</p>
-      <a><img src="/images/logofacebook.png" alt="Facebook" /></a>
-      <a><img src="/images/logotwitter.png" alt="Twitter" /></a>
-      <a><img src="/images/logoinstagram.png" alt="Instagram" /></a>
     </div>
-      </div>
-    </footer>
-
+  </div>
 </template>
 
 <script>
-import '../assets/css/style.css';
-
-
+// Importando o HeaderElement
+import HeaderElement from "@/components/HeaderElement.vue";
 
 export default {
+  components: {
+    HeaderElement
+  },
   data() {
     return {
-      sidebarOpen: false,
-      searchQuery: '',
+      // Lista de livros com imagens para o catálogo
       books: [
         { id: 1, title: 'O Alquimista', author: 'Paulo Coelho', image: './images/o_alquimista.jpg' },
         { id: 2, title: '1984', author: 'George Orwell', image: './images/1984.jpg' },
@@ -105,46 +60,129 @@ export default {
         { id: 19, title: 'A Insustentável Leveza do Ser', author: 'Milan Kundera', image: './images/a_insustentavel_leveza_do_ser.jpg' },
         { id: 20, title: 'O Código Da Vinci', author: 'Dan Brown', image: './images/o_codigo_da_vinci.jpg' },
       ],
-      filteredBooks: [],
-      cartCount: 0, // Contagem de itens no carrinho
     };
   },
   methods: {
-    filterBooks() {
-      this.filteredBooks = this.books.filter((book) =>
-        book.title.toLowerCase().includes(this.searchQuery.toLowerCase())
-      );
-    },
-    updateCartCount() {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      this.cartCount = cart.length; // Atualiza a contagem de itens
-    },
-    addToCart(book) {
-      const cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push(book);
-      localStorage.setItem('cart', JSON.stringify(cart));
-      this.updateCartCount(); // Atualiza a contagem após adicionar
-      alert(`${book.title} adicionado ao carrinho!`);
-    },
-    toggleSidebar() {
-      this.sidebarOpen = !this.sidebarOpen;
-    },
-
-    logout() {
-    this.$router.push('/login'); // Redireciona para a página de login
-  },
-    
-  },
-  mounted() {
-    this.updateCartCount(); // Carrega a contagem de itens no carrinho
-    this.filteredBooks = this.books; // Inicialmente, exibir todos os livros
-  },
-};
+    viewBookDetails(bookId) {
+      console.log(`Visualizando detalhes do livro com ID: ${bookId}`);
+      // Lógica para redirecionar para a página de detalhes do livro, por exemplo:
+      this.$router.push(`/book/${bookId}`);
+    }
+  }
+}
 </script>
 
 <style scoped>
-.pesquisar-livros { /* Adicione a classe do elemento aqui */
-    position: relative; /* Para que os elementos fiquem acima da sobreposição */
-    z-index: 2; /* Coloca os elementos acima da sobreposição */
+/* Estilo geral da página de catálogo */
+.catalog-page {
+  background-color: #f9f9f9;
+  box-sizing: border-box;
+}
+
+/* Título do catálogo */
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #D32F2F;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Seção de Catálogo de Livros */
+.book-catalog {
+  margin-top: 40px;
+}
+
+.book-catalog h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Layout do catálogo de livros */
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.book-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.book-card:hover {
+  transform: scale(1.05);
+}
+
+.book-card h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.book-card p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.book-card button {
+  background-color: #D32F2F;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-card button:hover {
+  background-color: #B71C1C;
+}
+
+.book-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Seção sem livros */
+.no-books {
+  text-align: center;
+  font-size: 16px;
+  color: #777;
+}
+
+/* Media Queries para telas menores (responsividade) */
+@media (max-width: 768px) {
+  .book-card {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .book-list {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 24px;
+  }
+
+  .book-card {
+    width: 90%;
+    max-width: 400px;
+  }
 }
 </style>
