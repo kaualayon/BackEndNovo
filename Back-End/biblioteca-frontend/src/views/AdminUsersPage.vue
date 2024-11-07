@@ -14,16 +14,18 @@
         </div>
       </div>
     </div>
+    <FooterAdmin />
   </template>
   
   <script>
   import HeaderAdmin from "@/components/HeaderAdmin.vue";
+  import FooterAdmin from "@/components/FooterAdmin.vue";
   import axios from 'axios';
   
   export default {
 
     components: {
-      HeaderAdmin
+      HeaderAdmin, FooterAdmin
     },
     data() {
       return {

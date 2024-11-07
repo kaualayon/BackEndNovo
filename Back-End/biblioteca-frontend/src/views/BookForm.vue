@@ -31,7 +31,7 @@
       <button type="submit" class="form-button">{{ isEditing ? "Salvar Alterações" : "Adicionar Livro" }}</button>
     </form>
   </div>
-  <FooterElement />
+  <FooterAdmin />
 </template>
 
 
@@ -39,12 +39,12 @@
 import axios from 'axios';
 // Importa os componentes HeaderElement e FooterElement
 import HeaderAdmin from '@/components/HeaderAdmin.vue';
-import FooterElement from '@/components/FooterElement.vue';
+import FooterAdmin from '@/components/FooterAdmin.vue';
 
 export default {
   name: "BookForm",
   components: {
-    HeaderAdmin, FooterElement
+    HeaderAdmin, FooterAdmin
   },
   data() {
     return {

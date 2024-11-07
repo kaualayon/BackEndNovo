@@ -27,14 +27,16 @@
         </section>
       </div>
     </div>
+    <FooterAdmin />
 </template>
 
 <script>
 import HeaderAdmin from "@/components/HeaderAdmin.vue";
+import FooterAdmin from "@/components/FooterAdmin.vue";
 
 export default {
   components: {
-    HeaderAdmin,
+    HeaderAdmin, FooterAdmin
   },
 
   data() {
