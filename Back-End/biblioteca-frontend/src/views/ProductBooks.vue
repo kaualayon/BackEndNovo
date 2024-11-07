@@ -69,6 +69,10 @@ export default {
       ],
     };
   },
+
+  created() {
+    this.loadBooksFromStorage(); // Carregar os livros do localStorage quando a página for carregada
+  },
   methods: {
     viewBookDetails(bookId) {
       console.log(`Visualizando detalhes do livro com ID: ${bookId}`);
@@ -78,7 +82,20 @@ export default {
     // Método para adicionar o livro ao catálogo quando o evento for emitido
     addBookToCatalog(newBook) {
       this.books.push(newBook); // Adiciona o novo livro à lista de livros
+      this.saveBooksToStorage(); // Salva a lista atualizada de livros no localStorage
     },
+
+    // Salvar os livros no localStorage
+    saveBooksToStorage() {
+      localStorage.setItem('books', JSON.stringify(this.books)); // Converte os livros para string e salva no localStorage
+    },
+    // Carregar os livros do localStorage
+    loadBooksFromStorage() {
+      const books = localStorage.getItem('books');
+      if (books) {
+        this.books = JSON.parse(books); // Converte a string de volta para um array de objetos
+      }
+    }
   }
 }
 </script>
