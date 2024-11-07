@@ -1,53 +1,51 @@
 <template>
-  <div class="book-form">
-    <!-- Título da Página -->
-    <h1>{{ isEditing ? "Editar Livro" : "Adicionar Livro" }}</h1>
+  <HeaderElement />
+  <div class="form-container">
+    <h1 class="form-title">{{ isEditing ? "Editar Livro" : "Adicionar Livro" }}</h1>
 
-    <!-- Formulário de Adição/Edição -->
     <form @submit.prevent="submitForm">
-      <!-- Campo Título -->
-      <label for="title">Título:</label>
-      <input type="text" id="title" v-model="book.title" required />
+      <label for="title" class="form-label">Título:</label>
+      <input type="text" id="title" v-model="book.title" class="form-input" required />
 
-      <!-- Campo Autor -->
-      <label for="author">Autor:</label>
-      <input type="text" id="author" v-model="book.author" required />
+      <label for="author" class="form-label">Autor:</label>
+      <input type="text" id="author" v-model="book.author" class="form-input" required />
 
-      <!-- Campo Descrição -->
-      <label for="description">Descrição:</label>
-      <textarea id="description" v-model="book.description" rows="4" required></textarea>
+      <label for="description" class="form-label">Descrição:</label>
+      <textarea id="description" v-model="book.description" class="form-textarea" rows="4" required></textarea>
 
-      <!-- Campo Ano de Publicação -->
-      <label for="publicationYear">Ano de Publicação:</label>
-      <input type="number" id="publicationYear" v-model="book.publicationYear" min="0" required />
+      <label for="publicationYear" class="form-label">Ano de Publicação:</label>
+      <input type="number" id="publicationYear" v-model="book.publicationYear" class="form-input" min="0" required />
 
-      <!-- Campo Gênero -->
-      <label for="genre">Gênero:</label>
-      <input type="text" id="genre" v-model="book.genre" required />
+      <label for="genre" class="form-label">Gênero:</label>
+      <input type="text" id="genre" v-model="book.genre" class="form-input" required />
 
-      <!-- Campo ISBN -->
-      <label for="isbn">ISBN:</label>
-      <input type="text" id="isbn" v-model="book.isbn" required />
+      <label for="isbn" class="form-label">ISBN:</label>
+      <input type="text" id="isbn" v-model="book.isbn" class="form-input" required />
 
-      <!-- Campo Número de Cópias Disponíveis -->
-      <label for="copiesAvailable">Número de Cópias Disponíveis:</label>
-      <input type="number" id="copiesAvailable" v-model="book.copiesAvailable" min="0" required />
+      <label for="copiesAvailable" class="form-label">Número de Cópias Disponíveis:</label>
+      <input type="number" id="copiesAvailable" v-model="book.copiesAvailable" class="form-input" min="0" required />
 
-      <!-- Campo Imagem de Capa -->
-      <label for="image">Imagem de Capa</label>
-      <input type="file" @change="handleImageUpload" id="image" accept="image/*" required />
+      <label for="image" class="form-label">Imagem de Capa</label>
+      <input type="file" @change="handleImageUpload" id="image" class="form-input" accept="image/*" required />
 
-      <!-- Botão de Envio -->
-      <button type="submit">{{ isEditing ? "Salvar Alterações" : "Adicionar Livro" }}</button>
+      <button type="submit" class="form-button">{{ isEditing ? "Salvar Alterações" : "Adicionar Livro" }}</button>
     </form>
   </div>
+  <FooterElement />
 </template>
+
 
 <script>
 import axios from 'axios';
+// Importa os componentes HeaderElement e FooterElement
+import HeaderElement from '@/components/HeaderElement.vue';
+import FooterElement from '@/components/FooterElement.vue';
 
 export default {
   name: "BookForm",
+  components: {
+    HeaderElement, FooterElement
+  },
   data() {
     return {
       isEditing: false, // Define como true se estiver editando um livro
@@ -131,8 +129,8 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos baseados no CSS do site */
-.book-form {
+/* Estilos gerais */
+.form-container {
   background-color: #f9f9f9;
   padding: 20px;
   max-width: 600px;
@@ -141,21 +139,24 @@ export default {
   color: #333;
 }
 
-.book-form h1 {
+/* Estilo do título (h1) */
+.form-title {
   font-size: 28px;
   color: #D32F2F;
   text-align: center;
   margin-bottom: 20px;
 }
 
-.book-form label {
+/* Estilo dos rótulos (labels) */
+.form-label {
   font-weight: bold;
   color: #333;
   margin-bottom: 5px;
+  display: block; /* Garante que os labels ocupem uma linha completa */
 }
 
-.book-form input,
-.book-form textarea {
+/* Estilos dos campos de entrada (input) */
+.form-input {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
@@ -164,7 +165,19 @@ export default {
   font-size: 16px;
 }
 
-.book-form button {
+/* Estilo da área de texto (textarea) */
+.form-textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  resize: vertical; /* Permite redimensionar apenas na vertical */
+}
+
+/* Estilos do botão */
+.form-button {
   background-color: #D32F2F;
   color: white;
   padding: 10px 15px;
@@ -176,7 +189,7 @@ export default {
   transition: background-color 0.3s ease;
 }
 
-.book-form button:hover {
+.form-button:hover {
   background-color: #B71C1C;
 }
 </style>
