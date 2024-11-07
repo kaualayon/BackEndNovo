@@ -1,5 +1,5 @@
 <template>
-  <HeaderElement />
+  <HeaderAdmin />
   <div class="form-container">
     <h1 class="form-title">{{ isEditing ? "Editar Livro" : "Adicionar Livro" }}</h1>
 
@@ -38,13 +38,13 @@
 <script>
 import axios from 'axios';
 // Importa os componentes HeaderElement e FooterElement
-import HeaderElement from '@/components/HeaderElement.vue';
+import HeaderAdmin from '@/components/HeaderAdmin.vue';
 import FooterElement from '@/components/FooterElement.vue';
 
 export default {
   name: "BookForm",
   components: {
-    HeaderElement, FooterElement
+    HeaderAdmin, FooterElement
   },
   data() {
     return {
@@ -132,7 +132,7 @@ export default {
 /* Estilos gerais */
 .form-container {
   background-color: #f9f9f9;
-  padding: 20px;
+  padding: 135px;
   max-width: 600px;
   margin: 0 auto;
   font-family: Arial, sans-serif;

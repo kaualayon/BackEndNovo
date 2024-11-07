@@ -1,4 +1,5 @@
 <template>
+    <HeaderAdmin />
     <div class="admin-users-page">
       <h2>Gerenciamento de Usuários</h2>
       <div v-if="users.length === 0" class="no-users">
@@ -16,9 +17,14 @@
   </template>
   
   <script>
+  import HeaderAdmin from "@/components/HeaderAdmin.vue";
   import axios from 'axios';
   
   export default {
+
+    components: {
+      HeaderAdmin
+    },
     data() {
       return {
         users: [], // Stores all users
@@ -75,7 +81,7 @@
   .admin-users-page {
     max-width: 600px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 150px;
     background-color: #f9f9f9;
   }
   

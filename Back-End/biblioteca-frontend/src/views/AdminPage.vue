@@ -1,26 +1,8 @@
 <template>
+<HeaderAdmin />
+
   <div class="admin-page">
-    <!-- Header -->
-    <header class="header">
-      <h1 class="header-title">Administração - Mange Book</h1>
-      <!-- Ícone de menu para abrir a sidebar -->
-      <div class="menu-icon" @click="toggleSidebar">☰</div>
-    </header>
-
-    <!-- Conteúdo principal -->
-    <div class="main-container">
-      <!-- Sidebar -->
-      <div :class="{'sidebar': true, 'open': sidebarOpen}">
-        <button class="close-btn" @click="toggleSidebar">X</button>
-        <ul>
-          <li><router-link to="/admin">Dashboard</router-link></li>
-          <li><router-link to="/bookForm">Adicionar Livros</router-link></li>
-          <li><router-link to="/adminUsersPage">Gerenciar Usuários</router-link></li>
-        </ul>
-      </div>
-
-      <!-- Overlay -->
-      <div v-if="sidebarOpen" class="overlay" @click="toggleSidebar"></div>
+    
 
       <!-- Dashboard Content -->
       <div class="content">
@@ -45,11 +27,16 @@
         </section>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
+import HeaderAdmin from "@/components/HeaderAdmin.vue";
+
 export default {
+  components: {
+    HeaderAdmin,
+  },
+
   data() {
     return {
       sidebarOpen: false,
@@ -77,6 +64,7 @@ export default {
 /* Layout da página de admin */
 .admin-page {
   font-family: Arial, sans-serif;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
