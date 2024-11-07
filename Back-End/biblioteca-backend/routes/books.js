@@ -25,8 +25,7 @@ router.post('/api/books/add', upload.single('image'), async (req, res) => {
     try {
         const { title, author, description, publicationYear, genre, isbn, availableCopies } = req.body;
 
-        // Obtém o caminho da imagem (caso tenha sido enviada)
-        const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+        const image = req.file;
 
         const newBook = new Book({
             title,
@@ -36,7 +35,7 @@ router.post('/api/books/add', upload.single('image'), async (req, res) => {
             genre,
             isbn,
             availableCopies,
-            image: imagePath // Salva o caminho da imagem no banco de dados
+            imageUrl: image ? `/uploads/${image.filename}` : null, // Caminho da imagem salva
         });
 
         await newBook.save();

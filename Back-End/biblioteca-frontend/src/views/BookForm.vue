@@ -97,6 +97,7 @@ export default {
           this.$emit('bookAdded', response.data.book); // Emite o evento com o livro adicionado
           alert("Livro adicionado com sucesso!");
           this.clearForm();
+          this.$parent.addBookToCatalog(response.data.book);
         }
       } catch (error) {
         console.error("Erro ao adicionar o livro:", error);
@@ -107,6 +108,7 @@ export default {
     handleImageUpload(event) {
       const file = event.target.files[0];
       if (file) {
+        console.log('Imagem selecionada:', file); // Verifique se o arquivo está correto
         this.book.image = file; // Agora estamos armazenando o arquivo de imagem
       }
     },
