@@ -7,7 +7,7 @@
         <div class="footer-links">
           <ul>
             <li><a href="/admin">Dashboard</a></li>
-            <li><a href="/produtos">Catálogo de Livros</a></li>
+            <li><a href="/produtosAdmin">Catálogo de Livros</a></li>
           </ul>
         </div>
       </div>

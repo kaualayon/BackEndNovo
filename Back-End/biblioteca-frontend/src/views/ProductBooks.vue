@@ -1,7 +1,10 @@
 <template>
+
+  <!-- Incluindo o HeaderElement -->
+  <HeaderElement />
+  
   <div class="catalog-page">
-    <!-- Incluindo o HeaderElement -->
-    <HeaderElement />
+    
 
     <!-- Título do Catálogo de Livros -->
     <h2 class="page-title">Catálogo de Livros</h2>

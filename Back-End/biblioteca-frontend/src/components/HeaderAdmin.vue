@@ -9,6 +9,7 @@
         <button class="close-btn" @click="toggleSidebar">X</button>
         <ul>
           <li><router-link to="/admin">Dashboard</router-link></li>
+          <li><router-link to="/produtosAdmin">Catálogo de livros</router-link></li>
           <li><router-link to="/bookForm">Adicionar Livros</router-link></li>
           <li><router-link to="/adminUsersPage">Gerenciar Usuários</router-link></li>
         </ul>
