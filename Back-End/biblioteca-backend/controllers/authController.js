@@ -1,5 +1,10 @@
-const bcrypt = require('bcrypt');
-const User = require('../models/User'); // Certifique-se de que o modelo User está configurado corretamente
+const express = require('express');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('../models/User');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Função para registrar o usuário
 const registerUser = async (req, res) => {
@@ -28,4 +33,38 @@ const registerUser = async (req, res) => {
   }
 };
 
-module.exports = { registerUser };
+// Função para gerar o token JWT
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: '30d',
+  });
+};
+
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ message: 'E-mail ou senha inválidos.' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: 'E-mail ou senha inválidos.' });
+    }
+
+    const token = generateToken(user._id);
+
+    res.status(200).json({
+      message: 'Login realizado com sucesso!',
+      token,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Erro no servidor' });
+  }
+};
+
+module.exports = { registerUser, loginUser };

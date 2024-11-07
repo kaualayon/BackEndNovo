@@ -12,7 +12,7 @@
       <label for="password">Senha</label>
       <input type="password" id="password" v-model="formData.password" placeholder="Digite sua senha" required>
 
-      <input type="submit" value="Entrar">
+      <input type="submit" value="Entrar" :disabled="loading">
     </form>
 
     <div class="message">
@@ -21,10 +21,15 @@
         Entrar como admin? <router-link to="/AdminLogin">Entrar como admin</router-link>
       </p>
     </div>
+
+    <!-- Mensagem de erro -->
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'LoginPage',
 
@@ -33,17 +38,33 @@ export default {
       formData: {
         email: '',
         password: ''
-      }
+      },
+      loading: false,
+      errorMessage: '' // Armazena mensagens de erro
     };
   },
 
   methods: {
-    handleLogin() {
-      // Sem validação ou envio de dados
-      alert("Login realizado com sucesso!");
-      
-      // Redireciona para a página inicial (ou para onde o login deveria redirecionar)
-      this.$router.push('/home');
+    async handleLogin() {
+      this.loading = true;
+      this.errorMessage = ''; // Limpa qualquer mensagem de erro anterior
+
+      try {
+        // Envia os dados de login para o servidor
+        const response = await axios.post('http://localhost:5000/api/auth/login', this.formData);
+
+        // Se o login for bem-sucedido, armazena o token JWT (se aplicável)
+        localStorage.setItem('authToken', response.data.token);
+
+        // Redireciona para a página inicial ou para uma página protegida
+        this.$router.push('/home');
+      } catch (error) {
+        // Exibe uma mensagem de erro caso o login falhe
+        this.errorMessage = 'E-mail ou senha inválidos.';
+        console.error('Erro no login:', error);
+      } finally {
+        this.loading = false; // Desativa o loading após a requisição
+      }
     }
   }
 };
@@ -157,5 +178,13 @@ export default {
 
 .message a:hover {
   text-decoration: underline;
+}
+
+/* Estilo para a mensagem de erro */
+.error-message {
+  color: red;
+  font-size: 1em;
+  text-align: center;
+  margin-top: 15px;
 }
 </style>
