@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');
-const authRoutes = require('./routes/auth');
+const authRoutes = require('./routes/authRoutes');
 const bodyParser = require('body-parser');
 const bookRoutes = require('./routes/books');
 const dotenv = require('dotenv');
@@ -21,6 +21,8 @@ app.use('/api/books', bookRoutes);
 
 
 app.use('/api/auth', authRoutes); // Rotas de autenticação
+
+app.use('/api/users', authRoutes);
 
 
 

@@ -11,6 +11,7 @@ import AdminLogin from '../views/AdminLogin.vue';
 import UserProfile from '../views/UserProfile.vue';
 import NotificationPage from '../views/NotificationPage.vue';
 import BookForm from '../views/BookForm.vue';
+import AdminUsersPage from '../views/AdminUsersPage.vue';
 
 const routes = [
   {
@@ -102,6 +103,14 @@ const routes = [
     path: '/bookForm',
     name: 'BookForm',
     component: BookForm,
+  },
+
+  {
+ 
+  
+    path: '/adminUsersPage',
+    name: 'adminUsersPage',
+    component: AdminUsersPage,
   },
   // Adicione mais rotas conforme necessário
 ];
