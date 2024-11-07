@@ -46,26 +46,26 @@ export default {
 
   methods: {
     async handleLogin() {
-      this.loading = true;
-      this.errorMessage = ''; // Limpa qualquer mensagem de erro anterior
+  this.loading = true;
+  this.errorMessage = ''; // Limpa qualquer mensagem de erro anterior
 
-      try {
-        // Envia os dados de login para o servidor
-        const response = await axios.post('http://localhost:5000/api/auth/login', this.formData);
+  try {
+    // Envia os dados de login para o servidor
+    const response = await axios.post('http://localhost:5000/api/auth/login', this.formData);
 
-        // Se o login for bem-sucedido, armazena o token JWT (se aplicável)
-        localStorage.setItem('authToken', response.data.token);
+    // Se o login for bem-sucedido, armazena o token JWT (se aplicável)
+    localStorage.setItem('authToken', response.data.token);
 
-        // Redireciona para a página inicial ou para uma página protegida
-        this.$router.push('/home');
-      } catch (error) {
-        // Exibe uma mensagem de erro caso o login falhe
-        this.errorMessage = 'E-mail ou senha inválidos.';
-        console.error('Erro no login:', error);
-      } finally {
-        this.loading = false; // Desativa o loading após a requisição
-      }
-    }
+    // Redireciona para a página inicial ou para uma página protegida
+    this.$router.push('/home');
+  } catch (error) {
+    // Exibe uma mensagem de erro caso o login falhe
+    this.errorMessage = error.response?.data?.message || 'Erro ao realizar login.';
+    console.error('Erro no login:', error);
+  } finally {
+    this.loading = false; // Desativa o loading após a requisição
+  }
+}
   }
 };
 </script>

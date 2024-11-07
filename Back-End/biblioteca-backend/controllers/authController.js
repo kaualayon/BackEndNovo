@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const { User } = require('../models/User');
 const dotenv = require('dotenv');
 
 dotenv.config();
@@ -33,38 +33,45 @@ const registerUser = async (req, res) => {
   }
 };
 
-// Função para gerar o token JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d',
-  });
-};
-
+// Função para realizar o login
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Por favor, insira o e-mail e a senha.' });
+  }
+
   try {
-    const user = await User.findOne({ email });
-
+    // Verifica se o usuário existe
+    const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(400).json({ message: 'E-mail ou senha inválidos.' });
+      return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(400).json({ message: 'E-mail ou senha inválidos.' });
+    // Compara a senha fornecida com a senha criptografada no banco
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) {
+      return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
     }
 
-    const token = generateToken(user._id);
+    // Gera o token JWT
+    const token = jwt.sign({ userId: user.id, email: user.email }, 'secreta', { expiresIn: '1h' });
 
-    res.status(200).json({
-      message: 'Login realizado com sucesso!',
-      token,
-    });
+    // Retorna o token para o frontend
+    res.status(200).json({ message: 'Login bem-sucedido!', token });
+
   } catch (error) {
-    res.status(500).json({ message: 'Erro no servidor' });
+    res.status(500).json({ message: 'Erro ao realizar login.' });
   }
 };
+
+
+
+
+
+
+
+
+
 
 module.exports = { registerUser, loginUser };
