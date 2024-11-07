@@ -7,7 +7,10 @@ const bookSchema = new mongoose.Schema({
     publicationYear: Number,
     genre: String,
     isbn: String,
-    availableCopies: Number
+    availableCopies: Number,
+    Image: String
 });
+
+
 
 module.exports = mongoose.model('Book', bookSchema);

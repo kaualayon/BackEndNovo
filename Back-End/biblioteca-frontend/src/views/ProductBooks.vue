@@ -6,9 +6,6 @@
     <!-- Título do Catálogo de Livros -->
     <h2 class="page-title">Catálogo de Livros</h2>
 
-    <!-- Exibindo o formulário para adicionar livro -->
-    <BookForm @bookAdded="addBookToCatalog" />
-
     <!-- Catálogo de Livros -->
     <div class="book-catalog">
       <div v-if="books.length === 0" class="no-books">
@@ -36,11 +33,11 @@
 // Importando o HeaderElement
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
-import BookForm from "@/views/BookForm.vue"; // Importa o formulário
+
 
 export default {
   components: {
-    HeaderElement, FooterElement, BookForm
+    HeaderElement, FooterElement
   },
   data() {
     return {
@@ -73,6 +70,8 @@ export default {
   created() {
     this.loadBooksFromStorage(); // Carregar os livros do localStorage quando a página for carregada
   },
+
+  
   methods: {
     viewBookDetails(bookId) {
       console.log(`Visualizando detalhes do livro com ID: ${bookId}`);

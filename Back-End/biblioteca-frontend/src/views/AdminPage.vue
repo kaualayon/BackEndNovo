@@ -14,7 +14,7 @@
         <button class="close-btn" @click="toggleSidebar">X</button>
         <ul>
           <li><router-link to="/admin/dashboard">Dashboard</router-link></li>
-          <li><router-link to="/admin">Adicionar Livros</router-link></li>
+          <li><router-link to="/bookForm">Adicionar Livros</router-link></li>
           <li><router-link to="/admin/manage-users">Gerenciar Usuários</router-link></li>
         </ul>
       </div>

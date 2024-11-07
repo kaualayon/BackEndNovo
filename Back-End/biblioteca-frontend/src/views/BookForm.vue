@@ -33,6 +33,10 @@
       <label for="copiesAvailable">Número de Cópias Disponíveis:</label>
       <input type="number" id="copiesAvailable" v-model="book.copiesAvailable" min="0" required />
 
+      <!-- Campo Imagem de Capa -->
+      <label for="image">Imagem de Capa</label>
+      <input type="file" @change="handleImageUpload" id="image" accept="image/*" required />
+
       <!-- Botão de Envio -->
       <button type="submit">{{ isEditing ? "Salvar Alterações" : "Adicionar Livro" }}</button>
     </form>
@@ -55,6 +59,7 @@ export default {
         genre: "",
         isbn: "",
         copiesAvailable: 0,
+        image: null // Inicializa a imagem como null
       },
     };
   },
@@ -68,9 +73,26 @@ export default {
         await this.addBook();
       }
     },
+
     async addBook() {
       try {
-        const response = await axios.post('http://localhost:5000/api/books/add', this.book);
+        const formData = new FormData();
+        formData.append('title', this.book.title);
+        formData.append('author', this.book.author);
+        formData.append('description', this.book.description);
+        formData.append('publicationYear', this.book.publicationYear);
+        formData.append('genre', this.book.genre);
+        formData.append('isbn', this.book.isbn);
+        formData.append('availableCopies', this.book.copiesAvailable);
+        if (this.book.image) {
+          formData.append('image', this.book.image); // Adiciona a imagem ao FormData
+        }
+
+        const response = await axios.post('http://localhost:5000/api/books/add', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data', // Define o tipo de conteúdo como multipart
+          },
+        });
         if (response.status === 201) {
           this.$emit('bookAdded', response.data.book); // Emite o evento com o livro adicionado
           alert("Livro adicionado com sucesso!");
@@ -81,12 +103,14 @@ export default {
         alert("Erro ao adicionar o livro. Tente novamente.");
       }
     },
-    updateCatalog(book) {
-      // Aqui você pode atualizar o catálogo de livros no front-end
-      console.log("Livro adicionado ao catálogo:", book);
-      // Supondo que `books` seja uma lista global de livros no seu catálogo.
-      // Em um projeto com Vuex, você poderia disparar uma ação para atualizar a lista.
+
+    handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.book.image = file; // Agora estamos armazenando o arquivo de imagem
+      }
     },
+
     clearForm() {
       // Limpa o formulário após a adição de um livro
       this.book = {
@@ -97,6 +121,7 @@ export default {
         genre: "",
         isbn: "",
         copiesAvailable: 0,
+        image: null,
       };
     },
   },
