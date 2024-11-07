@@ -2,6 +2,44 @@ const { User } = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const registerUser = async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).json({ message: 'Por favor, insira o e-mail e a senha.' });
+  }
+
+  try {
+    // Verifica se o usuário já existe no banco de dados
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'E-mail já registrado.' });
+    }
+
+    // Criptografa a senha
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Cria o novo usuário no banco de dados
+    const newUser = new User({
+      email,
+      password: hashedPassword
+    });
+
+    // Salva o novo usuário no banco de dados
+    await newUser.save();
+
+    // Gera um token JWT
+    const token = jwt.sign({ userId: newUser._id, email: newUser.email }, 'secreta', { expiresIn: '1h' });
+
+    // Retorna o token para o frontend
+    res.status(201).json({ message: 'Usuário registrado com sucesso!', token });
+
+  } catch (error) {
+    console.error('Erro ao registrar usuário', error);
+    res.status(500).json({ message: 'Erro ao registrar usuário.' });
+  }
+};
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
