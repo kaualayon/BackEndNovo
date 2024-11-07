@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'RegisterForm',
   data() {
@@ -61,18 +63,38 @@ export default {
     };
   },
   methods: {
-    handleRegister() {
-      // Não há mais necessidade de verificações ou envio de dados
-      alert("Registro realizado com sucesso!");
-      
-      // Redireciona para a página de login sem validação
-      this.$router.push('/login');
+    async handleRegister() {
+      this.loading = true;
+      try {
+        // Envia a requisição de registro usando axios
+        const response = await axios.post('http://localhost:5000/api/auth/register', this.formData);
+        
+        // Exibe a mensagem de resposta do servidor
+        if (response.data.message) {
+          alert(response.data.message); // Exibe a mensagem de sucesso ou erro do back-end
+        }
+
+        // Redireciona para a página de login após o registro
+        this.$router.push('/login');
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          // Exibe a mensagem de erro do back-end, se disponível
+          alert(error.response.data.message);
+        } else {
+          console.error("Erro ao registrar:", error);
+          alert("Ocorreu um erro ao registrar o usuário.");
+        }
+      } finally {
+        this.loading = false;
+      }
     }
   }
 };
 </script>
 
+
 <style scoped>
+/* Estilo do formulário e botão */
 .register-form-container {
   background: #fff;
   padding: 40px;

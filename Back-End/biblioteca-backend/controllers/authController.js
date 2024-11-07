@@ -1,90 +1,31 @@
-// controllers/authController.js
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const User = require('../models/User');
-const dotenv = require('dotenv');
+const bcrypt = require('bcrypt');
+const User = require('../models/User'); // Certifique-se de que o modelo User está configurado corretamente
 
-dotenv.config();
-
-// Função para gerar o JWT
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: '30d', // O token expira em 30 dias
-  });
-};
-
-// Registro de Usuário
+// Função para registrar o usuário
 const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
 
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
+  }
+
   try {
     // Verifica se o usuário já existe
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-      return res.status(400).json({ message: 'Usuário já existe' });
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Usuário já registrado.' });
     }
 
-    // Cria um novo usuário
-    const user = await User.create({
-      username,
-      email,
-      password,
-    });
+    // Criptografa a senha
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const token = generateToken(user._id);
+    // Cria um novo usuário no banco de dados
+    const newUser = await User.create({ username, email, password: hashedPassword });
 
-    res.status(201).json({
-      message: 'Usuário registrado com sucesso',
-      token,
-    });
+    res.status(200).json({ message: 'Registro realizado com sucesso.' });
   } catch (error) {
-    res.status(500).json({ message: 'Erro no servidor' });
+    res.status(500).json({ message: 'Erro ao registrar o usuário.' });
   }
 };
 
-// Login de Usuário
-const loginUser = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    // Verifica se o usuário existe
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: 'Usuário não encontrado' });
-    }
-
-    // Verifica a senha
-    const isMatch = await user.matchPassword(password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Senha incorreta' });
-    }
-
-    const token = generateToken(user._id);
-
-    res.status(200).json({
-      message: 'Login realizado com sucesso',
-      token,
-    });
-  } catch (error) {
-    res.status(500).json({ message: 'Erro no servidor' });
-  }
-};
-
-// Função para verificar se o token é válido
-const protect = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-
-  if (!token) {
-    return res.status(401).json({ message: 'Não autorizado' });
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Salva os dados do usuário no request
-    next();
-  } catch (error) {
-    res.status(401).json({ message: 'Token inválido' });
-  }
-};
-
-module.exports = { registerUser, loginUser, protect };
+module.exports = { registerUser };
