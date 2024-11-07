@@ -94,7 +94,7 @@ export default {
       this.$router.push("/produtos");
     },
     reserveBook() {
-      this.$router.push("/reserve");
+      this.$router.push("/bookReservation");
     }
   }
 }
