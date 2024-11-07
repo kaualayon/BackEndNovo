@@ -7,9 +7,11 @@ const bookRoutes = require('./routes/books');
 const dotenv = require('dotenv');
 
 dotenv.config();
-app.use(cors());
 const app = express();
 connectDB();
+
+app.use(cors());
+
 
 app.use(bodyParser.json());
 
