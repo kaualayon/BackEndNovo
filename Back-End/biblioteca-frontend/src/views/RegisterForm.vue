@@ -40,6 +40,9 @@
       <p>
         Já tem uma conta? <router-link to="/login">Entrar</router-link>
       </p>
+      <p>
+        Entrar como admin? <router-link to="/AdminLogin">Entrar como admin</router-link>
+      </p>
     </div>
   </div>
 </template>

@@ -132,7 +132,7 @@ export default {
 /* Estilos gerais */
 .form-container {
   background-color: #f9f9f9;
-  padding: 135px;
+  padding: 45px;
   max-width: 600px;
   margin: 0 auto;
   font-family: Arial, sans-serif;

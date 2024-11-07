@@ -1,10 +1,20 @@
 <template>
     <HeaderAdmin />
     <div class="catalog-page">
-  
+    
       <!-- Título do Catálogo de Livros -->
       <h2 class="page-title">Catálogo de Livros</h2>
-  
+    
+      <!-- Botões para Adicionar e Editar Livros -->
+      <div class="catalog-actions">
+        <router-link to="/BookForm">
+          <button class="action-btn">Adicionar Livro</button>
+        </router-link>
+        <router-link to="/editBook">
+          <button class="action-btn">Editar Livro</button>
+        </router-link>
+      </div>
+    
       <!-- Catálogo de Livros -->
       <div class="book-catalog">
         <div v-if="books.length === 0" class="no-books">
@@ -29,18 +39,16 @@
   </template>
   
   <script>
-  // Importando o HeaderElement
   import HeaderAdmin from "@/components/HeaderAdmin.vue";
   import FooterAdmin from "@/components/FooterAdmin.vue";
   
-  
   export default {
     components: {
-      HeaderAdmin, FooterAdmin
+      HeaderAdmin,
+      FooterAdmin
     },
     data() {
       return {
-        // Lista de livros com imagens para o catálogo
         books: [
           { id: 1, title: 'O Alquimista', author: 'Paulo Coelho', image: './images/o_alquimista.jpg' },
           { id: 2, title: '1984', author: 'George Orwell', image: './images/1984.jpg' },
@@ -62,50 +70,24 @@
           { id: 18, title: 'Crime e Castigo', author: 'Fiódor Dostoiévski', image: './images/crime_e_castigo.jpg' },
           { id: 19, title: 'A Insustentável Leveza do Ser', author: 'Milan Kundera', image: './images/a_insustentavel_leveza_do_ser.jpg' },
           { id: 20, title: 'O Código Da Vinci', author: 'Dan Brown', image: './images/o_codigo_da_vinci.jpg' },
-        ],
+        ]
       };
     },
-  
-    created() {
-      this.loadBooksFromStorage(); // Carregar os livros do localStorage quando a página for carregada
-    },
-  
-    
     methods: {
       viewBookDetails(bookId) {
         console.log(`Visualizando detalhes do livro com ID: ${bookId}`);
-        // Lógica para redirecionar para a página de detalhes do livro, por exemplo:
         this.$router.push(`/book/${bookId}`);
-      },
-      // Método para adicionar o livro ao catálogo quando o evento for emitido
-      addBookToCatalog(newBook) {
-        this.books.push(newBook); // Adiciona o novo livro à lista de livros
-        this.saveBooksToStorage(); // Salva a lista atualizada de livros no localStorage
-      },
-  
-      // Salvar os livros no localStorage
-      saveBooksToStorage() {
-        localStorage.setItem('books', JSON.stringify(this.books)); // Converte os livros para string e salva no localStorage
-      },
-      // Carregar os livros do localStorage
-      loadBooksFromStorage() {
-        const books = localStorage.getItem('books');
-        if (books) {
-          this.books = JSON.parse(books); // Converte a string de volta para um array de objetos
-        }
       }
     }
-  }
+  };
   </script>
   
   <style scoped>
-  /* Estilo geral da página de catálogo */
   .catalog-page {
     background-color: #f9f9f9;
     box-sizing: border-box;
   }
   
-  /* Título do catálogo */
   .page-title {
     font-size: 28px;
     font-weight: bold;
@@ -114,7 +96,29 @@
     text-align: center;
   }
   
-  /* Seção de Catálogo de Livros */
+  /* Botões de Ação */
+  .catalog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .action-btn {
+    background-color: #D32F2F;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+  }
+  
+  .action-btn:hover {
+    background-color: #B71C1C;
+  }
+  
   .book-catalog {
     margin-top: 40px;
   }
@@ -127,7 +131,6 @@
     margin-bottom: 20px;
   }
   
-  /* Layout do catálogo de livros */
   .book-list {
     display: flex;
     flex-wrap: wrap;

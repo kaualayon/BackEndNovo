@@ -16,7 +16,7 @@
     </form>
 
     <div class="message">
-      <p>Voltar para o <router-link to="/">login de usuário</router-link>.</p>
+      <p>Voltar para o <router-link to="/login">login de usuário</router-link>.</p>
     </div>
   </div>
 </template>
