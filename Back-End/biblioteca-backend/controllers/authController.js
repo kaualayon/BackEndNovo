@@ -3,10 +3,10 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const registerUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { username, email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Por favor, insira o e-mail e a senha.' });
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'Por favor, insira o usuário, o e-mail e a senha.' });
   }
 
   try {
@@ -21,6 +21,7 @@ const registerUser = async (req, res) => {
 
     // Cria o novo usuário no banco de dados
     const newUser = new User({
+      username,
       email,
       password: hashedPassword
     });
@@ -41,7 +42,9 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
+  
   const { email, password } = req.body;
+  
 
   if (!email || !password) {
     return res.status(400).json({ message: 'Por favor, insira o e-mail e a senha.' });
@@ -50,12 +53,15 @@ const loginUser = async (req, res) => {
   try {
     // Verifica se o usuário existe
     const user = await User.findOne({ where: { email } });
+    
     if (!user) {
       return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
     }
 
     // Compara a senha fornecida com a senha criptografada no banco
     const match = await bcrypt.compare(password, user.password);
+    console.log("Senha fornecida:", password);  // Logando a senha fornecida
+console.log("Hash armazenado:", user.password);  // Logando o hash armazenado
     if (!match) {
       return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
     }
