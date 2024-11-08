@@ -10,6 +10,7 @@ const registerUser = async (req, res) => {
   }
 
   try {
+    
     // Verifica se o usuário já existe no banco de dados
     const existingUser = await User.findOne({ email });
     if (existingUser) {
@@ -42,9 +43,7 @@ const registerUser = async (req, res) => {
 };
 
 const loginUser = async (req, res) => {
-  
   const { email, password } = req.body;
-  
 
   if (!email || !password) {
     return res.status(400).json({ message: 'Por favor, insira o e-mail e a senha.' });
@@ -52,22 +51,26 @@ const loginUser = async (req, res) => {
 
   try {
     // Verifica se o usuário existe
-    const user = await User.findOne({ where: { email } });
-    
+    const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
     }
 
-    // Compara a senha fornecida com a senha criptografada no banco
-    const match = await bcrypt.compare(password, user.password);
-    console.log("Senha fornecida:", password);  // Logando a senha fornecida
-console.log("Hash armazenado:", user.password);  // Logando o hash armazenado
+     // Logando a senha fornecida e o hash armazenado
+     console.log("Senha fornecida:", password);
+     console.log("Hash armazenado:", user.password);
+ 
+     // Compara a senha fornecida com a senha criptografada no banco
+     const match = await bcrypt.compare(password, user.password);
+     console.log("Comparação de senha:", match); // Verifique se é verdadeiro ou falso
+
     if (!match) {
       return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
     }
 
     // Gera um token JWT
-    const token = jwt.sign({ userId: user.id, email: user.email }, 'secreta', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
     // Retorna o token para o frontend
     res.status(200).json({ message: 'Login bem-sucedido!', token });
@@ -77,6 +80,5 @@ console.log("Hash armazenado:", user.password);  // Logando o hash armazenado
     res.status(500).json({ message: 'Erro ao realizar login.' });
   }
 };
-
 
 module.exports = { registerUser, loginUser };
