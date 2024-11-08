@@ -51,21 +51,31 @@ export default {
 
   try {
     // Envia os dados de login para o servidor
+    console.log('Dados do login:', this.formData);
     const response = await axios.post('http://localhost:5000/api/auth/login', this.formData);
 
-    // Se o login for bem-sucedido, armazena o token JWT (se aplicável)
-    localStorage.setItem('authToken', response.data.token);
-
-    // Redireciona para a página inicial ou para uma página protegida
-    this.$router.push('/home');
+    // Verifica se o token foi retornado com sucesso
+    if (response.data.token) {
+      localStorage.setItem('authToken', response.data.token);
+      console.log('Token JWT armazenado com sucesso.');
+      // Redireciona para a página inicial ou para uma página protegida
+      this.$router.push('/home');
+    } else {
+      this.errorMessage = 'Token inválido recebido do servidor.';
+    }
   } catch (error) {
-    // Exibe uma mensagem de erro caso o login falhe
-    this.errorMessage = error.response?.data?.message || 'Erro ao realizar login.';
+    if (!error.response) {
+      // Erro de rede ou de conexão
+      this.errorMessage = 'Erro de rede. Verifique sua conexão com a internet.';
+    } else {
+      this.errorMessage = error.response?.data?.message || error.message || 'Erro ao realizar login.';
+    }
     console.error('Erro no login:', error);
   } finally {
     this.loading = false; // Desativa o loading após a requisição
   }
 }
+
   }
 };
 </script>

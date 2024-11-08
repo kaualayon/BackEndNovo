@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
 
   try {
     // Verifica se o usuário existe
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ where: { email } });
     if (!user) {
       return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
     }
@@ -61,7 +61,7 @@ const loginUser = async (req, res) => {
     }
 
     // Gera um token JWT
-    const token = jwt.sign({ userId: user._id, email: user.email }, 'secreta', { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user.id, email: user.email }, 'secreta', { expiresIn: '1h' });
 
     // Retorna o token para o frontend
     res.status(200).json({ message: 'Login bem-sucedido!', token });
@@ -71,5 +71,6 @@ const loginUser = async (req, res) => {
     res.status(500).json({ message: 'Erro ao realizar login.' });
   }
 };
+
 
 module.exports = { registerUser, loginUser };
