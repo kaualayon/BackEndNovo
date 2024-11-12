@@ -23,7 +23,27 @@
               <h3>{{ loansCount }}</h3>
               <p>Total de Empréstimos</p>
             </div>
+
+             <!-- Novo Card de Devoluções -->
+          <div class="dashboard-card">
+            <h3>{{ returnsCount }}</h3>
+            <p>Total de Devoluções</p>
           </div>
+
+          <!-- Novo Card de Multas -->
+          <div class="dashboard-card">
+            <h3>{{ finesCount }}</h3>
+            <p>Total de Multas</p>
+          </div>
+
+          </div>
+           <!-- Gráficos de círculo -->
+        <div class="charts-container">
+          <CircleChart :data="booksChartData" title="Distribuição de Gêneros Literários" />
+          <CircleChart :data="usersChartData" title="Distribuição por Tipo de Usuário" />
+          <CircleChart :data="loansChartData" title="Empréstimos por Mês" />
+          <CircleChart :data="finesChartData" title="Distribuição de Multas" />
+        </div>
         </section>
       </div>
     </div>
@@ -33,10 +53,11 @@
 <script>
 import HeaderAdmin from "@/components/HeaderAdmin.vue";
 import FooterAdmin from "@/components/FooterAdmin.vue";
+import CircleChart from "@/components/CircleChart.vue";
 
 export default {
   components: {
-    HeaderAdmin, FooterAdmin
+    HeaderAdmin, FooterAdmin, CircleChart
   },
 
   data() {
@@ -45,7 +66,28 @@ export default {
       booksCount: 100,
       usersCount: 50,
       loansCount: 30,
+      returnsCount: 20,
+      finesCount: 15,
+      
+      // Dados para os gráficos
+      booksChartData: {
+        labels: ['Ficção', 'Não-ficção', 'Romance', 'Ciência'],
+        datasets: [{ data: [40, 25, 20, 15], backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0'] }]
+      },
+      usersChartData: {
+        labels: ['Estudantes', 'Professores', 'Visitantes'],
+        datasets: [{ data: [60, 30, 10], backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56'] }]
+      },
+      loansChartData: {
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
+        datasets: [{ data: [10, 20, 15, 25], backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56', '#4bc0c0'] }]
+      },
+      finesChartData: {
+        labels: ['Atrasos', 'Danificados', 'Perdidos'],
+        datasets: [{ data: [10, 3, 2], backgroundColor: ['#ff6384', '#36a2eb', '#ffcd56'] }]
+      },
     };
+    
   },
   methods: {
     toggleSidebar() {
@@ -72,11 +114,12 @@ export default {
   min-height: 100vh;
 }
 
+/* Centraliza o container principal */
 .main-container {
   display: flex;
-  flex: 1;
-  margin-left: 250px; /* Espaço para a sidebar */
-  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 100%;
 }
 
@@ -195,13 +238,13 @@ export default {
 
 /* Estilo do conteúdo */
 .content {
-  width: 100%;
-  margin-top: 80px; /* Distância do topo para não sobrepor o header */
   display: flex;
-  justify-content: flex-start; /* Alinha o conteúdo à esquerda */
   flex-direction: column;
-  align-items: flex-start; /* Alinha os itens no início */
-  padding-left: 20px; /* Adiciona um pouco de espaço à esquerda */
+  align-items: center;
+  width: 100%;
+  margin-top: 80px;
+  text-align: center;
+  padding: 20px;
 }
 
 .dashboard {
@@ -221,7 +264,7 @@ export default {
 /* Agrupando os cards */
 .dashboard-cards-container {
   display: flex;
-  justify-content: flex-start; /* Alinha os cards à esquerda */
+  justify-content: center; 
   gap: 20px; /* Espaçamento entre os cards */
   flex-wrap: wrap; /* Permite que os cards se movam para a linha seguinte se necessário */
   max-width: 1000px; /* Define um tamanho máximo para a área dos cards */
@@ -256,5 +299,43 @@ export default {
 .dashboard-card p {
   font-size: 16px;
   margin-top: 10px;
+}
+
+/* Estilos para a seção de gráficos */
+.chart-section {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.dashboard-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.dashboard-card {
+  background-color: #FFEBEE;
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 200px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.chart-title {
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 </style>
