@@ -42,9 +42,9 @@ router.put('/:id', async(req, res) => {
 
 
 // Rota para exclusão (DELETE)
-router.delete('/:id', async(req, res) => {
+router.delete('/:isbn', async(req, res) => {
     try{
-        await Book.findByIdAndDelete(req.params.id); //Deletamos o livro pelo id
+        await Book.findByIdAndDelete(req.params.isbn); //Deletamos o livro pelo id
         res.status(200).json({ message: 'Livro deletado com sucesso'}); // Retornamos mensagem de sucesso
     }catch (error){
         res.status(500).json({message: 'Erro ao deletar livro', error}); // Retornamos erro, se houver
