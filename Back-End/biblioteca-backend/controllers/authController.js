@@ -1,84 +1,48 @@
-const { User } = require('../models/User'); 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { User } = require('../models/User'); 
+const { walk } = require('vue/compiler-sfc');
 
 const registerUser = async (req, res) => {
   const { username, email, password } = req.body;
 
-  if (!username || !email || !password) {
-    return res.status(400).json({ message: 'Por favor, insira o usuário, o e-mail e a senha.' });
-  }
+  try{
+    //Criptografa a senha antes de salvar no banco de dados
+    const hashedPassword = await bcrypt.hash(password, 10)
 
-  try {
-    
-    // Verifica se o usuário já existe no banco de dados
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: 'E-mail já registrado.' });
-    }
+    //Cria um novo usuario com nome de usuario e senha criptografadas
+    const newUser = new User({username, password: hashedPassword});
+    await newUser.save(); //Salva o usuario no bd
 
-    // Criptografa a senha
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Cria o novo usuário no banco de dados
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword
-    });
-
-    // Salva o novo usuário no banco de dados
-    await newUser.save();
-
-    // Gera um token JWT
-    const token = jwt.sign({ userId: newUser._id, email: newUser.email }, 'secreta', { expiresIn: '1h' });
-
-    // Retorna o token para o frontend
-    res.status(201).json({ message: 'Usuário registrado com sucesso!', token });
-
-  } catch (error) {
-    console.error('Erro ao registrar usuário', error);
-    res.status(500).json({ message: 'Erro ao registrar usuário.' });
+    res.status(201).json({   message: 'Usuario registrado com sucesso!'}); //Responde com sucesso ao registrar
+  }catch(error){
+    res.status(500).json({ error: 'Erro ao registrar usuário!'}); //Responde com erro ao registrar
   }
 };
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return res.status(400).json({ message: 'Por favor, insira o e-mail e a senha.' });
-  }
+  try{
+    //Busca o usuario pelo nome de usuario
+    const user = await User.findOne({email});
+    if(!user) return res.status(400).json({ error: 'Usuário não encontrado'}); //Retorna erro se o usuario não existir
 
-  try {
-    // Verifica se o usuário existe
-    const user = await User.findOne({ email });
+    //Compara a sneha fornecida com a senha armazenada no banco
+    const isMatch = await bcrypt.compare(password, user.password);
+    if(!isMatch) return res.status(400).json({ error: 'Senha incorreta'}); //Retorna erro se a senha estiver incorreta
 
-    if (!user) {
-      return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
-    }
 
-     // Logando a senha fornecida e o hash armazenado
-     console.log("Senha fornecida:", password);
-     console.log("Hash armazenado:", user.password);
- 
-     // Compara a senha fornecida com a senha criptografada no banco
-     const match = await bcrypt.compare(password, user.password);
-     console.log("Comparação de senha:", match); // Verifique se é verdadeiro ou falso
+    //Cria o token JWT para autenticação
+    const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'}); //Token expira em 1 hora
 
-    if (!match) {
-      return res.status(401).json({ message: 'E-mail ou senha inválidos.' });
-    }
+    res.json({token}); //Responde com o token JWT
+  
+  }catch(error){
+    res.status(500).json({error: 'Erro ao fazer login'}); //Responde com erro ao fazer login
 
-    // Gera um token JWT
-    const token = jwt.sign({ userId: user._id, email: user.email }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    // Retorna o token para o frontend
-    res.status(200).json({ message: 'Login bem-sucedido!', token });
-
-  } catch (error) {
-    console.error('Erro ao realizar login', error);
-    res.status(500).json({ message: 'Erro ao realizar login.' });
   }
 };
+
 
 module.exports = { registerUser, loginUser };
