@@ -13,6 +13,26 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Rota para obter o username do usuário logado
+router.get('/user', async (req, res) => {
+  // Pegue o token do cabeçalho Authorization
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+
+  if (!token) return res.status(401).json({ error: 'Acesso negado' });
+
+  try {
+    // Verifique e decodifique o token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id); // Encontre o usuário pelo ID decodificado
+
+    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
+
+    // Retorne o username
+    res.json({ username: user.username });
+  } catch (error) {
+    res.status(401).json({ error: 'Token inválido ou erro ao buscar o usuário' });
+  }
+});
 
 // Rota POST para criar um novo usuário
 router.post('/register', async (req, res) => {
