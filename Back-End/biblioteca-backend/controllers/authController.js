@@ -10,7 +10,7 @@ exports.registerUser = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10)
 
     //Cria um novo usuario com nome de usuario e senha criptografadas
-    const newUser = new User({username, password: hashedPassword});
+    const newUser = new User({username, email,  password: hashedPassword});
     await newUser.save(); //Salva o usuario no bd
 
     res.status(201).json({   message: 'Usuario registrado com sucesso!'}); //Responde com sucesso ao registrar
