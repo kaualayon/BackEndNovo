@@ -3,7 +3,7 @@
     <HeaderElement />
 
     <!-- Saudação ao usuário -->
-    <div class="welcome-message">
+    <div class="welcome-message" v-if="username">
       <h2>Bem-vindo, {{ username }}!</h2>
       <p>Estamos felizes em tê-lo de volta. Explore nossos recursos abaixo.</p>
     </div>
@@ -105,7 +105,11 @@ export default {
         });
         
         // Se a requisição for bem-sucedida, atualize o username
-        this.username = response.data.username;
+        if (response.data.username) {
+          this.username = response.data.username;
+        } else {
+          console.log('Erro ao obter username:', response.data.error);
+        }
       } catch (error) {
         console.error('Erro ao obter username:', error);
       }
@@ -122,7 +126,7 @@ export default {
     // Chama a função para buscar o username assim que o componente for montado
     this.fetchUsername();
   },
-  
+
   }
 }
 </script>
