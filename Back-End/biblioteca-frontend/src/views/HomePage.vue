@@ -79,9 +79,9 @@
 </template>
 
 <script>
+import axios from 'axios';
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
-import axios from 'axios';
 
 export default {
   components: {
@@ -93,29 +93,21 @@ export default {
     
   };
   },
-
-  created() {
-    this.getUsername();
-  },
-
   methods: {
 
-    async getUsername() {
+    async fetchUsername() {
       try {
-        const token = localStorage.getItem('token');  // Ou o método que você usou para armazenar o token
-        if (!token) {
-          throw new Error('Token não encontrado');
-        }
-
+        // Faz a requisição para a API para pegar o username
         const response = await axios.get('http://localhost:5000/api/auth/user', {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`, // Pega o token do localStorage
           },
         });
-
+        
+        // Se a requisição for bem-sucedida, atualize o username
         this.username = response.data.username;
       } catch (error) {
-        console.error('Erro ao obter o username:', error.response || error);
+        console.error('Erro ao obter username:', error);
       }
     },
 
@@ -124,7 +116,13 @@ export default {
     },
     reserveBook() {
       this.$router.push("/bookReservation");
-    }
+    },
+
+    mounted() {
+    // Chama a função para buscar o username assim que o componente for montado
+    this.fetchUsername();
+  },
+  
   }
 }
 </script>
