@@ -21,19 +21,6 @@ const userSchema = new mongoose.Schema({
   role: { type: String, default: "user" },
 });
 
-userSchema.pre('save', async function (next) {
-  // Criptografa a senha antes de salvar no banco de dados
-  if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
-  next();
-});
-
-// Método para comparar a senha fornecida com o hash armazenado
-userSchema.methods.matchPassword = async function (enteredPassword) {
-  return await bcrypt.compare(enteredPassword, this.password);
-};
-
 const User = mongoose.model('User', userSchema);
 
 module.exports = { User };

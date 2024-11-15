@@ -1,9 +1,8 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models/User'); 
-const { walk } = require('vue/compiler-sfc');
 
-const registerUser = async (req, res) => {
+exports.registerUser = async (req, res) => {
   const { username, email, password } = req.body;
 
   try{
@@ -20,7 +19,7 @@ const registerUser = async (req, res) => {
   }
 };
 
-const loginUser = async (req, res) => {
+exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try{
@@ -43,6 +42,3 @@ const loginUser = async (req, res) => {
 
   }
 };
-
-
-module.exports = { registerUser, loginUser };

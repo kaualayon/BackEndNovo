@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const bodyParser = require('body-parser');
 const bookRoutes = require('./routes/books');
 const userRoutes = require('./routes/userRoutes'); // Importando as rotas de usuários
+const bcrypt = require('bcryptjs')
 const dotenv = require('dotenv');
 
 dotenv.config();
