@@ -4,7 +4,7 @@
 
     <!-- Saudação ao usuário -->
     <div class="welcome-message">
-      <h2>Bem-vindo, [Nome do Usuário]!</h2>
+      <h2>Bem-vindo, {{ userName }}!</h2>
       <p>Estamos felizes em tê-lo de volta. Explore nossos recursos abaixo.</p>
     </div>
 
@@ -81,15 +81,34 @@
 <script>
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
+import axios from 'axios';
 
 export default {
   components: {
     HeaderElement, FooterElement
   },
   data() {
-    return {};
+    return {
+      userName: '', // Armazena o nome do usuário obtido da API
+    
+  };
   },
+
+  created() {
+    this.fetchUserName();
+  },
+
   methods: {
+
+    async fetchUserName() {
+      try {
+        const response = await axios.get('http://localhost:5000/api/user'); // URL da API de usuário
+        this.userName = response.data.username; // Ajuste com base na estrutura da resposta da sua API
+      } catch (error) {
+        console.error('Erro ao buscar o nome do usuário:', error);
+      }
+    },
+    
     exploreCatalog() {
       this.$router.push("/produtos");
     },
