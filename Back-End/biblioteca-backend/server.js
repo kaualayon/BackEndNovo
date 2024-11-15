@@ -21,6 +21,9 @@ app.use('/api/books', bookRoutes);
 // Usar as rotas de autenticação
 app.use('/api/auth', authRoutes);
 
+// Usar as rotas de autenticação
+app.use('/api/user', authRoutes);
+
 // Usar as rotas de usuários
 app.use('/api/users', userRoutes);
 

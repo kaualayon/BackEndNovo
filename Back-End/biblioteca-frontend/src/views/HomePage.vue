@@ -81,7 +81,7 @@
 <script>
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
-import api from '@/axios.js';
+import axios from 'axios';
 
 export default {
   components: {
@@ -93,16 +93,31 @@ export default {
     
   };
   },
+
+  created() {
+    this.getUsername();
+  },
+
   methods: {
 
-    async created() {
-    try {
-      const response = await api.get('/auth/user');
-      this.username = response.data.username;
-    } catch (error) {
-      console.error('Erro ao buscar o username:', error);
-    }
-  },
+    async getUsername() {
+      try {
+        const token = localStorage.getItem('token');  // Ou o método que você usou para armazenar o token
+        if (!token) {
+          throw new Error('Token não encontrado');
+        }
+
+        const response = await axios.get('http://localhost:5000/api/auth/user', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        this.username = response.data.username;
+      } catch (error) {
+        console.error('Erro ao obter o username:', error.response || error);
+      }
+    },
 
     exploreCatalog() {
       this.$router.push("/produtos");

@@ -9,6 +9,6 @@ router.post('/register', authController.registerUser);
 router.post('/login', authController.loginUser);  // Confirme que isso está correto
 
 // Rota para obter dados do usuário autenticado
-router.get('/user', authController.getUserData);
+router.get('/user', authController.getUser);
 
 module.exports = router;

@@ -43,12 +43,32 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-exports.getUserData = async (req, res) => {
+// Função para obter os dados do usuário com base no token
+exports.getUser = async (req, res) => {
+  // Tente pegar o token do cabeçalho da requisição
+  const token = req.headers.authorization?.split(' ')[1]; // Obtém o token que está no formato "Bearer <token>"
+
+  // Verifica se o token foi fornecido
+  if (!token) {
+    return res.status(401).json({ error: 'Token não fornecido' }); // Se não houver token, retorna erro
+  }
+
   try {
-    const user = await User.findById(req.user.id);
-    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
-    res.json({ username: user.username });
-  } catch (error) {
-    res.status(500).json({ error: 'Erro ao obter dados do usuário' });
+    // Verifica e decodifica o token JWT
+    const decoded = jwt.verify(token, process.env.JWT_SECRET); // Verifica o token usando a chave secreta
+
+    // Busca o usuário no banco de dados com o ID decodificado
+    const user = await User.findById(decoded.id); // Aqui, "decoded.id" é o ID do usuário no token
+
+    // Se o usuário não for encontrado
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
+
+    // Se tudo estiver correto, retorna os dados do usuário
+    res.json(user);
+  } catch (err) {
+    // Caso ocorra algum erro, como um erro na verificação do token
+    return res.status(500).json({ error: 'Erro ao obter dados do usuário' });
   }
 };

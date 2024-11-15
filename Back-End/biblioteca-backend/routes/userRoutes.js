@@ -13,26 +13,35 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Rota para obter o username do usuário logado
+// Rota no backend
 router.get('/user', async (req, res) => {
-  // Pegue o token do cabeçalho Authorization
-  const token = req.header('Authorization')?.replace('Bearer ', '');
-
-  if (!token) return res.status(401).json({ error: 'Acesso negado' });
-
   try {
-    // Verifique e decodifique o token
+    // Verifica se o token existe no cabeçalho da requisição
+    const token = req.headers.authorization?.split(' ')[1];
+    if (!token) {
+      return res.status(401).json({ error: 'Token de autenticação não fornecido' });
+    }
+
+    // Verifica e decodifica o token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id); // Encontre o usuário pelo ID decodificado
+    
+    // Busca o usuário usando o ID decodificado do token
+    const user = await User.findById(decoded.id);
+    if (!user) {
+      return res.status(404).json({ error: 'Usuário não encontrado' });
+    }
 
-    if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
-
-    // Retorne o username
+    // Retorna o username do usuário
     res.json({ username: user.username });
+
   } catch (error) {
-    res.status(401).json({ error: 'Token inválido ou erro ao buscar o usuário' });
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao obter dados do usuário' });
   }
 });
+
+
+
 
 // Rota POST para criar um novo usuário
 router.post('/register', async (req, res) => {
