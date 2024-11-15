@@ -43,7 +43,6 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-// Função para obter os dados do usuário com base no token
 exports.getUser = async (req, res) => {
   // Tente pegar o token do cabeçalho da requisição
   const token = req.headers.authorization?.split(' ')[1]; // Obtém o token que está no formato "Bearer <token>"
@@ -65,8 +64,8 @@ exports.getUser = async (req, res) => {
       return res.status(404).json({ error: 'Usuário não encontrado' });
     }
 
-    // Se tudo estiver correto, retorna os dados do usuário
-    res.json(user);
+    // Retorna apenas o username do usuário, sem os outros dados
+    res.json({ username: user.username });
   } catch (err) {
     // Caso ocorra algum erro, como um erro na verificação do token
     return res.status(500).json({ error: 'Erro ao obter dados do usuário' });
