@@ -22,7 +22,13 @@
             </div>
             <h4>{{ book.title }}</h4>
             <p>{{ book.author }}</p>
+            <p>Quantidade Disponível: <span :class="book.quantity > 0 ? 'available' : 'unavailable'">{{ book.quantity }}</span></p>
+             <!-- Botões de Ação -->
+          <div class="book-buttons">
+            <button @click="reserveBook(book)" :disabled="book.quantity === 0">Reservar</button>
+            <button @click="returnBook(book)" :disabled="book.quantity === book.totalQuantity">Devolver</button>
             <button @click="viewBookDetails(book.id)">Ver Detalhes</button>
+          </div>
           </div>
         </div>
       </div>
@@ -33,10 +39,9 @@
 </template>
 
 <script>
-// Importando o HeaderElement
+// Importando o HeaderElement e FooterElement
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
-
 
 export default {
   components: {
@@ -44,65 +49,120 @@ export default {
   },
   data() {
     return {
-      // Lista de livros com imagens para o catálogo
+      // Lista de livros com imagens e disponibilidade para o catálogo
       books: [
-        { id: 1, title: 'O Alquimista', author: 'Paulo Coelho', image: './images/o_alquimista.jpg' },
-        { id: 2, title: '1984', author: 'George Orwell', image: './images/1984.jpg' },
-        { id: 3, title: 'Dom Casmurro', author: 'Machado de Assis', image: './images/dom_casmurro.jpg' },
-        { id: 4, title: 'A Moreninha', author: 'Joaquim Manuel de Macedo', image: './images/a_moreninha.jpg' },
-        { id: 5, title: 'O Pequeno Príncipe', author: 'Antoine de Saint-Exupéry', image: './images/o_pequeno_principe.jpg' },
-        { id: 6, title: 'Cem Anos de Solidão', author: 'Gabriel García Márquez', image: './images/cem_anos_de_solidao.jpg' },
-        { id: 7, title: 'A Revolução dos Bichos', author: 'George Orwell', image: './images/a_revolucao_dos_bichos.jpg' },
-        { id: 8, title: 'O Senhor dos Anéis', author: 'J.R.R. Tolkien', image: './images/o_senhor_dos_aneis.jpg' },
-        { id: 9, title: 'Fahrenheit 451', author: 'Ray Bradbury', image: './images/fahrenheit_451.jpg' },
-        { id: 10, title: 'A Menina que Roubava Livros', author: 'Markus Zusak', image: './images/a_menina_que_roubava_livros.jpg' },
-        { id: 11, title: 'O Sol é para Todos', author: 'Harper Lee', image: './images/o_sol_e_para_todos.jpg' },
-        { id: 12, title: 'Orgulho e Preconceito', author: 'Jane Austen', image: './images/orgulho_e_preconceito.jpg' },
-        { id: 13, title: 'O Hobbit', author: 'J.R.R. Tolkien', image: './images/o_hobbit.jpg' },
-        { id: 14, title: 'O Conto da Aia', author: 'Margaret Atwood', image: './images/o_conto_da_aia.jpg' },
-        { id: 15, title: 'A Sombra do Vento', author: 'Carlos Ruiz Zafón', image: './images/a_sombra_do_vento.jpg' },
-        { id: 16, title: 'Os Miseráveis', author: 'Victor Hugo', image: './images/os_miseraveis.jpg' },
-        { id: 17, title: 'O Lobo da Estepe', author: 'Hermann Hesse', image: './images/o_lobo_da_estepe.jpg' },
-        { id: 18, title: 'Crime e Castigo', author: 'Fiódor Dostoiévski', image: './images/crime_e_castigo.jpg' },
-        { id: 19, title: 'A Insustentável Leveza do Ser', author: 'Milan Kundera', image: './images/a_insustentavel_leveza_do_ser.jpg' },
-        { id: 20, title: 'O Código Da Vinci', author: 'Dan Brown', image: './images/o_codigo_da_vinci.jpg' },
+        { id: 1, title: "O Alquimista", author: "Paulo Coelho", image: "./images/o_alquimista.jpg", quantity: 5, totalQuantity: 5 },
+        { id: 2, title: "1984", author: "George Orwell", image: "./images/1984.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 3, title: "Dom Casmurro", author: "Machado de Assis", image: "./images/dom_casmurro.jpg", quantity: 4, totalQuantity: 4 },
+        { id: 4, title: "A Moreninha", author: "Joaquim Manuel de Macedo", image: "./images/a_moreninha.jpg", quantity: 2, totalQuantity: 2 },
+        { id: 5, title: "O Pequeno Príncipe", author: "Antoine de Saint-Exupéry", image: "./images/o_pequeno_principe.jpg", quantity: 6, totalQuantity: 6 },
+        { id: 6, title: "Cem Anos de Solidão", author: "Gabriel García Márquez", image: "./images/cem_anos_de_solidao.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 7, title: "A Revolução dos Bichos", author: "George Orwell", image: "./images/a_revolucao_dos_bichos.jpg", quantity: 4, totalQuantity: 4 },
+        { id: 8, title: "O Senhor dos Anéis", author: "J.R.R. Tolkien", image: "./images/o_senhor_dos_aneis.jpg", quantity: 5, totalQuantity: 5 },
+        { id: 9, title: "Fahrenheit 451", author: "Ray Bradbury", image: "./images/fahrenheit_451.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 10, title: "A Menina que Roubava Livros", author: "Markus Zusak", image: "./images/a_menina_que_roubava_livros.jpg", quantity: 4, totalQuantity: 4 },
+        { id: 11, title: "O Sol é para Todos", author: "Harper Lee", image: "./images/o_sol_e_para_todos.jpg", quantity: 2, totalQuantity: 2 },
+        { id: 12, title: "Orgulho e Preconceito", author: "Jane Austen", image: "./images/orgulho_e_preconceito.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 13, title: "O Hobbit", author: "J.R.R. Tolkien", image: "./images/o_hobbit.jpg", quantity: 5, totalQuantity: 5 },
+        { id: 14, title: "O Conto da Aia", author: "Margaret Atwood", image: "./images/o_conto_da_aia.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 15, title: "A Sombra do Vento", author: "Carlos Ruiz Zafón", image: "./images/a_sombra_do_vento.jpg", quantity: 2, totalQuantity: 2 },
+        { id: 16, title: "Os Miseráveis", author: "Victor Hugo", image: "./images/os_miseraveis.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 17, title: "O Lobo da Estepe", author: "Hermann Hesse", image: "./images/o_lobo_da_estepe.jpg", quantity: 2, totalQuantity: 2 },
+        { id: 18, title: "Crime e Castigo", author: "Fiódor Dostoiévski", image: "./images/crime_e_castigo.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 19, title: "A Insustentável Leveza do Ser", author: "Milan Kundera", image: "./images/a_insustentavel_leveza_do_ser.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 20, title: "O Código Da Vinci", author: "Dan Brown", image: "./images/o_codigo_da_vinci.jpg", quantity: 4, totalQuantity: 4 },
       ],
+
     };
   },
 
   created() {
-    this.loadBooksFromStorage(); // Carregar os livros do localStorage quando a página for carregada
+    this.loadBooksFromStorage(); // Carregar os livros do localStorage ao carregar a página
   },
 
-  
   methods: {
+    reserveBook(book) {
+      if (book.quantity > 0) {
+        book.quantity--; // Reduz a quantidade disponível
+        alert(`Você reservou o livro: ${book.title}`);
+      } else {
+        alert("Este livro não está disponível no momento.");
+      }
+    },
+    returnBook(book) {
+      if (book.quantity < book.totalQuantity) {
+        book.quantity++; // Aumenta a quantidade disponível
+        alert(`Você devolveu o livro: ${book.title}`);
+      } else {
+        alert("Não há devoluções pendentes para este livro.");
+      }
+    },
     viewBookDetails(bookId) {
       console.log(`Visualizando detalhes do livro com ID: ${bookId}`);
-      // Lógica para redirecionar para a página de detalhes do livro, por exemplo:
+      // Lógica para redirecionar ou exibir detalhes do livro
       this.$router.push(`/book/${bookId}`);
     },
-    // Método para adicionar o livro ao catálogo quando o evento for emitido
+
+
     addBookToCatalog(newBook) {
-      this.books.push(newBook); // Adiciona o novo livro à lista de livros
-      this.saveBooksToStorage(); // Salva a lista atualizada de livros no localStorage
+      newBook.quantity = 1; // Define quantidade inicial como 1 para novos livros
+      this.books.push(newBook); // Adiciona o novo livro à lista
+      this.saveBooksToStorage(); // Salva no localStorage
     },
 
-    // Salvar os livros no localStorage
     saveBooksToStorage() {
-      localStorage.setItem('books', JSON.stringify(this.books)); // Converte os livros para string e salva no localStorage
+      localStorage.setItem('books', JSON.stringify(this.books)); // Atualiza os dados no localStorage
     },
-    // Carregar os livros do localStorage
+
     loadBooksFromStorage() {
       const books = localStorage.getItem('books');
       if (books) {
-        this.books = JSON.parse(books); // Converte a string de volta para um array de objetos
+        this.books = JSON.parse(books); // Converte os dados do localStorage para o array de objetos
       }
     }
-  }
-}
+  },
+};
 </script>
 
+
 <style scoped>
+
+.book-buttons {
+  display: flex;
+  gap: 10px; /* Espaçamento entre os botões */
+  margin-top: 10px; /* Espaçamento entre botões e a descrição */
+}
+
+.book-buttons button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-buttons button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.book-buttons button:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+/* Classes para Disponibilidade */
+.available {
+  color: green;
+  font-weight: bold;
+}
+
+.unavailable {
+  color: red;
+  font-weight: bold;
+}
+
 /* Estilo geral da página de catálogo */
 .catalog-page {
   background-color: #f9f9f9;

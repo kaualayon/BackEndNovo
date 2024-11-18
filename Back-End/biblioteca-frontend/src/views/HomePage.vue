@@ -11,23 +11,23 @@
     <!-- Título da HomePage -->
     <h2 class="page-title">Dashboard</h2>
 
-    <!-- Status de Empréstimos, Devoluções e Reservas -->
-    <div class="status-cards">
+   <!-- Status de Empréstimos, Devoluções e Reservas -->
+   <div class="status-cards">
       <div class="status-card">
         <h3>Empréstimos Ativos</h3>
-        <p class="status-number">3</p>
+        <p class="status-number">{{ activeLoans }}</p>
         <p class="status-info">Livros emprestados atualmente</p>
       </div>
 
       <div class="status-card">
         <h3>Devoluções Pendentes</h3>
-        <p class="status-number">1</p>
+        <p class="status-number">{{ pendingReturns }}</p>
         <p class="status-info">Livros aguardando devolução</p>
       </div>
 
       <div class="status-card">
         <h3>Reservas</h3>
-        <p class="status-number">2</p>
+        <p class="status-number">{{ activeReservations }}</p>
         <p class="status-info">Livros reservados</p>
       </div>
     </div>
@@ -41,6 +41,8 @@
         <li class="news-item">Novos livros de ficção científica chegaram à biblioteca.</li>
       </ul>
     </div>
+
+    
 
     <!-- Atividade Recente -->
     <div class="recent-activity">
@@ -82,6 +84,7 @@
 import axios from 'axios';
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
+
 
 export default {
   components: {
