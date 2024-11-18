@@ -1,9 +1,10 @@
 <template>
-  <div class="home-page">
-    <HeaderElement />
 
-    <!-- Saudação ao usuário -->
-    <div class="welcome-message" v-if="username">
+  <!-- Incluindo o HeaderElement -->
+  <HeaderElement />
+
+  <!-- Saudação ao usuário -->
+  <div class="welcome-message" v-if="username">
       <h2>Bem-vindo, {{ username }}!</h2>
       <p>Estamos felizes em tê-lo de volta. Explore nossos recursos abaixo.</p>
     </div>
@@ -32,59 +33,46 @@
       </div>
     </div>
 
-    <!-- Últimas Notícias -->
-    <div class="news-section">
-      <h3>Últimas Notícias</h3>
-      <ul class="news-list">
-        <li class="news-item">Catálogo de livros atualizado com novos títulos.</li>
-        <li class="news-item">Evento de leitura de fim de semana, participe!</li>
-        <li class="news-item">Novos livros de ficção científica chegaram à biblioteca.</li>
-      </ul>
-    </div>
-
+  
+  <div class="catalog-page">
     
 
-    <!-- Atividade Recente -->
-    <div class="recent-activity">
-      <h3>Atividade Recente</h3>
-      <ul class="recent-activity-list">
-        <li class="activity-item">Você reservou "A Arte da Programação".</li>
-        <li class="activity-item">Devolveu "Moby Dick".</li>
-        <li class="activity-item">Fez uma reserva para "1984".</li>
-      </ul>
-    </div>
+    <!-- Título do Catálogo de Livros -->
+    <h2 class="page-title">Catálogo de Livros</h2>
 
-    <!-- Destaque de Livro -->
-    <div class="book-highlight">
-      <h3>Destaque do Livro</h3>
-      
-      <!-- Card do Livro com Imagem Clicável -->
-      <div class="book-card">
-        <router-link to='/book/8'>
-          <img src="/images/o_senhor_dos_aneis.jpg" alt="Destaque do Livro" />
-        </router-link>
-        <div>
-          <h4>"O Senhor dos Anéis"</h4>
-          <p>Uma aventura épica na Terra Média. Não perca essa leitura!</p>
+    <!-- Catálogo de Livros -->
+    <div class="book-catalog">
+      <div v-if="books.length === 0" class="no-books">
+        <p>Não há livros disponíveis no catálogo.</p>
+      </div>
+      <div v-else>
+        <div class="book-list">
+          <div class="book-card" v-for="book in books" :key="book.id">
+            <div class="book-image">
+              <img :src="book.image" alt="Capa do livro" />
+            </div>
+            <h4>{{ book.title }}</h4>
+            <p>{{ book.author }}</p>
+            <p>Quantidade Disponível: <span :class="book.quantity > 0 ? 'available' : 'unavailable'">{{ book.quantity }}</span></p>
+             <!-- Botões de Ação -->
+          <div class="book-buttons">
+            <button @click="reserveBook(book)" :disabled="book.quantity === 0">Reservar</button>
+            <button @click="returnBook(book)" :disabled="book.quantity === book.totalQuantity">Devolver</button>
+            <button @click="viewBookDetails(book.id)">Ver Detalhes</button>
+          </div>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- Botões para Explorar Catálogo e Reservar Livro -->
-    <div class="action-buttons">
-      <button @click="exploreCatalog">Explorar Catálogo de Livros</button>
-      <button @click="reserveBook">Reservar Livro</button>
-    </div>
-    
-    <FooterElement />
   </div>
+
+  <FooterElement />
 </template>
 
 <script>
-import axios from 'axios';
+// Importando o HeaderElement e FooterElement
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
-
 
 export default {
   components: {
@@ -92,54 +80,207 @@ export default {
   },
   data() {
     return {
-      username: '', // Armazena o nome do usuário obtido da API
-    
-  };
-  },
-  methods: {
+      // Lista de livros com imagens e disponibilidade para o catálogo
+      books: [
+        { id: 1, title: "O Alquimista", author: "Paulo Coelho", image: "./images/o_alquimista.jpg", quantity: 5, totalQuantity: 5 },
+        { id: 2, title: "1984", author: "George Orwell", image: "./images/1984.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 3, title: "Dom Casmurro", author: "Machado de Assis", image: "./images/dom_casmurro.jpg", quantity: 4, totalQuantity: 4 },
+        { id: 4, title: "A Moreninha", author: "Joaquim Manuel de Macedo", image: "./images/a_moreninha.jpg", quantity: 2, totalQuantity: 2 },
+        { id: 5, title: "O Pequeno Príncipe", author: "Antoine de Saint-Exupéry", image: "./images/o_pequeno_principe.jpg", quantity: 6, totalQuantity: 6 },
+        { id: 6, title: "Cem Anos de Solidão", author: "Gabriel García Márquez", image: "./images/cem_anos_de_solidao.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 7, title: "A Revolução dos Bichos", author: "George Orwell", image: "./images/a_revolucao_dos_bichos.jpg", quantity: 4, totalQuantity: 4 },
+        { id: 8, title: "O Senhor dos Anéis", author: "J.R.R. Tolkien", image: "./images/o_senhor_dos_aneis.jpg", quantity: 5, totalQuantity: 5 },
+        { id: 9, title: "Fahrenheit 451", author: "Ray Bradbury", image: "./images/fahrenheit_451.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 10, title: "A Menina que Roubava Livros", author: "Markus Zusak", image: "./images/a_menina_que_roubava_livros.jpg", quantity: 4, totalQuantity: 4 },
+        { id: 11, title: "O Sol é para Todos", author: "Harper Lee", image: "./images/o_sol_e_para_todos.jpg", quantity: 2, totalQuantity: 2 },
+        { id: 12, title: "Orgulho e Preconceito", author: "Jane Austen", image: "./images/orgulho_e_preconceito.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 13, title: "O Hobbit", author: "J.R.R. Tolkien", image: "./images/o_hobbit.jpg", quantity: 5, totalQuantity: 5 },
+        { id: 14, title: "O Conto da Aia", author: "Margaret Atwood", image: "./images/o_conto_da_aia.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 15, title: "A Sombra do Vento", author: "Carlos Ruiz Zafón", image: "./images/a_sombra_do_vento.jpg", quantity: 2, totalQuantity: 2 },
+        { id: 16, title: "Os Miseráveis", author: "Victor Hugo", image: "./images/os_miseraveis.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 17, title: "O Lobo da Estepe", author: "Hermann Hesse", image: "./images/o_lobo_da_estepe.jpg", quantity: 2, totalQuantity: 2 },
+        { id: 18, title: "Crime e Castigo", author: "Fiódor Dostoiévski", image: "./images/crime_e_castigo.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 19, title: "A Insustentável Leveza do Ser", author: "Milan Kundera", image: "./images/a_insustentavel_leveza_do_ser.jpg", quantity: 3, totalQuantity: 3 },
+        { id: 20, title: "O Código Da Vinci", author: "Dan Brown", image: "./images/o_codigo_da_vinci.jpg", quantity: 4, totalQuantity: 4 },
+      ],
 
-    async fetchUsername() {
-      try {
-        // Faz a requisição para a API para pegar o username
-        const response = await axios.get('http://localhost:5000/api/auth/user', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`, // Pega o token do localStorage
-          },
-        });
-        
-        // Se a requisição for bem-sucedida, atualize o username
-        if (response.data.username) {
-          this.username = response.data.username;
-        } else {
-          console.log('Erro ao obter username:', response.data.error);
-        }
-      } catch (error) {
-        console.error('Erro ao obter username:', error);
+    };
+  },
+
+  created() {
+    this.loadBooksFromStorage(); // Carregar os livros do localStorage ao carregar a página
+  },
+
+  methods: {
+    reserveBook(book) {
+      if (book.quantity > 0) {
+        book.quantity--; // Reduz a quantidade disponível
+        alert(`Você reservou o livro: ${book.title}`);
+      } else {
+        alert("Este livro não está disponível no momento.");
       }
     },
-
-    exploreCatalog() {
-      this.$router.push("/produtos");
+    returnBook(book) {
+      if (book.quantity < book.totalQuantity) {
+        book.quantity++; // Aumenta a quantidade disponível
+        alert(`Você devolveu o livro: ${book.title}`);
+      } else {
+        alert("Não há devoluções pendentes para este livro.");
+      }
     },
-    reserveBook() {
-      this.$router.push("/bookReservation");
+    viewBookDetails(bookId) {
+      console.log(`Visualizando detalhes do livro com ID: ${bookId}`);
+      // Lógica para redirecionar ou exibir detalhes do livro
+      this.$router.push(`/book/${bookId}`);
     },
 
-    mounted() {
-    // Chama a função para buscar o username assim que o componente for montado
-    this.fetchUsername();
+
+    addBookToCatalog(newBook) {
+      newBook.quantity = 1; // Define quantidade inicial como 1 para novos livros
+      this.books.push(newBook); // Adiciona o novo livro à lista
+      this.saveBooksToStorage(); // Salva no localStorage
+    },
+
+    saveBooksToStorage() {
+      localStorage.setItem('books', JSON.stringify(this.books)); // Atualiza os dados no localStorage
+    },
+
+    loadBooksFromStorage() {
+      const books = localStorage.getItem('books');
+      if (books) {
+        this.books = JSON.parse(books); // Converte os dados do localStorage para o array de objetos
+      }
+    }
   },
-
-  }
-}
+};
 </script>
 
+
 <style scoped>
-/* Estilo geral da HomePage */
-.home-page {
-  background-color: #f4f6f8;
+
+.book-buttons {
+  display: flex;
+  gap: 10px; /* Espaçamento entre os botões */
+  margin-top: 10px; /* Espaçamento entre botões e a descrição */
+}
+
+.book-buttons button {
+  padding: 8px 12px;
+  border: none;
+  background-color: #4caf50;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-buttons button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.book-buttons button:hover:not(:disabled) {
+  background-color: #45a049;
+}
+
+/* Classes para Disponibilidade */
+.available {
+  color: green;
+  font-weight: bold;
+}
+
+.unavailable {
+  color: red;
+  font-weight: bold;
+}
+
+/* Estilo geral da página de catálogo */
+.catalog-page {
+  background-color: #f9f9f9;
   box-sizing: border-box;
+}
+
+/* Título do catálogo */
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #D32F2F;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Seção de Catálogo de Livros */
+.book-catalog {
+  margin-top: 40px;
+}
+
+.book-catalog h3 {
+  font-size: 24px;
+  font-weight: bold;
   color: #333;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Layout do catálogo de livros */
+.book-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.book-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  text-align: center;
+  transition: transform 0.3s ease;
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.book-card:hover {
+  transform: scale(1.05);
+}
+
+.book-card h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.book-card p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.book-card button {
+  background-color: #D32F2F;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.book-card button:hover {
+  background-color: #B71C1C;
+}
+
+.book-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+/* Seção sem livros */
+.no-books {
+  text-align: center;
+  font-size: 16px;
+  color: #777;
 }
 
 /* Saudação ao usuário */
@@ -216,148 +357,28 @@ export default {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-/* Seção de Últimas Notícias */
-.news-section {
-  margin-bottom: 40px;
-  text-align: center;
-  opacity: 0;
-  animation: fadeIn 1s forwards;
-}
 
-.news-section h3 {
-  font-size: 22px;
-  color: #D32F2F;
-  margin-bottom: 15px;
-}
-
-.news-section ul {
-  list-style: none;
-  padding: 0;
-  opacity: 0;
-  animation: fadeIn 1.5s forwards;
-}
-
-.news-section li {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 10px;
-  line-height: 1.6;
-  transition: transform 0.3s ease;
-}
-
-.news-section li:hover {
-  transform: translateX(10px);
-}
-
-/* Seção de Atividade Recente */
-.recent-activity {
-  margin-bottom: 40px;
-  text-align: center;
-  opacity: 0;
-  animation: fadeIn 1s forwards;
-}
-
-.recent-activity h3 {
-  font-size: 22px;
-  color: #D32F2F;
-  margin-bottom: 15px;
-}
-
-.recent-activity ul {
-  list-style: none;
-  padding: 0;
-  opacity: 0;
-  animation: fadeIn 1.5s forwards;
-}
-
-.recent-activity li {
-  font-size: 16px;
-  color: #555;
-  margin-bottom: 10px;
-  line-height: 1.6;
-  transition: transform 0.3s ease;
-}
-
-.recent-activity li:hover {
-  transform: translateX(10px);
-}
-
-/* Destaque de Livro */
-.book-highlight {
-  margin-bottom: 40px;
-  text-align: center;
-}
-
-.book-highlight h3 {
-  font-size: 22px;
-  color: #D32F2F;
-  margin-bottom: 15px;
-}
-
-.book-card {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 20px;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.book-card img {
-  width: 140px;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.book-card div {
-  max-width: 300px;
-  text-align: left;
-}
-
-.book-card h4 {
-  font-size: 20px;
-  font-weight: 700;
-  color: #D32F2F;
-}
-
-.book-card p {
-  font-size: 16px;
-  color: #555;
-}
-
-/* Botões de Ação */
-.action-buttons {
-  text-align: center;
-  margin-top: 50px;
-}
-
-.action-buttons button {
-  background-color: #D32F2F;
-  color: white;
-  border: none;
-  padding: 12px 30px;
-  margin: 10px;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.action-buttons button:hover {
-  background-color: #B71C1C;
-}
-
-/* Animação de fade-in */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
+/* Media Queries para telas menores (responsividade) */
+@media (max-width: 768px) {
+  .book-card {
+    width: 100%;
+    max-width: 350px;
   }
-  to {
-    opacity: 1;
+
+  .book-list {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 24px;
+  }
+
+  .book-card {
+    width: 90%;
+    max-width: 400px;
   }
 }
 </style>
