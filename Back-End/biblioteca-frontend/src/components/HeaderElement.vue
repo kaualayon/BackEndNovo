@@ -29,10 +29,6 @@
         <!-- Filtro de data de publicação -->
         <input type="date" v-model="selectedPublicationDate" @change="applyFilters" />
       </div>
-
-      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
-        <path d="M23 21l-6-6m2-5A9 9 0 1 0 9 18a9 9 0 0 0 9-9z" stroke="black" stroke-width="2" fill="none" />
-      </svg>
     </div>
 
     <!-- Ícone de notificações com contador após a barra de pesquisa -->
@@ -152,13 +148,15 @@ export default {
   align-items: center;
 }
 
+/* Ajusta a posição do input e garante que o ícone fique dentro da caixa de pesquisa */
 .search-bar input {
-  padding: 5px 10px;
+  padding: 5px 30px 5px 10px; /* Aumenta o padding à direita para dar espaço para a lupa */
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 20px;
   width: 200px;
 }
+
 
 .filter-container {
   display: flex;
@@ -173,16 +171,6 @@ export default {
   border-radius: 5px;
   border: 1px solid #ccc;
 }
-
-.search-icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  fill: black;
-  cursor: pointer;
-}
-
 /* Ícone de notificações */
 .notification-icon {
   position: relative;
