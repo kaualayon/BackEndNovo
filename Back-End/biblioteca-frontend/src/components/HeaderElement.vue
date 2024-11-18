@@ -9,9 +9,27 @@
       </div>
     </div>
 
-    <!-- Barra de pesquisa alinhada à direita -->
+    <!-- Barra de pesquisa com filtros -->
     <div class="search-bar">
-      <input type="text" placeholder="Buscar livros..." />
+      <input type="text" v-model="searchQuery" placeholder="Buscar livros..." />
+      
+      <div class="filter-container">
+        <!-- Filtro de autor -->
+        <select v-model="selectedAuthor" @change="applyFilters">
+          <option value="">Autor</option>
+          <option v-for="author in authors" :key="author" :value="author">{{ author }}</option>
+        </select>
+
+        <!-- Filtro de gênero -->
+        <select v-model="selectedGenre" @change="applyFilters">
+          <option value="">Gênero</option>
+          <option v-for="genre in genres" :key="genre" :value="genre">{{ genre }}</option>
+        </select>
+
+        <!-- Filtro de data de publicação -->
+        <input type="date" v-model="selectedPublicationDate" @change="applyFilters" />
+      </div>
+
       <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
         <path d="M23 21l-6-6m2-5A9 9 0 1 0 9 18a9 9 0 0 0 9-9z" stroke="black" stroke-width="2" fill="none" />
       </svg>
@@ -51,6 +69,7 @@
 </template>
 
 
+
 <script>
 export default {
   data() {
@@ -58,6 +77,12 @@ export default {
       sidebarOpen: false,
       notificationsOpen: false,
       notifications: [],
+      searchQuery: '', // Armazena o termo de pesquisa
+      selectedAuthor: '', // Filtro de autor
+      selectedGenre: '', // Filtro de gênero
+      selectedPublicationDate: '', // Filtro de data de publicação
+      authors: ['Autor 1', 'Autor 2', 'Autor 3'], // Lista de autores (deve vir do back-end)
+      genres: ['Ficção', 'Romance', 'Mistério'], // Lista de gêneros (deve vir do back-end)
     };
   },
   methods: {
@@ -77,6 +102,11 @@ export default {
       console.log("Usuário deslogado");
       localStorage.removeItem('user');
       this.$router.push('/login');
+    },
+    applyFilters() {
+      // Aqui você pode chamar um método para filtrar a lista de livros
+      console.log('Aplicando filtros:', this.searchQuery, this.selectedAuthor, this.selectedGenre, this.selectedPublicationDate);
+      // Por exemplo, chamar uma API de busca filtrada ou filtrar localmente
     },
   },
   created() {
@@ -119,6 +149,7 @@ export default {
   display: flex;
   justify-content: flex-end;
   position: relative;
+  align-items: center;
 }
 
 .search-bar input {
@@ -127,6 +158,20 @@ export default {
   border: 1px solid #ccc;
   border-radius: 20px;
   width: 200px;
+}
+
+.filter-container {
+  display: flex;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.filter-container select,
+.filter-container input {
+  padding: 5px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
 .search-icon {
@@ -309,4 +354,5 @@ export default {
   display: block;
   opacity: 1;
 }
+
 </style>
