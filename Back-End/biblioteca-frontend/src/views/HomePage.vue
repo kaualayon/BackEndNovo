@@ -40,6 +40,19 @@
     <!-- Título do Catálogo de Livros -->
     <h2 class="page-title">Catálogo de Livros</h2>
 
+    <!-- Botões para Adicionar e Editar Livros -->
+    <div class="catalog-actions">
+        <router-link to="/BookForm">
+          <button class="action-btn">Adicionar Livro</button>
+        </router-link>
+        <router-link to="/editBook">
+          <button class="action-btn">Editar Livro</button>
+        </router-link>
+        <router-link to="/removeBook">
+          <button class="action-btn">Remover Livro</button>
+        </router-link>
+      </div>
+
     <!-- Catálogo de Livros -->
     <div class="book-catalog">
       <div v-if="books.length === 0" class="no-books">
@@ -215,6 +228,30 @@ export default {
   text-align: center;
 }
 
+/* Botões de Ação */
+.catalog-actions {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .action-btn {
+    background-color: #D32F2F;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 16px;
+  }
+  
+  .action-btn:hover {
+    background-color: #B71C1C;
+  }
+
+  
 /* Seção de Catálogo de Livros */
 .book-catalog {
   margin-top: 40px;
