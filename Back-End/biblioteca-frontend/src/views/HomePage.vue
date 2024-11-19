@@ -88,8 +88,9 @@ import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
 
 export default {
+  name: "HomePage",
   components: {
-    HeaderElement, FooterElement
+     HeaderElement, FooterElement
   },
   data() {
     return {

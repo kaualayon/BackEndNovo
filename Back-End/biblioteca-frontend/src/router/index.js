@@ -31,6 +31,7 @@ const routes = [
   },
   {
     path: '/home',
+    name: 'HomePage',
     component: HomePage,
     meta: { requiresAuth: true },
   },
@@ -68,6 +69,7 @@ const routes = [
 
   {
     path: '/admin',
+    name: 'AdminPage',
     component: AdminPage,
     meta: { requiresAuth: true, requiresAdmin: true },
   },

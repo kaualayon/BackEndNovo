@@ -2,8 +2,7 @@
   <div class="first-page">
     <h1>Selecione uma Opção</h1>
     <div class="options">
-      <button @click="redirectTo('register')">Entrar como Cliente</button>
-      <button @click="redirectTo('adminlogin')">Entrar como Admin</button>
+      <button @click="redirectTo('register')">Entrar na MANGE BOOK</button>
     </div>
   </div>
 </template>
