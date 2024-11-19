@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 import RegisterForm from '../views/RegisterForm.vue'; // Certifique-se de que este caminho esteja correto
 import HomePage from '../views/HomePage.vue'; // Certifique-se de que este caminho esteja correto
 import LoginForm from '../views/LoginForm.vue';
-import AboutPage from '../views/AboutPage.vue';
 import FirstPage from '../views/FirstPage.vue';
 import BookDetail from '../views/BookDetail.vue';
 import AdminPage from '../views/AdminPage.vue';
