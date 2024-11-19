@@ -44,34 +44,49 @@ router.get('/user', async (req, res) => {
 
 
 // Rota POST para criar um novo usuário
-router.post('/register', async (req, res) => {
-  const {username, email, password} = req.body;
-  
-  //verifica se o usuário já existe
-  const userExists = users.find(user => user.email === email);
-  if(userExists){
-    return res.status(400).json({message: 'Usuário já existe com esse email!'})
+router.post('/api/auth/register', async (req, res) => {
+  const { username, email, password, role } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
   }
 
-  //Hash da senha
-  const hashedPassword = await bcrypt.hash(password, 10);
-  users.push({username, password:hashedPassword});
-
-  res.status(201).json({message: 'Usuário registrado com sucesso!'});
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new User({ username, email, password: hashedPassword, role });
+    await newUser.save();
+    res.status(201).json({ message: 'Usuário registrado com sucesso!' });
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao registrar usuário.', error: err });
+  }
 });
 
 
-//Rota para login
-router.post('/login', async (req, res) => {
-  const {email, password} = req.body;
-  const user = users.find(user => user.email === email);
 
-  if(!user || !(await bcrypt.compare(password, user.password))){
-    return res.status(401).json({message: 'Credenciais inválidas!'});
+router.post('/api/auth/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Todos os campos são obrigatórios.' });
   }
 
-  const token = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: '1h'});
-  res.json({token});
+  try {
+    const user = await User.findOne({ username });
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Senha incorreta.' });
+    }
+
+    // Retorna as informações do usuário, incluindo o papel
+    res.status(200).json({ username: user.username, role: user.role });
+  } catch (err) {
+    res.status(500).json({ message: 'Erro ao realizar login.', error: err });
+  }
 });
+
 
 module.exports = router;

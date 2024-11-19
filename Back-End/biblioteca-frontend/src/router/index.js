@@ -30,11 +30,9 @@ const routes = [
     component: RegisterForm,
   },
   {
- 
-  
     path: '/home',
-    name: 'HomePage',
     component: HomePage,
+    meta: { requiresAuth: true },
   },
 
   {
@@ -69,11 +67,9 @@ const routes = [
   },
 
   {
- 
-  
     path: '/admin',
-    name: 'AdminPage',
     component: AdminPage,
+    meta: { requiresAuth: true, requiresAdmin: true },
   },
 
   {
@@ -136,6 +132,26 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+// Navigation Guard para proteger rotas
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('token'); // Verifica se o token está armazenado
+  const userRole = localStorage.getItem('role'); // Recupera a função do usuário ('admin' ou 'user')
+
+  if (to.meta.requiresAuth) {
+    if (!isAuthenticated) {
+      // Usuário não autenticado, redireciona para login
+      return next({ name: 'Login' });
+    }
+    if (to.meta.role && to.meta.role !== userRole) {
+      // Usuário autenticado, mas sem permissão
+      alert('Você não tem permissão para acessar esta página.');
+      return next({ name: 'Home' });
+    }
+  }
+
+  next(); // Se tudo estiver correto, segue para a rota desejada
 });
 
 export default router;
