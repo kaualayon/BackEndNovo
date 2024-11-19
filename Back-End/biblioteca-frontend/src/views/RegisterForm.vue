@@ -1,151 +1,205 @@
 <template>
-  <div class="auth-container">
-    <h1>Registro</h1>
-    <form @submit.prevent="register">
-      <input type="text" v-model="form.username" placeholder="Nome de usuário" required />
-      <input type="email" v-model="form.email" placeholder="Email" required />
-      <input type="password" v-model="form.password" placeholder="Senha" required />
-      <select v-model="form.role">
-        <option value="user">Usuário</option>
-        <option value="admin">Administrador</option>
-      </select>
-      <button type="submit">Registrar</button>
+  <div class="register-form-container">
+    <div class="register-header">
+      <h2>Registrar</h2>
+      <p>Crie sua conta preenchendo os dados abaixo.</p>
+    </div>
+
+    <form @submit.prevent="handleRegister" class="register-form">
+      <label for="username">Nome de usuário</label>
+      <input
+        type="text"
+        id="username"
+        v-model="formData.username"
+        placeholder="Digite seu nome de usuário"
+        required
+      />
+
+      <label for="email">E-mail</label>
+      <input
+        type="email"
+        id="email"
+        v-model="formData.email"
+        placeholder="Digite seu e-mail"
+        required
+      />
+
+      <label for="password">Senha</label>
+      <input
+        type="password"
+        id="password"
+        v-model="formData.password"
+        placeholder="Digite sua senha"
+        required
+      />
+
+      <input type="submit" :disabled="loading" value="Registrar" />
     </form>
+
+    <div class="message">
+      <p>
+        Já tem uma conta? <router-link to="/login">Entrar</router-link>
+      </p>
+      <p>
+        Entrar como admin? <router-link to="/AdminLogin">Entrar como admin</router-link>
+      </p>
+    </div>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
+  name: 'RegisterForm',
   data() {
     return {
-      form: {
+      formData: {
         username: '',
         email: '',
-        password: '',
-        role: 'user', // Padrão é usuário
+        password: ''
       },
+      loading: false // Para controle de loading
     };
   },
   methods: {
-    async register() {
+    async handleRegister() {
+      this.loading = true;
       try {
-        const response = await fetch('http://localhost:5000/api/auth/register', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(this.form),
-        });
-        if (response.ok) {
-          alert('Registro bem-sucedido! Faça login.');
-          this.$router.push('/login');
-        } else {
-          const error = await response.json();
-          alert(error.message || 'Erro ao registrar.');
+        // Envia a requisição de registro usando axios
+        const response = await axios.post('http://localhost:5000/api/auth/register', this.formData);
+        
+        // Exibe a mensagem de resposta do servidor
+        if (response.data.message) {
+          alert(response.data.message); // Exibe a mensagem de sucesso ou erro do back-end
         }
-      } catch (err) {
-        alert('Erro ao se conectar com o servidor.');
+
+        // Redireciona para a página de login após o registro
+        this.$router.push('/login');
+      } catch (error) {
+        if (error.response && error.response.data && error.response.data.message) {
+          // Exibe a mensagem de erro do back-end, se disponível
+          alert(error.response.data.message);
+        } else {
+          console.error("Erro ao registrar:", error);
+          alert("Ocorreu um erro ao registrar o usuário.");
+        }
+      } finally {
+        this.loading = false;
       }
-    },
-  },
+    }
+  }
 };
 </script>
 
 
 <style scoped>
-/* Container do formulário */
-.auth-container {
-  background: linear-gradient(135deg, #f9f9f9, #eaeff4); /* Gradiente claro */
+/* Estilo do formulário e botão */
+.register-form-container {
+  background: #fff;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 420px;
-  margin: 50px auto;
-  font-family: 'Arial', sans-serif;
+  max-width: 400px;
+  margin: 40px auto;
+}
+
+.register-header {
   text-align: center;
+  margin-bottom: 30px;
 }
 
-/* Cabeçalho */
-.auth-container h1 {
+.register-header h2 {
+  margin-bottom: 10px;
+  color: #333;
   font-size: 1.8em;
-  color: #333; /* Cinza escuro */
-  margin-bottom: 20px;
-  font-weight: bold;
 }
 
-/* Formulário */
-form {
+.register-header p {
+  color: #777;
+  font-size: 1.1em;
+}
+
+.register-form {
   display: flex;
   flex-direction: column;
 }
 
-form input,
-form select {
+.register-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+  font-size: 0.9em;
+}
+
+.register-form input[type="text"],
+.register-form input[type="email"],
+.register-form input[type="password"] {
   width: 100%;
-  padding: 14px 18px;
+  padding: 15px;
   margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1em;
   transition: border-color 0.3s, box-shadow 0.3s;
-  background: #fff;
 }
 
-/* Efeitos de foco */
-form input:focus,
-form select:focus {
-  border-color: #D32F2F; /* Vermelho */
-  box-shadow: 0 0 8px rgba(211, 47, 47, 0.3); /* Sombra vermelha */
+.register-form input[type="text"]:focus,
+.register-form input[type="email"]:focus,
+.register-form input[type="password"]:focus {
+  border-color: #D32F2F; /* Cor do foco vermelha */
+  box-shadow: 0 0 5px rgba(211, 47, 47, 0.3); /* Sombra vermelha */
   outline: none;
 }
 
-/* Botão de registro */
-form button {
-  background-color: #D32F2F; /* Vermelho */
+.register-form input[type="submit"] {
+  background-color: #D32F2F; /* Vermelho claro */
   color: #fff;
   border: none;
-  padding: 14px;
+  padding: 15px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.1em;
-  font-weight: bold;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
-form button:hover {
-  background-color: #B71C1C; /* Vermelho mais escuro */
-  transform: translateY(-2px); /* Efeito de elevação */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra ao passar o mouse */
+.register-form input[type="submit"]:hover {
+  background-color: #B71C1C; /* Tom mais escuro de vermelho para hover */
+  transform: translateY(-2px); /* Efeito de subida */
 }
 
-form button:active {
-  transform: translateY(0); /* Reset ao clicar */
-  box-shadow: none;
+.register-form input[type="submit"]:active {
+  transform: translateY(0); /* Efeito de clique */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra leve ao clicar */
 }
 
-form button:disabled {
-  background-color: #bdc3c7; /* Cinza para estado desativado */
+.register-form input[type="submit"]:disabled {
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
-/* Mensagem de erro ou sucesso */
-.error-message {
-  color: #e74c3c; /* Vermelho */
-  margin-bottom: 20px;
-  font-size: 0.9em;
+.message {
+  margin-top: 20px;
+  text-align: center;
 }
 
-.success-message {
-  color: #2ecc71; /* Verde */
-  margin-bottom: 20px;
-  font-size: 0.9em;
+.message p {
+  color: #777;
+  font-size: 1em;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .auth-container {
-    padding: 30px;
-  }
+.message a {
+  color: #D32F2F; /* Vermelho */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.message a:hover {
+  text-decoration: underline;
 }
 </style>

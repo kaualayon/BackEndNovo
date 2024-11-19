@@ -1,147 +1,200 @@
 <template>
-  <div class="auth-container">
-    <h1>Login</h1>
-    <form @submit.prevent="login">
-      <input type="text" v-model="form.username" placeholder="Nome de usuário" required />
-      <input type="password" v-model="form.password" placeholder="Senha" required />
-      <button type="submit">Entrar</button>
+  <div class="login-form-container">
+    <div class="login-header">
+      <h2>Entrar</h2>
+      <p>Bem-vindo de volta! Por favor, insira suas credenciais.</p>
+    </div>
+
+    <form @submit.prevent="handleLogin" class="login-form">
+      <label for="email">E-mail</label>
+      <input type="text" id="email" v-model="formData.email" placeholder="Digite seu e-mail" required>
+
+      <label for="password">Senha</label>
+      <input type="password" id="password" v-model="formData.password" placeholder="Digite sua senha" required>
+
+      <input type="submit" value="Entrar" :disabled="loading">
     </form>
+
+    <div class="message">
+      <p>Ainda não tem uma conta? <router-link to="/register">Cadastre-se</router-link></p>
+      <p>
+        Entrar como admin? <router-link to="/AdminLogin">Entrar como admin</router-link>
+      </p>
+    </div>
+
+    <!-- Mensagem de erro -->
+    <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
+  name: 'LoginPage',
+
   data() {
     return {
-      form: {
-        username: '',
-        password: '',
+      formData: {
+        email: '',
+        password: ''
       },
+      loading: false,
+      errorMessage: '' // Armazena mensagens de erro
     };
   },
+
   methods: {
-    async login() {
-      try {
-        const response = await fetch('http://localhost:5000/api/auth/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(this.form),
-        });
-        const data = await response.json();
-        if (response.ok) {
-          // Armazena os dados do usuário e o redireciona com base no papel
-          localStorage.setItem('user', JSON.stringify(data));
-          if (data.role === 'admin') {
-            this.$router.push('/admin');
-          } else {
-            this.$router.push('/home');
-          }
-        } else {
-          alert(data.message || 'Credenciais inválidas.');
-        }
-      } catch (err) {
-        alert('Erro ao se conectar com o servidor.');
-      }
-    },
-  },
+    async handleLogin() {
+  this.loading = true;
+  this.errorMessage = ''; // Limpa qualquer mensagem de erro anterior
+
+  try {
+    // Envia os dados de login para o servidor
+    console.log('Dados do login:', this.formData);
+    const response = await axios.post('http://localhost:5000/api/auth/login', this.formData);
+
+    // Verifica se o token foi retornado com sucesso
+    if (response.data.token) {
+      localStorage.setItem('authToken', response.data.token);
+      console.log('Token JWT armazenado com sucesso.');
+      // Redireciona para a página inicial ou para uma página protegida
+      this.$router.push('/home');
+    } else {
+      this.errorMessage = 'Token inválido recebido do servidor.';
+    }
+  } catch (error) {
+    if (!error.response) {
+      // Erro de rede ou de conexão
+      this.errorMessage = 'Erro de rede. Verifique sua conexão com a internet.';
+    } else {
+      this.errorMessage = error.response?.data?.message || error.message || 'Erro ao realizar login.';
+    }
+    console.error('Erro no login:', error);
+  } finally {
+    this.loading = false; // Desativa o loading após a requisição
+  }
+}
+
+  }
 };
 </script>
 
 <style scoped>
-/* Container do formulário */
-.auth-container {
-  background: linear-gradient(135deg, #f9f9f9, #eaeff4); /* Gradiente claro */
+/* Estilo para o container do formulário de login */
+.login-form-container {
+  background: #fff;
   padding: 40px;
   border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
-  max-width: 420px;
-  margin: 50px auto;
-  font-family: 'Arial', sans-serif;
+  max-width: 400px; /* Tamanho máximo do container */
+  margin: 40px auto; /* Espaço de 40px acima e abaixo, e centraliza o formulário horizontalmente */
+}
+
+.login-header {
   text-align: center;
+  margin-bottom: 30px;
 }
 
-/* Cabeçalho */
-.auth-container h1 {
+.login-header h2 {
+  margin-bottom: 10px;
+  color: #333;
   font-size: 1.8em;
-  color: #333; /* Cinza escuro */
-  margin-bottom: 20px;
-  font-weight: bold;
 }
 
-/* Formulário */
-form {
+.login-header p {
+  color: #777;
+  font-size: 1.1em;
+}
+
+/* Estilo para o formulário de login */
+.login-form {
   display: flex;
   flex-direction: column;
 }
 
-form input,
-form select {
+.login-form label {
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+  font-size: 0.9em;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"] {
   width: 100%;
-  padding: 14px 18px;
+  padding: 15px;
   margin-bottom: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1em;
   transition: border-color 0.3s, box-shadow 0.3s;
-  background: #fff;
 }
 
-/* Efeitos de foco */
-form input:focus,
-form select:focus {
-  border-color: #D32F2F; /* Vermelho */
-  box-shadow: 0 0 8px rgba(211, 47, 47, 0.3); /* Sombra vermelha */
+.login-form input[type="text"]:focus,
+.login-form input[type="password"]:focus {
+  border-color: #D32F2F; /* Cor do foco vermelha */
+  box-shadow: 0 0 5px rgba(211, 47, 47, 0.3); /* Sombra vermelha */
   outline: none;
 }
 
-/* Botão de registro */
-form button {
-  background-color: #D32F2F; /* Vermelho */
+.login-form input[type="submit"] {
+  background-color: #D32F2F; /* Vermelho claro */
   color: #fff;
   border: none;
-  padding: 14px;
+  padding: 15px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 1.1em;
-  font-weight: bold;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
 }
 
-form button:hover {
-  background-color: #B71C1C; /* Vermelho mais escuro */
-  transform: translateY(-2px); /* Efeito de elevação */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra ao passar o mouse */
+.login-form input[type="submit"]:hover {
+  background-color: #B71C1C; /* Tom mais escuro de vermelho para hover */
+  transform: translateY(-2px); /* Efeito de subida */
 }
 
-form button:active {
-  transform: translateY(0); /* Reset ao clicar */
-  box-shadow: none;
+.login-form input[type="submit"]:active {
+  transform: translateY(0); /* Efeito de clique */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra leve ao clicar */
 }
 
-form button:disabled {
-  background-color: #bdc3c7; /* Cinza para estado desativado */
+.login-form input[type="submit"]:disabled {
+  background-color: #ccc;
   cursor: not-allowed;
 }
 
-/* Mensagem de erro ou sucesso */
+/* Estilo para a mensagem de login */
+.message {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.message p {
+  color: #777;
+  font-size: 1em;
+}
+
+.message a {
+  color: #D32F2F; /* Vermelho */
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.message a:hover {
+  text-decoration: underline;
+}
+
+/* Estilo para a mensagem de erro */
 .error-message {
-  color: #e74c3c; /* Vermelho */
-  margin-bottom: 20px;
-  font-size: 0.9em;
-}
-
-.success-message {
-  color: #2ecc71; /* Verde */
-  margin-bottom: 20px;
-  font-size: 0.9em;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-  .auth-container {
-    padding: 30px;
-  }
+  color: red;
+  font-size: 1em;
+  text-align: center;
+  margin-top: 15px;
 }
 </style>
