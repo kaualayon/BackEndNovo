@@ -14,8 +14,7 @@ import BookForm from '../views/BookForm.vue';
 import AdminUsersPage from '../views/AdminUsersPage.vue';
 import BookReservation from '../views/BookReservation.vue';
 import ProductBooksAdmin from '../views/ProductBooksAdmin.vue';
-
-//gfgrg
+import SettingsPage from '../views/SettingsPage.vue';
 
 const routes = [
   {
@@ -60,6 +59,14 @@ const routes = [
     path: '/sobre',
     name: 'AboutPage',
     component: AboutPage,
+  },
+
+  {
+ 
+  
+    path: '/config',
+    name: 'SettingsPage',
+    component: SettingsPage,
   },
 
   {

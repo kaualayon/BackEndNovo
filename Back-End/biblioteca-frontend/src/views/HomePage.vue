@@ -69,8 +69,6 @@
             <p>Quantidade Disponível: <span :class="book.quantity > 0 ? 'available' : 'unavailable'">{{ book.quantity }}</span></p>
              <!-- Botões de Ação -->
           <div class="book-buttons">
-            <button @click="reserveBook(book)" :disabled="book.quantity === 0">Reservar</button>
-            <button @click="returnBook(book)" :disabled="book.quantity === book.totalQuantity">Devolver</button>
             <button @click="viewBookDetails(book.id)">Ver Detalhes</button>
           </div>
           </div>
@@ -171,26 +169,27 @@ export default {
 
 
 <style scoped>
-
+/* Estilo do contêiner e botões */
 .book-buttons {
   display: flex;
-  gap: 8px; /* Espaçamento entre os botões */
-  margin-top: 8px; /* Espaçamento entre botões e a descrição */
-  flex-wrap: wrap; /* Permite que os botões quebrem para a próxima linha, se necessário */
-  justify-content: center; /* Alinha os botões ao centro */
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
+/* Estilo dos botões */
 .book-buttons button {
-  padding: 6px 10px; /* Reduzido o padding dos botões */
+  padding: 8px 12px; /* Ajustado padding para aumentar a área clicável */
   border: none;
-  background-color: #4caf50;
+  background-color: #D32F2F;
   color: white;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  flex: 1 1 30%; /* Faz com que os botões ocupem até 30% da largura do contêiner */
-  min-width: 90px; /* Define um tamanho mínimo para os botões */
-  box-sizing: border-box; /* Garante que o padding seja incluído no cálculo da largura */
+  flex: 1 1 45%; /* Botões ocupam até 45% da largura */
+  min-width: 100px;
+  box-sizing: border-box;
 }
 
 .book-buttons button:disabled {
@@ -199,66 +198,55 @@ export default {
 }
 
 .book-buttons button:hover:not(:disabled) {
-  background-color: #45a049;
-}
-
-/* Classes para Disponibilidade */
-.available {
-  color: green;
-  font-weight: bold;
-}
-
-.unavailable {
-  color: red;
-  font-weight: bold;
+  background-color: #B71C1C;
 }
 
 /* Estilo geral da página de catálogo */
 .catalog-page {
   background-color: #f9f9f9;
   box-sizing: border-box;
+  padding: 20px;
 }
 
 /* Título do catálogo */
 .page-title {
-  font-size: 26px; /* Reduzido o tamanho da fonte */
+  font-size: 28px; /* Aumentado o tamanho para destacar */
   font-weight: bold;
   color: #D32F2F;
   margin-bottom: 20px;
   text-align: center;
 }
 
-/* Botões de Ação */
+/* Botões de ação */
 .catalog-actions {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
-  }
-  
-  .action-btn {
-    background-color: #D32F2F;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    font-size: 16px;
-  }
-  
-  .action-btn:hover {
-    background-color: #B71C1C;
-  }
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
+}
 
-  
+.action-btn {
+  background-color: #D32F2F;
+  color: white;
+  border: none;
+  padding: 12px 24px; /* Tamanho aumentado para botões */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+}
+
+.action-btn:hover {
+  background-color: #B71C1C;
+}
+
 /* Seção de Catálogo de Livros */
 .book-catalog {
   margin-top: 40px;
 }
 
 .book-catalog h3 {
-  font-size: 22px; /* Reduzido o tamanho da fonte */
+  font-size: 24px; /* Aumentado o tamanho do título */
   font-weight: bold;
   color: #333;
   text-align: center;
@@ -269,7 +257,7 @@ export default {
 .book-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px; /* Reduzido o espaçamento entre os itens */
+  gap: 15px;
   justify-content: center;
 }
 
@@ -277,10 +265,10 @@ export default {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  padding: 12px; /* Reduzido o padding do card */
+  padding: 16px; /* Ajustado padding para um card mais confortável */
   text-align: center;
   transition: transform 0.3s ease;
-  max-width: 200px; /* Reduzido o tamanho máximo */
+  max-width: 220px; /* Diminuído o tamanho do card */
   margin: 0 auto;
 }
 
@@ -289,20 +277,20 @@ export default {
 }
 
 .book-card h4 {
-  font-size: 16px; /* Reduzido o tamanho da fonte */
-  margin-bottom: 8px; /* Reduzido o espaço */
+  font-size: 18px; /* Aumentado o tamanho da fonte do título */
+  margin-bottom: 12px;
 }
 
 .book-card p {
-  font-size: 14px; /* Reduzido o tamanho da fonte */
-  margin-bottom: 8px;
+  font-size: 14px;
+  margin-bottom: 12px;
 }
 
 .book-card button {
   background-color: #D32F2F;
   color: white;
   border: none;
-  padding: 8px 16px; /* Reduzido o padding do botão */
+  padding: 8px 16px;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
@@ -316,20 +304,23 @@ export default {
   width: 100%;
   height: auto;
   border-radius: 8px;
-  margin-bottom: 12px; /* Reduzido o espaço entre a imagem e o título */
+  max-height: 200px; /* Limitando a altura da imagem */
+  object-fit: cover; /* Mantém a proporção da imagem sem distorcer */
+  margin-bottom: 16px;
 }
 
 /* Seção sem livros */
 .no-books {
   text-align: center;
-  font-size: 14px; /* Reduzido o tamanho da fonte */
+  font-size: 16px;
   color: #777;
+  padding: 20px;
 }
 
 /* Saudação ao usuário */
 .welcome-message {
   background-color: #ffffff;
-  padding: 16px; /* Reduzido o padding */
+  padding: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
@@ -337,31 +328,22 @@ export default {
 }
 
 .welcome-message h2 {
-  font-size: 22px; /* Reduzido o tamanho da fonte */
+  font-size: 24px;
   font-weight: 700;
   color: #D32F2F;
-  margin-bottom: 8px; /* Reduzido o espaço */
+  margin-bottom: 12px;
 }
 
 .welcome-message p {
-  font-size: 14px; /* Reduzido o tamanho da fonte */
+  font-size: 16px;
   color: #555;
-}
-
-/* Título da página */
-.page-title {
-  font-size: 26px; /* Reduzido o tamanho da fonte */
-  font-weight: 700;
-  color: #D32F2F;
-  margin-bottom: 30px;
-  text-align: center;
 }
 
 /* Cards de Status */
 .status-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px; /* Reduzido o espaçamento */
+  gap: 20px;
   justify-content: center;
   margin-bottom: 40px;
 }
@@ -370,28 +352,28 @@ export default {
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  padding: 20px; /* Reduzido o padding */
-  width: 250px; /* Reduzido a largura */
+  padding: 20px;
+  width: 250px;
   text-align: center;
   transition: transform 0.2s ease, box-shadow 0.3s ease;
 }
 
 .status-card h3 {
-  font-size: 20px; /* Reduzido o tamanho da fonte */
+  font-size: 20px;
   font-weight: 600;
   color: #333;
-  margin-bottom: 12px; /* Reduzido o espaço */
+  margin-bottom: 12px;
 }
 
 .status-number {
-  font-size: 36px; /* Reduzido o tamanho da fonte */
+  font-size: 40px;
   font-weight: 700;
   color: #D32F2F;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .status-info {
-  font-size: 14px; /* Reduzido o tamanho da fonte */
+  font-size: 14px;
   color: #777;
 }
 
@@ -400,8 +382,7 @@ export default {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Media Queries para telas menores (responsividade) */
+/* Media Queries para telas menores */
 @media (max-width: 768px) {
   .book-card {
     width: 90%;
@@ -416,7 +397,7 @@ export default {
 
 @media (max-width: 480px) {
   .page-title {
-    font-size: 22px; /* Reduzido o tamanho da fonte */
+    font-size: 22px;
   }
 
   .book-card {
