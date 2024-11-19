@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import RegisterForm from '../views/RegisterForm.vue'; // Certifique-se de que este caminho esteja correto
 import HomePage from '../views/HomePage.vue'; // Certifique-se de que este caminho esteja correto
-import ProductBooks from '../views/ProductBooks.vue';
 import LoginForm from '../views/LoginForm.vue';
 import AboutPage from '../views/AboutPage.vue';
 import FirstPage from '../views/FirstPage.vue';
@@ -36,14 +35,6 @@ const routes = [
     path: '/home',
     name: 'HomePage',
     component: HomePage,
-  },
-
-  {
- 
-  
-    path: '/produtos',
-    name: 'ProductBooks',
-    component: ProductBooks,
   },
   {
  

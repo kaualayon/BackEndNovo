@@ -53,8 +53,8 @@
       <button class="close-btn" @click="toggleSidebar">X</button>
       <ul>
         <li><router-link to="/home">Dashboard</router-link></li>
-        <li><router-link to="/produtos">Catálogo de Livros</router-link></li>
         <li><router-link to="/notificacao">Notificações</router-link></li>
+        <li><router-link to="/config">Configurações</router-link></li>
         <li><router-link to="/perfil">Conta</router-link></li>
       </ul>
       <button class="logout-btn" @click="logout">Sair</button>
