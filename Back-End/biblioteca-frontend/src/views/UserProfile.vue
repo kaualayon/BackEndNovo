@@ -104,155 +104,191 @@
   </script>
   
   <style scoped>
-  /* Estilo geral da página de perfil */
-  .user-profile {
-    background-color: #f9f9f9;
-    box-sizing: border-box;
-  }
-  
-  /* Título da página */
-  .page-title {
-    font-size: 28px;
-    font-weight: bold;
-    color: #D32F2F;
-    margin-bottom: 20px;
-    text-align: center;
+ /* Estilo geral da página de perfil */
+.user-profile {
+  background-color: #f9f9f9;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+/* Título da página */
+.page-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #D32F2F;
+  margin-bottom: 30px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+/* Seção de Informações do Usuário */
+.user-info {
+  display: flex;
+  gap: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  margin-bottom: 40px;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.profile-picture img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.change-picture {
+  background-color: #D32F2F;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+  text-align: center;
+}
+
+.change-picture:hover {
+  background-color: #B71C1C;
+}
+
+.user-details {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.user-details h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.user-details p {
+  font-size: 16px;
+  color: #777;
+}
+
+/* Seções de Histórico e Reservas */
+.loan-history,
+.reservations {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  width: 100%;
+  margin-bottom: 40px;
+}
+
+.loan-history h3,
+.reservations h3 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.loan-history ul,
+.reservations ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.loan-history li,
+.reservations li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  font-size: 16px;
+  color: #555;
+}
+
+.loan-history button,
+.reservations button {
+  background-color: #D32F2F;
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.loan-history button:hover,
+.reservations button:hover {
+  background-color: #B71C1C;
+}
+
+/* Mensagem de ausência de dados */
+.no-loans,
+.no-reservations {
+  text-align: center;
+  font-size: 16px;
+  color: #777;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+}
+
+/* Botão de Logout */
+.logout-btn {
+  background-color: #D32F2F;
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease, transform 0.2s;
+  margin-top: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.logout-btn:hover {
+  background-color: #B71C1C;
+  transform: scale(1.05);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .user-info {
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
   }
 
-  .reservations{
-    padding: 20px;
-  }
-  
-  .loan-history{
-    padding: 20px;
-  }
-  
-  /* Seção de Informações do Usuário */
-  .user-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 40px;
-  }
-  
   .profile-picture img {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
+    width: 120px;
+    height: 120px;
   }
-  
-  .change-picture {
-    background-color: #D32F2F;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .change-picture:hover {
-    background-color: #B71C1C;
-  }
-  
-  .user-details h3 {
-    font-size: 22px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .user-details p {
-    font-size: 16px;
-    color: #777;
-  }
-  
-  /* Seção de Histórico de Empréstimos */
+
   .loan-history,
   .reservations {
-    margin-bottom: 40px;
+    padding: 15px;
   }
-  
-  .loan-history h3,
-  .reservations h3 {
-    font-size: 24px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
-  }
-  
-  .loan-history ul,
-  .reservations ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  .loan-history li,
-  .reservations li {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .loan-history button,
-  .reservations button {
-    background-color: #D32F2F;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .loan-history button:hover,
-  .reservations button:hover {
-    background-color: #B71C1C;
-  }
-  
-  /* Seção sem dados */
-  .no-loans,
-  .no-reservations {
-    text-align: center;
-    font-size: 16px;
-    color: #777;
-  }
-  
-  /* Botão de Logout */
-  .logout-btn {
-    background-color: #D32F2F;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto;
-    transition: background-color 0.3s ease;
-  }
-  
-  .logout-btn:hover {
-    background-color: #B71C1C;
-  }
-  
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .user-info {
-      flex-direction: column;
-      align-items: center;
-    }
-  
-    .profile-picture img {
-      width: 120px;
-      height: 120px;
-    }
-  }
+}
+
   </style>
   
