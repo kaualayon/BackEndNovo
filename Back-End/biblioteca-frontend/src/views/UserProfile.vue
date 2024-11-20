@@ -1,7 +1,10 @@
 <template>
+
+  <!-- Incluindo o HeaderElement -->
+  <HeaderElement />
+  
     <div class="user-profile">
-      <!-- Incluindo o HeaderElement -->
-      <HeaderElement />
+      
   
       <!-- Título da Página de Perfil -->
       <h2 class="page-title">Meu Perfil</h2>
