@@ -1,17 +1,8 @@
 <template>
-  <div>
-    <!-- Importando e utilizando o HeaderElement -->
-    <HeaderElement  />
 
-    <!-- Sidebar (oculta inicialmente) -->
-    <div v-if="sidebarOpen" class="sidebar">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Livros</a></li>
-        <li><a href="#">Perfil</a></li>
-        <li><a href="#">Configurações</a></li>
-      </ul>
-    </div>
+   <!-- Importando e utilizando o HeaderElement -->
+   <HeaderElement  />
+  <div>
 
     <!-- Detalhes do livro -->
     <div class="book-detail-container" v-if="book">
@@ -66,16 +57,19 @@
       </div>
     </div>
   </div>
+
+  <FooterElement />
 </template>
 
 <script>
 // Importando o HeaderElement
 import HeaderElement from '@/components/HeaderElement.vue';
+import FooterElement from '@/components/FooterElement.vue';
 
 export default {
   name: 'BookDetail',
   components: {
-    HeaderElement,
+    HeaderElement, FooterElement
   },
   data() {
     return {

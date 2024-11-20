@@ -1,5 +1,5 @@
 <template>
-  <HeaderAdmin />
+  <HeaderElement />
   <div class="form-container">
     <h1 class="form-title">{{ isEditing ? "Editar Livro" : "Adicionar Livro" }}</h1>
 
@@ -31,20 +31,20 @@
       <button type="submit" class="form-button">{{ isEditing ? "Salvar Alterações" : "Adicionar Livro" }}</button>
     </form>
   </div>
-  <FooterAdmin />
+  <FooterElement />
 </template>
 
 
 <script>
 import axios from 'axios';
 // Importa os componentes HeaderElement e FooterElement
-import HeaderAdmin from '@/components/HeaderAdmin.vue';
-import FooterAdmin from '@/components/FooterAdmin.vue';
+import HeaderElement from '@/components/HeaderElement.vue';
+import FooterElement from '@/components/FooterElement.vue';
 
 export default {
   name: "BookForm",
   components: {
-    HeaderAdmin, FooterAdmin
+    HeaderElement, FooterElement
   },
   data() {
     return {

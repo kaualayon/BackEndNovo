@@ -1,4 +1,6 @@
 <template>
+  <HeaderElement/>
+
     <div class="admin-users-page">
       <h2>Gerenciamento de Usuários</h2>
       <div v-if="users.length === 0" class="no-users">
@@ -13,17 +15,22 @@
         </div>
       </div>
     </div>
-    
+    <FooterElement/>
   </template>
   
   <script>
 
   import axios from 'axios';
-  
+  // Importando o HeaderElement e FooterElement
+import HeaderElement from "@/components/HeaderElement.vue";
+import FooterElement from "@/components/FooterElement.vue";
+
+
+
   export default {
 
     components: {
-      
+      HeaderElement, FooterElement
     },
     data() {
       return {
@@ -79,9 +86,9 @@
   
   <style scoped>
   .admin-users-page {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 150px;
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 50px;
     background-color: #f9f9f9;
   }
   

@@ -32,6 +32,13 @@
         <p class="status-info">Livros reservados</p>
       </div>
     </div>
+    <!-- Botões para Adicionar e Editar Livros -->
+    <div class="catalog-actions">
+        <router-link to="/AdminUsersPage">
+          <button class="action-btn">Gerenciar Usuários</button>
+        </router-link>
+      </div>
+
 
   
   <div class="catalog-page">
