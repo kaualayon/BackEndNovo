@@ -100,13 +100,14 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 10px;
 }
 
 /* Div do conteúdo centralizado */
 .admin-users-page {
   max-width: 400px;
   margin: 20px;
-  padding: 20px;
+  padding: 10px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);

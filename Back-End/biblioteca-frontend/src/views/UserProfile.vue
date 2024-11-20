@@ -106,7 +106,7 @@
   <style scoped>
  /* Estilo geral da página de perfil */
 .user-profile {
-  background-color: #f9f9f9;
+  background-color: #f7f7f7;
   min-height: 100vh;
   padding: 20px;
   display: flex;
