@@ -9,6 +9,7 @@ import NotificationPage from '../views/NotificationPage.vue';
 import BookForm from '../views/BookForm.vue';
 import AdminUsersPage from '../views/AdminUsersPage.vue';
 import SettingsPage from '../views/SettingsPage.vue';
+import ReportsPage from '../views/ReportsPage.vue';
 
 const routes = [
   {
@@ -86,6 +87,12 @@ const routes = [
     path: '/adminUsersPage',
     name: 'adminUsersPage',
     component: AdminUsersPage,
+  },
+
+  {
+    path: '/relatorios',
+    name: 'ReportsPage',
+    component: ReportsPage, // Define a nova página inicial
   },
 
  

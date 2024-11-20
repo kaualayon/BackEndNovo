@@ -79,7 +79,7 @@
   }
   
   .notifications-title h2 {
-    font-size: 28px;
+    font-size: 25px;
     font-weight: 600;
     text-transform: uppercase;
     color: #333;

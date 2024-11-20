@@ -108,7 +108,7 @@
 .user-profile {
   background-color: #f7f7f7;
   min-height: 100vh;
-  padding: 20px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -117,7 +117,7 @@
 
 /* Título da página */
 .page-title {
-  font-size: 28px;
+  font-size: 25px;
   font-weight: bold;
   margin-bottom: 30px;
   text-align: center;
