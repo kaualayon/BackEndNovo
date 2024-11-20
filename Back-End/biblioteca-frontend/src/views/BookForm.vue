@@ -1,43 +1,63 @@
 <template>
   <HeaderElement />
-  <div class="form-container">
-    <h1 class="form-title">{{ isEditing ? "Editar Livro" : "Adicionar Livro" }}</h1>
+  
+  <!-- Div com fundo escuro que ocupa toda a tela -->
+  <div class="background-overlay">
+    <!-- Div centralizada com o formulário -->
+    <div class="form-container">
+      <h1 class="form-title">{{ isEditing ? "Editar Livro" : "Adicionar Livro" }}</h1>
 
-    <form @submit.prevent="submitForm">
-      <label for="title" class="form-label">Título:</label>
-      <input type="text" id="title" v-model="book.title" class="form-input" required />
+      <form @submit.prevent="submitForm">
+        <div class="form-group">
+          <label for="title" class="form-label">Título:</label>
+          <input type="text" id="title" v-model="book.title" class="form-input" required />
+        </div>
 
-      <label for="author" class="form-label">Autor:</label>
-      <input type="text" id="author" v-model="book.author" class="form-input" required />
+        <div class="form-group">
+          <label for="author" class="form-label">Autor:</label>
+          <input type="text" id="author" v-model="book.author" class="form-input" required />
+        </div>
 
-      <label for="description" class="form-label">Descrição:</label>
-      <textarea id="description" v-model="book.description" class="form-textarea" rows="4" required></textarea>
+        <div class="form-group">
+          <label for="description" class="form-label">Descrição:</label>
+          <textarea id="description" v-model="book.description" class="form-textarea" rows="4" required></textarea>
+        </div>
 
-      <label for="publicationYear" class="form-label">Ano de Publicação:</label>
-      <input type="number" id="publicationYear" v-model="book.publicationYear" class="form-input" min="0" required />
+        <div class="form-group">
+          <label for="publicationYear" class="form-label">Ano de Publicação:</label>
+          <input type="number" id="publicationYear" v-model="book.publicationYear" class="form-input" min="0" required />
+        </div>
 
-      <label for="genre" class="form-label">Gênero:</label>
-      <input type="text" id="genre" v-model="book.genre" class="form-input" required />
+        <div class="form-group">
+          <label for="genre" class="form-label">Gênero:</label>
+          <input type="text" id="genre" v-model="book.genre" class="form-input" required />
+        </div>
 
-      <label for="isbn" class="form-label">ISBN:</label>
-      <input type="text" id="isbn" v-model="book.isbn" class="form-input" required />
+        <div class="form-group">
+          <label for="isbn" class="form-label">ISBN:</label>
+          <input type="text" id="isbn" v-model="book.isbn" class="form-input" required />
+        </div>
 
-      <label for="copiesAvailable" class="form-label">Número de Cópias Disponíveis:</label>
-      <input type="number" id="copiesAvailable" v-model="book.copiesAvailable" class="form-input" min="0" required />
+        <div class="form-group">
+          <label for="copiesAvailable" class="form-label">Número de Cópias Disponíveis:</label>
+          <input type="number" id="copiesAvailable" v-model="book.copiesAvailable" class="form-input" min="0" required />
+        </div>
 
-      <label for="image" class="form-label">Imagem de Capa</label>
-      <input type="file" @change="handleImageUpload" id="image" class="form-input" accept="image/*" required />
+        <div class="form-group">
+          <label for="image" class="form-label">Imagem de Capa:</label>
+          <input type="file" @change="handleImageUpload" id="image" class="form-input" accept="image/*" required />
+        </div>
 
-      <button type="submit" class="form-button">{{ isEditing ? "Salvar Alterações" : "Adicionar Livro" }}</button>
-    </form>
+        <button type="submit" class="form-button">{{ isEditing ? "Salvar Alterações" : "Adicionar Livro" }}</button>
+      </form>
+    </div>
   </div>
+  
   <FooterElement />
 </template>
 
-
 <script>
 import axios from 'axios';
-// Importa os componentes HeaderElement e FooterElement
 import HeaderElement from '@/components/HeaderElement.vue';
 import FooterElement from '@/components/FooterElement.vue';
 
@@ -48,7 +68,7 @@ export default {
   },
   data() {
     return {
-      isEditing: false, // Define como true se estiver editando um livro
+      isEditing: false,
       book: {
         title: "",
         author: "",
@@ -57,17 +77,15 @@ export default {
         genre: "",
         isbn: "",
         copiesAvailable: 0,
-        image: null // Inicializa a imagem como null
+        image: null
       },
     };
   },
   methods: {
     async submitForm() {
       if (this.isEditing) {
-        // Chame um método para editar o livro (não implementado aqui)
         console.log("Salvando alterações:", this.book);
       } else {
-        // Adiciona um novo livro
         await this.addBook();
       }
     },
@@ -83,16 +101,17 @@ export default {
         formData.append('isbn', this.book.isbn);
         formData.append('availableCopies', this.book.copiesAvailable);
         if (this.book.image) {
-          formData.append('image', this.book.image); // Adiciona a imagem ao FormData
+          formData.append('image', this.book.image);
         }
 
         const response = await axios.post('http://localhost:5000/api/books/add', formData, {
           headers: {
-            'Content-Type': 'multipart/form-data', // Define o tipo de conteúdo como multipart
+            'Content-Type': 'multipart/form-data',
           },
         });
+
         if (response.status === 201) {
-          this.$emit('bookAdded', response.data.book); // Emite o evento com o livro adicionado
+          this.$emit('bookAdded', response.data.book);
           alert("Livro adicionado com sucesso!");
           this.clearForm();
           this.$parent.addBookToCatalog(response.data.book);
@@ -106,13 +125,11 @@ export default {
     handleImageUpload(event) {
       const file = event.target.files[0];
       if (file) {
-        console.log('Imagem selecionada:', file); // Verifique se o arquivo está correto
-        this.book.image = file; // Agora estamos armazenando o arquivo de imagem
+        this.book.image = file;
       }
     },
 
     clearForm() {
-      // Limpa o formulário após a adição de um livro
       this.book = {
         title: "",
         author: "",
@@ -129,66 +146,101 @@ export default {
 </script>
 
 <style scoped>
-/* Estilos gerais */
-.form-container {
+/* Div de fundo escuro que ocupa toda a tela */
+.background-overlay {
   background-color: #f7f7f7;
-  padding: 45px;
-  max-width: 600px;
-  margin: 0 auto;
-  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+/* Div do formulário */
+.form-container {
+  background-color: #ffffff;
+  padding: 30px 40px; /* Reduzir o padding */
+  border-radius: 12px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 600px; /* Reduzir a largura */
 }
 
 /* Estilo do título (h1) */
 .form-title {
-  font-size: 28px;
-  color: #D32F2F;
+  font-size: 25px; /* Diminuir o tamanho da fonte */
+  color: #000000; /* Alterar para preto */
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 20px; /* Reduzir a margem inferior */
+  font-weight: bold;
 }
 
 /* Estilo dos rótulos (labels) */
 .form-label {
   font-weight: bold;
-  color: #333;
-  margin-bottom: 5px;
-  display: block; /* Garante que os labels ocupem uma linha completa */
+  color: #444;
+  margin-bottom: 8px;
+  display: block;
+  font-size: 16px;
 }
 
 /* Estilos dos campos de entrada (input) */
 .form-input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   font-size: 16px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-input:focus {
+  border-color: #D32F2F;
+  box-shadow: 0 0 5px rgba(211, 47, 47, 0.5);
 }
 
 /* Estilo da área de texto (textarea) */
 .form-textarea {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
   font-size: 16px;
-  resize: vertical; /* Permite redimensionar apenas na vertical */
+  resize: vertical;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-textarea:focus {
+  border-color: #D32F2F;
+  box-shadow: 0 0 5px rgba(211, 47, 47, 0.5);
 }
 
 /* Estilos do botão */
 .form-button {
   background-color: #D32F2F;
   color: white;
-  padding: 10px 15px;
+  padding: 12px 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 18px;
   width: 100%;
   transition: background-color 0.3s ease;
 }
 
 .form-button:hover {
   background-color: #B71C1C;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .form-container {
+    width: 90%;
+    padding: 20px;
+  }
 }
 </style>
