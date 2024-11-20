@@ -117,9 +117,8 @@
 
 /* Título da página */
 .page-title {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
-  color: #D32F2F;
   margin-bottom: 30px;
   text-align: center;
   text-transform: uppercase;

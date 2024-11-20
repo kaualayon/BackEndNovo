@@ -106,7 +106,7 @@ import FooterElement from "@/components/FooterElement.vue";
 .page-title {
   margin-top: 20px;
   text-align: center;
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   text-transform: uppercase;
   color: #333;
