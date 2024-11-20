@@ -93,112 +93,142 @@ import FooterElement from "@/components/FooterElement.vue";
   </script>
   
   <style scoped>
-  .settings-page {
-    background-color: #f9f9f9;
-    padding: 10px;
-    max-width: 800px;
-    margin: 0 auto;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
+ .settings-page {
+  background-color: #f7f7f7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.page-title {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #333;
+}
+
+.section {
+  background: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 600px;
+  box-sizing: border-box;
+}
+
+h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+label {
+  font-size: 16px;
+  color: #555;
+  display: block;
+  margin-bottom: 8px;
+}
+
+input[type="number"], input[type="checkbox"], select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  font-size: 14px;
+}
+
+input[type="checkbox"] {
+  width: auto;
+  margin-right: 8px;
+}
+
+button {
+  background-color: #d32f2f;
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s, transform 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+button:hover {
+  background-color: #b71c1c;
+  transform: scale(1.05);
+}
+
+.save-btn {
+  background-color: #4caf50;
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  padding: 15px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  text-align: center;
+  margin-top: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.save-btn:hover {
+  background-color: #388e3c;
+  transform: scale(1.05);
+}
+
+/* Estilo de descrição dos papéis */
+.role-description {
+  background-color: #f1f1f1;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 14px;
+  color: #555;
+  text-align: center;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilo para a política de empréstimo */
+.policy-text {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
   .page-title {
-    margin-top: 20px;
-    text-align: center;
-    font-size: 28px;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: #333;
-  }
-  
-  .section {
-    margin-bottom: 30px;
-  }
-  
-  h3 {
-    font-size: 22px;
-    color: #333;
-    margin-bottom: 15px;
-  }
-  
-  label {
-    font-size: 16px;
-    color: #555;
-    display: block;
-    margin-bottom: 8px;
-  }
-  
-  input[type="number"], input[type="checkbox"], select {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-  }
-  
-  input[type="checkbox"] {
-    width: auto;
-    margin-right: 8px;
-  }
-  
-  button {
-    background-color: #d32f2f;
-    color: white;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, transform 0.2s ease;
-  }
-  
-  button:hover {
-    background-color: #d32f2f;
-    transform: scale(1.05);
-  }
-  
-  .save-btn {
-    background-color: #4caf50;
-    display: block;
-    width: 100%;
-    padding: 12px 20px;
-    color: white;
-    padding: 12px 30px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s, transform 0.2s ease;
-  }
-  
-  .save-btn:hover {
-    background-color: #45a049;
-    transform: scale(1.05);
-  }
-  
-  /* Estilo de descrição dos papéis */
-  .role-description {
-    background-color: #f1f1f1;
-    padding: 10px;
-    border-radius: 4px;
-    margin-top: 15px;
-    font-size: 14px;
-    color: #555;
-  }
-  
-  /* Estilo para a política de empréstimo */
-  .policy-text {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 20px;
+    font-size: 24px;
   }
 
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .page-title h2 {
-      font-size: 24px;
-    }
-  
+  h3 {
+    font-size: 20px;
   }
+
+  .section {
+    padding: 15px;
+  }
+
+  .save-btn {
+    padding: 12px;
+  }
+}
+
   </style>
   
