@@ -45,6 +45,14 @@ const routes = [
   {
  
   
+    path: '/sobre',
+    name: 'AboutPage',
+    component: AboutPage,
+  },
+
+  {
+ 
+  
     path: '/config',
     name: 'SettingsPage',
     component: SettingsPage,
