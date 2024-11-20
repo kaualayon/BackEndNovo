@@ -135,7 +135,6 @@ export default {
   padding: 45px;
   max-width: 600px;
   margin: 0 auto;
-  font-family: Arial, sans-serif;
   color: #333;
 }
 

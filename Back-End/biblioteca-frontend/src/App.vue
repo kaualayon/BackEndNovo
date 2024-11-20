@@ -1,12 +1,9 @@
 <template>
   <div id="app">
     
-    <!-- Main content -->
-    <main>
-      <router-view></router-view>
-    </main>
-
-    
+    <HeaderElement />
+    <router-view />
+    <FooterElement />
   </div>
 </template>
 

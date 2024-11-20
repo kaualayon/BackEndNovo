@@ -64,7 +64,6 @@
   <style scoped>
   /* Estilo geral da página de notificações */
   .notifications-page {
-    font-family: 'Arial', sans-serif;
     background-color: #f7f7f7;
     min-height: 100vh;
     flex-direction: column;

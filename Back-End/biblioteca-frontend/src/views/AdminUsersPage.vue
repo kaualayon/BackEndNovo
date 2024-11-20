@@ -1,5 +1,4 @@
 <template>
-    <HeaderAdmin />
     <div class="admin-users-page">
       <h2>Gerenciamento de Usuários</h2>
       <div v-if="users.length === 0" class="no-users">
@@ -14,18 +13,17 @@
         </div>
       </div>
     </div>
-    <FooterAdmin />
+    
   </template>
   
   <script>
-  import HeaderAdmin from "@/components/HeaderAdmin.vue";
-  import FooterAdmin from "@/components/FooterAdmin.vue";
+
   import axios from 'axios';
   
   export default {
 
     components: {
-      HeaderAdmin, FooterAdmin
+      
     },
     data() {
       return {

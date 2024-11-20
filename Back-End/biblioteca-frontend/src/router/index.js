@@ -4,8 +4,6 @@ import HomePage from '../views/HomePage.vue'; // Certifique-se de que este camin
 import LoginForm from '../views/LoginForm.vue';
 import FirstPage from '../views/FirstPage.vue';
 import BookDetail from '../views/BookDetail.vue';
-import AdminPage from '../views/AdminPage.vue';
-import AdminLogin from '../views/AdminLogin.vue';
 import UserProfile from '../views/UserProfile.vue';
 import NotificationPage from '../views/NotificationPage.vue';
 import BookForm from '../views/BookForm.vue';
@@ -45,14 +43,6 @@ const routes = [
   {
  
   
-    path: '/sobre',
-    name: 'AboutPage',
-    component: AboutPage,
-  },
-
-  {
- 
-  
     path: '/config',
     name: 'SettingsPage',
     component: SettingsPage,
@@ -66,21 +56,7 @@ const routes = [
     component: BookDetail,
   },
 
-  {
- 
   
-    path: '/admin',
-    name: 'AdminPage',
-    component: AdminPage,
-  },
-
-  {
- 
-  
-    path: '/adminlogin',
-    name: 'AdminLogin',
-    component: AdminLogin,
-  },
   {
  
   

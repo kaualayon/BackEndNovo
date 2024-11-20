@@ -113,6 +113,7 @@ export default {
 </script>
 
 <style scoped>
+
 /* Header principal */
 .header {
   display: flex;
@@ -124,6 +125,8 @@ export default {
   border-bottom: 1px solid #ccc;
   position: relative;
   z-index: 10;
+   width: 100%; /* Garante que ocupe 100% da largura */
+  box-sizing: border-box; /* Inclui padding e borda na largura total */
 }
 
 /* Div para agrupar logo e ícone de notificação */

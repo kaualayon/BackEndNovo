@@ -106,7 +106,6 @@
     padding: 20px;
     max-width: 600px;
     margin: 0 auto;
-    font-family: Arial, sans-serif;
     color: #333;
     background-color: #f9f9f9;
   }

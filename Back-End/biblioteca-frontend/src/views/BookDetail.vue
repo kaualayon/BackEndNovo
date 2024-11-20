@@ -168,7 +168,6 @@ export default {
 }
 
 body {
-  font-family: 'Arial', sans-serif;
   background-color: #f4f7fb;
   color: #333;
 }
