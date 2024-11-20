@@ -114,6 +114,15 @@ export default {
 
 <style scoped>
 
+/* Reset de margin e padding */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
 /* Header principal */
 .header {
   display: flex;
@@ -127,6 +136,7 @@ export default {
   z-index: 10;
    width: 100%; /* Garante que ocupe 100% da largura */
   box-sizing: border-box; /* Inclui padding e borda na largura total */
+  left: 0;
 }
 
 /* Div para agrupar logo e ícone de notificação */
@@ -265,12 +275,14 @@ export default {
   flex-direction: column;
   justify-content: flex-start;
   opacity: 0;
+  pointer-events: none; /* Evita cliques enquanto escondida */
   transition: left 0.2s ease, opacity 0.2s ease;
 }
 
 .sidebar.open {
   left: 0;
   opacity: 1;
+  pointer-events: all; /* Permite interações quando visível */
 }
 
 .sidebar ul {
