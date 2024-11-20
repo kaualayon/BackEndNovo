@@ -95,7 +95,7 @@ import FooterElement from "@/components/FooterElement.vue";
   <style scoped>
   .settings-page {
     background-color: #f9f9f9;
-    padding: 20px;
+    padding: 10px;
     max-width: 800px;
     margin: 0 auto;
     border-radius: 8px;
@@ -103,10 +103,12 @@ import FooterElement from "@/components/FooterElement.vue";
   }
   
   .page-title {
-    font-size: 28px;
-    color: #D32F2F;
+    margin-top: 20px;
     text-align: center;
-    margin-bottom: 30px;
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #333;
   }
   
   .section {
@@ -140,34 +142,38 @@ import FooterElement from "@/components/FooterElement.vue";
   }
   
   button {
-    background-color: #D32F2F;
+    background-color: #d32f2f;
     color: white;
+    padding: 12px 30px;
     border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s ease;
   }
   
   button:hover {
-    background-color: #B71C1C;
+    background-color: #d32f2f;
+    transform: scale(1.05);
   }
   
   .save-btn {
+    background-color: #4caf50;
     display: block;
     width: 100%;
     padding: 12px 20px;
-    background-color: #4caf50;
-    border: none;
-    border-radius: 8px;
     color: white;
-    font-size: 18px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s ease;
   }
   
   .save-btn:hover {
     background-color: #45a049;
+    transform: scale(1.05);
   }
   
   /* Estilo de descrição dos papéis */
@@ -185,6 +191,14 @@ import FooterElement from "@/components/FooterElement.vue";
     font-size: 16px;
     color: #555;
     margin-bottom: 20px;
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .page-title h2 {
+      font-size: 24px;
+    }
+  
   }
   </style>
   

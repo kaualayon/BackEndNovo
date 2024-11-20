@@ -219,14 +219,13 @@ export default {
 .page-title {
   margin-top: 20px;
     text-align: center;
-}
-.page-title h2 {
+    margin-top: 20px;
+    text-align: center;
     font-size: 28px;
     font-weight: 600;
     text-transform: uppercase;
     color: #333;
-    margin: 0;
-  }
+}
 
 /* Botões de ação */
 .catalog-actions {
