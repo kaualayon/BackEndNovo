@@ -88,13 +88,17 @@ import FooterElement from "@/components/FooterElement.vue";
   .admin-users-page {
     max-width: 400px;
     margin: 20px auto;
-    padding: 50px;
-    background-color: #f9f9f9;
+    padding: 10px;
+    align-items: center;
+    background-color: #f7f7f7;
   }
   
   h2 {
-    text-align: center;
-    color: #D32F2F;
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #333;
+    margin: 0;
   }
   
   .user-list {

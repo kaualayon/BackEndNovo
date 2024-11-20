@@ -131,7 +131,7 @@ export default {
 <style scoped>
 /* Estilos gerais */
 .form-container {
-  background-color: #f9f9f9;
+  background-color: #f7f7f7;
   padding: 45px;
   max-width: 600px;
   margin: 0 auto;

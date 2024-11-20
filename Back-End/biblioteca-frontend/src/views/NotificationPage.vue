@@ -1,7 +1,8 @@
 <template>
+
+  <!-- Componente de HeaderElement -->
+  <HeaderElement />
     <div class="notifications-page">
-      <!-- Componente de HeaderElement -->
-      <HeaderElement />
     
       <!-- Seção de Título -->
       <section class="notifications-title">
@@ -68,6 +69,7 @@
     min-height: 100vh;
     flex-direction: column;
     align-items: center;
+    padding: 10px;
   }
   
   /* Título da seção de notificações */
