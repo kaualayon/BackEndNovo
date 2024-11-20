@@ -217,12 +217,16 @@ export default {
 
 /* Título do catálogo */
 .page-title {
-  font-size: 28px; /* Aumentado o tamanho para destacar */
-  font-weight: bold;
-  color: #D32F2F;
-  margin-bottom: 20px;
-  text-align: center;
+  margin-top: 20px;
+    text-align: center;
 }
+.page-title h2 {
+    font-size: 28px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #333;
+    margin: 0;
+  }
 
 /* Botões de ação */
 .catalog-actions {
@@ -233,18 +237,19 @@ export default {
 }
 
 .action-btn {
-  background-color: #D32F2F;
-  color: white;
-  border: none;
-  padding: 12px 24px; /* Tamanho aumentado para botões */
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  font-size: 16px;
+  background-color: #d32f2f;
+    color: white;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s, transform 0.2s ease;
 }
 
 .action-btn:hover {
-  background-color: #B71C1C;
+  background-color: #d32f2f;
+    transform: scale(1.05);
 }
 
 /* Seção de Catálogo de Livros */

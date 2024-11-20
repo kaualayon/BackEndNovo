@@ -129,7 +129,7 @@
   }
   
   .remove-notification-btn {
-    background-color: #FF6F6F;
+    background-color: #d32f2f;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -150,7 +150,7 @@
   }
   
   .clear-notifications-btn {
-    background-color: #FF6F6F;
+    background-color: #d32f2f;
     color: white;
     padding: 12px 30px;
     border: none;
