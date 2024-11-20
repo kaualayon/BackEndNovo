@@ -10,6 +10,7 @@ import BookForm from '../views/BookForm.vue';
 import AdminUsersPage from '../views/AdminUsersPage.vue';
 import SettingsPage from '../views/SettingsPage.vue';
 import ReportsPage from '../views/ReportsPage.vue';
+import AboutPagee from '../views/AboutPagee.vue';
 
 const routes = [
   {
@@ -93,6 +94,12 @@ const routes = [
     path: '/relatorios',
     name: 'ReportsPage',
     component: ReportsPage, // Define a nova página inicial
+  },
+
+  {
+    path: '/sobre',
+    name: 'AboutPagee',
+    component: AboutPagee, // Define a nova página inicial
   },
 
  

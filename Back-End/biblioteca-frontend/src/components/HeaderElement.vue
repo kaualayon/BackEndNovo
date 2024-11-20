@@ -57,6 +57,7 @@
         <li><router-link to="/config">Configurações</router-link></li>
         <li><router-link to="/relatorios">Relatórios e estatísticas</router-link></li>
         <li><router-link to="/perfil">Conta</router-link></li>
+        <li><router-link to="/sobre">Sobre</router-link></li>
       </ul>
       <button class="logout-btn" @click="logout">Sair</button>
     </div>
