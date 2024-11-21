@@ -1,7 +1,8 @@
 <template>
+    <!-- Header -->
+    <HeaderElement />
+
     <div class="about-page">
-      <!-- Header -->
-      <HeaderElement />
   
       <!-- Título Principal -->
       <div class="about-title">
@@ -70,9 +71,11 @@
         </section>
       </div>
   
-      <!-- Footer -->
-      <FooterElement />
+      
     </div>
+
+    <!-- Footer -->
+    <FooterElement />
   </template>
   
   <script>
@@ -93,11 +96,11 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    padding: 10px
   }
   
   .about-title {
     text-align: center;
-    margin-top: 20px;
     margin-bottom: 20px;
   }
   

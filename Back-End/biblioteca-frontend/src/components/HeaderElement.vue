@@ -51,6 +51,16 @@
     <!-- Sidebar com botão de fechar -->
     <div :class="{'sidebar': true, 'open': sidebarOpen}">
       <button class="close-btn" @click="toggleSidebar">X</button>
+
+      <!-- Seção de perfil -->
+  <div class="profile-section">
+    <div class="profile-icon">👤</div>
+    <div class="profile-details">
+      <p>Bem-vindo,</p>
+      <strong>{{ username }}</strong>
+    </div>
+  </div>
+
       <ul>
         <li><router-link to="/home">Dashboard</router-link></li>
         <li><router-link to="/notificacao">Notificações</router-link></li>
@@ -81,6 +91,7 @@ export default {
       selectedPublicationDate: '', // Filtro de data de publicação
       authors: ['Autor 1', 'Autor 2', 'Autor 3'], // Lista de autores (deve vir do back-end)
       genres: ['Ficção', 'Romance', 'Mistério'], // Lista de gêneros (deve vir do back-end)
+      username: '', // Armazena o nome do usuário logado
     };
   },
   methods: {
@@ -110,7 +121,12 @@ export default {
   created() {
     this.addNotification("Livro reservado com sucesso!");
     this.addNotification("Adicionado à lista de desejos.");
+    // Exemplo: recupera o username do localStorage
+    const user = JSON.parse(localStorage.getItem('user'));
+    this.username = user?.username || 'Usuário';
   },
+
+  
 };
 </script>
 
@@ -171,6 +187,33 @@ html, body {
   border-radius: 20px;
   width: 200px;
 }
+
+.profile-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.profile-icon {
+  font-size: 40px;
+  margin-right: 10px;
+}
+
+.profile-details {
+  color: white;
+}
+
+.profile-details p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.profile-details strong {
+  font-size: 16px;
+}
+
 
 
 .filter-container {
