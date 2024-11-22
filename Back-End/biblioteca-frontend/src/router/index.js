@@ -11,6 +11,8 @@ import AdminUsersPage from '../views/AdminUsersPage.vue';
 import SettingsPage from '../views/SettingsPage.vue';
 import ReportsPage from '../views/ReportsPage.vue';
 import AboutPagee from '../views/AboutPagee.vue';
+import EditBook from '../views/EditBook.vue';
+import RemoveBook from '../views/RemoveBook.vue';
 
 const routes = [
   {
@@ -55,6 +57,22 @@ const routes = [
     path: '/book/:id',
     name: 'BookDetail',
     component: BookDetail,
+  },
+
+  {
+ 
+  
+    path: '/editarLivro',
+    name: 'EditBook',
+    component: EditBook,
+  },
+
+  {
+ 
+  
+    path: '/removerLivro',
+    name: 'RemoveBook',
+    component: RemoveBook,
   },
 
   

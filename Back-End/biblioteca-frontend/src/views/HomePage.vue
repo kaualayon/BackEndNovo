@@ -52,10 +52,10 @@
         <router-link to="/BookForm">
           <button class="action-btn">Adicionar Livro</button>
         </router-link>
-        <router-link to="/editBook">
+        <router-link to="/editarLivro">
           <button class="action-btn">Editar Livro</button>
         </router-link>
-        <router-link to="/removeBook">
+        <router-link to="/removerLivro">
           <button class="action-btn">Remover Livro</button>
         </router-link>
       </div>
