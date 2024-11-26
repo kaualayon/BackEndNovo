@@ -1,12 +1,16 @@
 const express = require('express');
 const cors = require('cors');
+const mongoose = require('mongoose');
 const connectDB = require('./config/db');
-const authRoutes = require('./routes/authRoutes');
 const bodyParser = require('body-parser');
-const bookRoutes = require('./routes/books');
-const userRoutes = require('./routes/userRoutes'); // Importando as rotas de usuários
 const bcrypt = require('bcryptjs')
 const dotenv = require('dotenv');
+
+
+const authRoutes = require('./routes/authRoutes');
+const bookRoutes = require('./routes/books');
+const userRoutes = require('./routes/userRoutes'); // Importando as rotas de usuários
+const favoriteRoutes = require('./routes/favorites'); // Novas rotas
 
 dotenv.config();
 const app = express();
@@ -26,6 +30,9 @@ app.use('/api/user', authRoutes);
 
 // Usar as rotas de usuários
 app.use('/api/users', userRoutes);
+
+app.use('/api', favoriteRoutes); // Adiciona as rotas de favoritos
+
 
 const PORT = process.env.PORT || 5000;
 
