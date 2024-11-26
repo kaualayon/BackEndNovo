@@ -1,6 +1,7 @@
 <template>
+  <HeaderElement />
     <div class="edit-book-page">
-      <HeaderElement />
+      
   
       <!-- Fundo escuro -->
       <div class="background-overlay">
@@ -61,8 +62,10 @@
         </div>
       </div>
   
-      <FooterElement />
+      
     </div>
+
+    <FooterElement />
   </template>
   
   <script>
