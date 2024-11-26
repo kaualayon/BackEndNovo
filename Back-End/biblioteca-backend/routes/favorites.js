@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Favorite = require('../models/Favorite');
-const Book = require('../models/Book');
-const authMiddleware = require('../middleware/auth'); // Middleware para autenticação
+const Book = require('../models/book');
 
 // Adicionar um livro aos favoritos
-router.post('/api/favorites', authMiddleware, async (req, res) => {
+router.post('/api/favorites', async (req, res) => {
   try {
     const { bookId } = req.body;
     const userId = req.user.id;
@@ -27,7 +26,7 @@ router.post('/api/favorites', authMiddleware, async (req, res) => {
 });
 
 // Obter os livros favoritos do usuário
-router.get('/api/favorites', authMiddleware, async (req, res) => {
+router.get('/api/favorites',async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -42,7 +41,7 @@ router.get('/api/favorites', authMiddleware, async (req, res) => {
 });
 
 // Remover um livro dos favoritos
-router.delete('/api/favorites/:bookId', authMiddleware, async (req, res) => {
+router.delete('/api/favorites/:bookId', async (req, res) => {
   try {
     const { bookId } = req.params;
     const userId = req.user.id;
