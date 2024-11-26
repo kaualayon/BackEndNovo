@@ -13,6 +13,7 @@
         <!-- Lista de livros favoritos -->
         <div v-else class="book-list">
           <div class="book-card" v-for="book in favoriteBooks" :key="book.id">
+            <img :src="book.imageUrl" alt="Capa do livro" class="book-image" />
             <h3>{{ book.title }}</h3>
             <p><strong>Autor:</strong> {{ book.author }}</p>
             <p><strong>Descrição:</strong> {{ book.description }}</p>
@@ -29,6 +30,7 @@
   <script>
   import HeaderElement from "@/components/HeaderElement.vue";
   import FooterElement from "@/components/FooterElement.vue";
+  import axios from "axios";
   
   export default {
     components: {
@@ -41,20 +43,19 @@
       };
     },
     created() {
-      this.loadFavorites(); // Carregar favoritos ao criar o componente
+        this.fetchFavorites();
     },
     methods: {
-      // Carrega os favoritos do Local Storage
-      loadFavorites() {
-        const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-        this.favoriteBooks = favorites;
-      },
-      // Remove um livro dos favoritos
-      removeFromFavorites(bookId) {
-        this.favoriteBooks = this.favoriteBooks.filter((book) => book.id !== bookId);
-        localStorage.setItem("favorites", JSON.stringify(this.favoriteBooks));
-        alert("Livro removido dos favoritos!");
-      },
+        async fetchFavorites() {
+      try {
+        const userId = localStorage.getItem('userId'); // Supondo que o ID do usuário está armazenado no localStorage
+        const response = await axios.get(`http://localhost:5000/api/favorites/${userId}`);
+        this.favorites = response.data.favorites;
+      } catch (error) {
+        console.error("Erro ao carregar favoritos:", error);
+        alert("Erro ao carregar a lista de favoritos.");
+      }
+    },
     },
   };
   </script>
