@@ -293,7 +293,7 @@ export default {
   padding: 16px; /* Ajustado padding para um card mais confortável */
   text-align: center;
   transition: transform 0.3s ease;
-  max-width: 220px; /* Diminuído o tamanho do card */
+  max-width: 180px; /* Diminuído o tamanho do card */
   margin: 0 auto;
 }
 

@@ -61,71 +61,57 @@
   </script>
   
   <style scoped>
-  .favorites-page {
-    background-color: #f7f7f7;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-  }
-  
-  .content {
-    max-width: 800px;
-    width: 100%;
-    background: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-  
-  h2 {
-    text-align: center;
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #333;
-  }
-  
-  .no-favorites {
-    text-align: center;
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .book-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .book-card {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-  }
-  
-  .book-card h3 {
-    font-size: 20px;
-    margin-bottom: 5px;
-  }
-  
-  .book-card p {
-    margin: 5px 0;
-  }
-  
-  button {
-    padding: 8px 12px;
-    background-color: #d32f2f;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  button:hover {
-    background-color: #b71c1c;
-  }
-  </style>
+.favorites-page {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.favorites-page h2 {
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.no-favorites {
+  text-align: center;
+  font-size: 18px;
+  color: #555;
+}
+
+.favorites-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.favorite-item {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px;
+  width: 260px;
+  text-align: center;
+}
+
+.book-image {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.book-details h3 {
+  font-size: 20px;
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.book-details p {
+  font-size: 16px;
+  color: #666;
+}
+</style>
+
   
