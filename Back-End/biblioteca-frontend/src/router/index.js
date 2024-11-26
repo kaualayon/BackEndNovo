@@ -13,12 +13,19 @@ import ReportsPage from '../views/ReportsPage.vue';
 import AboutPagee from '../views/AboutPagee.vue';
 import EditBook from '../views/EditBook.vue';
 import RemoveBook from '../views/RemoveBook.vue';
+import FavoritesPage from '../views/FavoritesPage.vue';
 
 const routes = [
   {
     path: '/',
     name: 'FirstPage',
-    component: FirstPage, // Define a nova página inicial
+    component: FirstPage,
+  },
+
+  {
+    path: "/favorites",
+    name: "FavoritesPage",
+    component: FavoritesPage,
   },
 
   {

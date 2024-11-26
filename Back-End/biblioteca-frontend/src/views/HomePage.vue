@@ -77,6 +77,7 @@
              <!-- Botões de Ação -->
           <div class="book-buttons">
             <button @click="viewBookDetails(book.id)">Ver Detalhes</button>
+            <button @click="addToFavorites(book)">Adicionar aos Favoritos</button>
           </div>
           </div>
         </div>
@@ -169,7 +170,20 @@ export default {
       if (books) {
         this.books = JSON.parse(books); // Converte os dados do localStorage para o array de objetos
       }
-    }
+    },
+    addToFavorites(book) {
+      const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      const isAlreadyFavorite = favorites.find((fav) => fav.id === book.id);
+
+      if (isAlreadyFavorite) {
+        alert("Este livro já está nos favoritos!");
+        return;
+      }
+
+      favorites.push(book);
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      alert("Livro adicionado aos favoritos!");
+    },
   },
 };
 </script>

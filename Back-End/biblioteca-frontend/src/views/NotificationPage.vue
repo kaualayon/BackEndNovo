@@ -4,13 +4,6 @@
   
   <div class="notifications-page">
     
-    <!-- Setinha para voltar à HomePage -->
-    <div class="back-to-home">
-      <button @click="goHome" class="back-button">
-        ← Voltar para a HomePage
-      </button>
-    </div>
-    
     <!-- Seção de Título -->
     <section class="notifications-title">
       <h2>Notificações</h2>
@@ -80,28 +73,6 @@ export default {
   flex-direction: column;
   align-items: center;
   padding: 10px;
-}
-
-/* Botão de voltar para a HomePage */
-.back-to-home {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.back-button {
-  background-color: #1976D2;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s, transform 0.2s ease;
-}
-
-.back-button:hover {
-  background-color: #1565C0;
-  transform: scale(1.05);
 }
 
 /* Título da seção de notificações */
