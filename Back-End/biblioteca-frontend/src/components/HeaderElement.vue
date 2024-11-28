@@ -17,6 +17,23 @@
         @input="applyFilters"
       />
       
+       <!-- Sugestões dinâmicas -->
+       <div v-if="searchResults.length && searchQuery.trim()" class="suggestions-box">
+        <ul>
+          <li 
+            v-for="book in searchResults" 
+            :key="book.id" 
+            @click="selectBook(book)"
+          >
+            {{ book.title }}
+          </li>
+        </ul>
+      </div>
+
+
+      
+      
+      
       <div class="filter-container">
         <!-- Filtro de autor -->
         <select v-model="selectedAuthor" @change="applyFilters">
@@ -102,6 +119,7 @@ export default {
       books: [], // Lista de livros (obtida do back-end)
       filteredBooks: [], // Lista de livros filtrados
       username: '', // Armazena o nome do usuário logado
+      searchResults: [], // Resultados da pesquisa dinâmica
     };
   },
   methods: {
@@ -123,18 +141,12 @@ export default {
       this.$router.push('/login');
     },
     applyFilters() {
-      // Aplica filtros à lista de livros
-      this.filteredBooks = this.books.filter(book => {
-        const matchesSearchQuery = book.title.toLowerCase().includes(this.searchQuery.toLowerCase());
-        const matchesAuthor = this.selectedAuthor ? book.author === this.selectedAuthor : true;
-        const matchesGenre = this.selectedGenre ? book.genre === this.selectedGenre : true;
-        const matchesPublicationDate = this.selectedPublicationDate
-          ? new Date(book.publicationYear).toISOString().split('T')[0] === this.selectedPublicationDate
-          : true;
-
-        return matchesSearchQuery && matchesAuthor && matchesGenre && matchesPublicationDate;
-      });
+      // Atualiza a lista de sugestões enquanto o usuário digita
+      this.searchResults = this.books.filter(book =>
+        book.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
+
     async fetchBooks() {
       // Busca os livros do backend
       try {
@@ -152,7 +164,17 @@ export default {
         console.error('Erro ao buscar os livros:', error);
       }
     },
+
+    selectBook(book) {
+      // Ação ao clicar em um livro na lista de sugestões
+      this.searchQuery = book.title; // Preenche o campo de pesquisa com o título selecionado
+      this.searchResults = []; // Esconde as sugestões
+      this.$router.push(`/book/${book.id}`); // Redireciona para a página do livro
+    },
+  
   },
+
+
   created() {
     this.fetchBooks(); // Carrega os livros ao iniciar
     this.addNotification("Livro reservado com sucesso!");
@@ -435,6 +457,35 @@ html, body {
 .overlay.active {
   display: block;
   opacity: 1;
+}
+
+.suggestions-box {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 1000;
+}
+
+.suggestions-box ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestions-box li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestions-box li:hover {
+  background-color: #f0f0f0;
 }
 
 </style>
