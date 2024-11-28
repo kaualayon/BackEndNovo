@@ -7,62 +7,69 @@ const path = require('path');
 
 require("dotenv").config();
 
-// Configuração do multer para armazenar a imagem
-const upload = multer({ 
-    dest: 'uploads/', // Diretório onde as imagens serão salvas
-    limits: { fileSize: 10 * 1024 * 1024 }, // Limite de tamanho de arquivo (10 MB)
-    fileFilter(req, file, cb) {
-        // Filtra os tipos de arquivo permitidos (apenas imagens)
-        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-            return cb(new Error('Por favor, envie apenas arquivos de imagem.'));
-        }
-        cb(null, true);
-    }
+// Diretório onde as imagens serão armazenadas
+const uploadDir = path.join(__dirname, 'uploads');
+
+// Configuração do multer
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir); // Define o diretório de upload
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = `${Date.now()}-${file.originalname}`;
+    cb(null, uniqueName); // Gera um nome único para o arquivo
+  },
 });
 
-// Rota para adicionar um novo livro
+const upload = multer({ storage });
+
+// Certifique-se de que o diretório `uploads` exista
+const fs = require('fs');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
+// Rota para adicionar um livro
 router.post('/api/books/add', upload.single('image'), async (req, res) => {
     try {
-        const { title, author, description, publicationYear, genre, isbn, availableCopies } = req.body;
-
-        const image = req.file;
-
-        const newBook = new Book({
-            title,
-            author,
-            description,
-            publicationYear,
-            genre,
-            isbn,
-            availableCopies,
-            imageUrl: image ? `/uploads/${image.filename}` : null, // Caminho da imagem salva
-        });
-
-        await newBook.save();
-        
-        res.status(201).json({ message: 'Livro adicionado com sucesso!', book: newBook });
+      const { title, author, description, publicationYear, genre, isbn, availableCopies } = req.body;
+  
+      // Verifique se um arquivo foi enviado
+      const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+  
+      // Crie o livro no banco de dados
+      const newBook = new Book({
+        title,
+        author,
+        description,
+        publicationYear,
+        genre,
+        isbn,
+        availableCopies,
+        image: imagePath, // Salve o caminho da imagem
+      });
+  
+      await newBook.save();
+      res.status(201).json({ message: 'Livro adicionado com sucesso!', book: newBook });
     } catch (error) {
-        res.status(500).json({ message: 'Erro ao adicionar o livro', error });
+      console.error('Erro ao adicionar livro:', error);
+      res.status(500).json({ message: 'Erro ao adicionar livro.' });
     }
-});
+  });
 
-// Configuração para servir arquivos estáticos (imagens)
-router.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-
-
-router.get('/api/books', async (req, res) => {
+// Rota para listar os livros
+router.get('/books', async (req, res) => {
     try {
-        const books = await Book.find(); // Substitua pelo método do seu banco de dados para buscar todos os livros
-        res.status(200).json(books);
+      const books = await Book.find(); // Busca todos os livros do banco
+      res.status(200).json(books);
     } catch (error) {
-        console.error("Erro ao buscar livros:", error);
-        res.status(500).json({ message: 'Erro ao buscar livros', error });
+      console.error("Erro ao buscar livros:", error);
+      res.status(500).json({ message: 'Erro ao buscar livros' });
     }
-});
+  });
 
 
-
-router.put('/api/books/:id', async (req, res) => {
+router.put('/books/:id', async (req, res) => {
     try {
         const { id } = req.params;
         const updatedData = req.body; // Os campos atualizados virão no corpo da requisição
@@ -82,7 +89,7 @@ router.put('/api/books/:id', async (req, res) => {
 });
 
 
-router.delete('/api/books/:id', async (req, res) => {
+router.delete('/books/:id', async (req, res) => {
     try {
         const { id } = req.params;
 

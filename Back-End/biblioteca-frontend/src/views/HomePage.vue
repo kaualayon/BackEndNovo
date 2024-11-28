@@ -69,7 +69,7 @@
         <div class="book-list">
           <div class="book-card" v-for="book in books" :key="book.id">
             <div class="book-image">
-              <img :src="book.image" alt="Capa do livro" />
+              <img :src="book.image" alt="Capa do Livro" v-if="book.image" />
             </div>
             <h4>{{ book.title }}</h4>
             <p>{{ book.author }}</p>
