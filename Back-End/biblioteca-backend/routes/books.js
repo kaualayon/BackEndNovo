@@ -7,35 +7,28 @@ const path = require('path');
 
 require("dotenv").config();
 
-// Diretório onde as imagens serão armazenadas
-const uploadDir = path.join(__dirname, 'uploads');
 
-// Configuração do multer
+//Configuração do multer para upload de imagens
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir); // Define o diretório de upload
-  },
-  filename: (req, file, cb) => {
-    const uniqueName = `${Date.now()}-${file.originalname}`;
-    cb(null, uniqueName); // Gera um nome único para o arquivo
-  },
+    destination: function(req, file, cb){
+        cb(null, 'uploads/');
+    },
+    filename: function (req, file, cb){
+        cb(null, Date.now() + '-' + file.originalname);
+    }
 });
 
-const upload = multer({ storage });
+const upload = multer({storage: storage});
 
-// Certifique-se de que o diretório `uploads` exista
-const fs = require('fs');
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
+
 
 // Rota para adicionar um livro
-router.post('/api/books/add', upload.single('image'), async (req, res) => {
+router.post('/books/add', upload.single('image'), async (req, res) => {
     try {
       const { title, author, description, publicationYear, genre, isbn, availableCopies } = req.body;
   
       // Verifique se um arquivo foi enviado
-      const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+      const image = req.file.path;
   
       // Crie o livro no banco de dados
       const newBook = new Book({
@@ -46,7 +39,7 @@ router.post('/api/books/add', upload.single('image'), async (req, res) => {
         genre,
         isbn,
         availableCopies,
-        image: imagePath, // Salve o caminho da imagem
+        image
       });
   
       await newBook.save();
