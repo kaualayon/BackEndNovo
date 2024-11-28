@@ -4,7 +4,7 @@ const Favorite = require('../models/Favorite');
 const Book = require('../models/book');
 
 // Adicionar um livro aos favoritos
-router.post('/api/favorites', async (req, res) => {
+router.post('/favorites', async (req, res) => {
   try {
     const { bookId } = req.body;
     const userId = req.user.id;
@@ -26,7 +26,7 @@ router.post('/api/favorites', async (req, res) => {
 });
 
 // Obter os livros favoritos do usuário
-router.get('/api/favorites',async (req, res) => {
+router.get('/favorites',async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -41,7 +41,7 @@ router.get('/api/favorites',async (req, res) => {
 });
 
 // Remover um livro dos favoritos
-router.delete('/api/favorites/:bookId', async (req, res) => {
+router.delete('/favorites/:bookId', async (req, res) => {
   try {
     const { bookId } = req.params;
     const userId = req.user.id;

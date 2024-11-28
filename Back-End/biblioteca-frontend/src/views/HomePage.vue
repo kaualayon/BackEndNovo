@@ -100,6 +100,7 @@ export default {
   },
   data() {
     return {
+      books: [], // Adicionando o array de livros
 
     };
   },

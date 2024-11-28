@@ -1,9 +1,7 @@
 <template>
   <HeaderElement />
   
-  <!-- Div com fundo escuro que ocupa toda a tela -->
   <div class="background-overlay">
-    <!-- Div centralizada com o formulário -->
     <div class="form-container">
       <h1 class="form-title">{{ isEditing ? "Editar Livro" : "Adicionar Livro" }}</h1>
 
@@ -64,7 +62,8 @@ import FooterElement from '@/components/FooterElement.vue';
 export default {
   name: "BookForm",
   components: {
-    HeaderElement, FooterElement
+    HeaderElement,
+    FooterElement
   },
   data() {
     return {
@@ -79,6 +78,7 @@ export default {
         copiesAvailable: 0,
         image: null
       },
+      catalog: []  // Lista de livros no catálogo
     };
   },
   methods: {
@@ -100,9 +100,7 @@ export default {
         formData.append('genre', this.book.genre);
         formData.append('isbn', this.book.isbn);
         formData.append('availableCopies', this.book.copiesAvailable);
-        if (this.book.image) {
-          formData.append('image', this.book.image);
-        }
+        formData.append('image', this.book.image);
 
         const response = await axios.post('http://localhost:5000/api/books/add', formData, {
           headers: {
@@ -111,15 +109,25 @@ export default {
         });
 
         if (response.status === 201) {
+          console.log("Livro adicionado:", response.data.book);
           this.$emit('bookAdded', response.data.book);
           alert("Livro adicionado com sucesso!");
           this.clearForm();
-          this.$parent.addBookToCatalog(response.data.book);
+          
+          // Adicionando o livro ao catálogo local
+          this.addBookToCatalog(response.data.book);
+        } else {
+          alert("Erro ao adicionar o livro. Tente novamente.");
         }
       } catch (error) {
         console.error("Erro ao adicionar o livro:", error);
-        alert("Erro ao adicionar o livro. Tente novamente.");
+        alert(`Erro ao adicionar o livro. Detalhes: ${error.message}`);
       }
+    },
+
+    addBookToCatalog(book) {
+      this.catalog.push(book);  // Adiciona o livro ao catálogo local
+      console.log("Livro adicionado ao catálogo local:", book);
     },
 
     handleImageUpload(event) {
@@ -144,6 +152,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 /* Div de fundo escuro que ocupa toda a tela */
