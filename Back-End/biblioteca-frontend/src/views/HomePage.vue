@@ -77,9 +77,9 @@
             <p>{{ book.author }}</p>
             <p>Quantidade Disponível: <span :class="book.quantity > 0 ? 'available' : 'unavailable'">{{ book.quantity }}</span></p>
              <!-- Botões de Ação -->
-          <div class="book-buttons">
-            <button @click="viewBookDetails(book.id)">Ver Detalhes</button>
-            <button @click="addToFavorites(book)">Adicionar aos Favoritos</button>
+              <div class="book-buttons">
+                <button @click="viewBookDetails(book.id)">Ver Detalhes</button>
+                <button @click="addToFavorites(book)">Adicionar aos Favoritos</button>
           </div>
           </div>
         </div>
@@ -132,6 +132,17 @@ export default {
     // Caso não seja de nenhuma das duas situações acima, retorna o caminho original
     return imagePath; 
   },
+
+  viewBookDetails(bookId) {
+    console.log(`Visualizando detalhes do livro com ID: ${bookId}`);
+  if (bookId) {
+    this.$router.push(`/book/${bookId}`);
+  } else {
+    console.error('ID do livro não encontrado!');
+  }
+  
+    },
+
   
 
 
@@ -163,12 +174,6 @@ export default {
         alert("Não há devoluções pendentes para este livro.");
       }
     },
-    viewBookDetails(bookId) {
-      console.log(`Visualizando detalhes do livro com ID: ${bookId}`);
-      // Lógica para redirecionar ou exibir detalhes do livro
-      this.$router.push(`/book/${bookId}`);
-    },
-
 
     addBookToCatalog(newBook) {
       newBook.quantity = 1; // Define quantidade inicial como 1 para novos livros

@@ -310,8 +310,9 @@ export default {
    };
  },
  created() {
-    // Buscando o livro com o id passado pela rota
-    this.book = this.books.find(book => book.id === parseInt(this.id)); // Usando 'this.id' diretamente
+  const bookId = this.$route.params.id;
+  console.log(`ID do livro: ${bookId}`);
+  this.book = this.books.find(book => book.id === parseInt(bookId));
  },
 
  
