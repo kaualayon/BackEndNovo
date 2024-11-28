@@ -74,4 +74,37 @@ router.post('/login', async (req, res) => {
   res.json({token});
 });
 
+//Rota Patch para status
+router.patch('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { active } = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(id, { active }, { new: true });
+    if (!user) {
+      return res.status(404).send({ error: 'Usuário não encontrado' });
+    }
+    res.send(user);
+  } catch (error) {
+    res.status(500).send({ error: 'Erro ao atualizar usuário' });
+  }
+});
+
+
+//Rota para deletar usuário
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const user = await User.findByIdAndDelete(id);
+    if (!user) {
+      return res.status(404).send({ error: 'Usuário não encontrado' });
+    }
+    res.send({ message: 'Usuário excluído com sucesso' });
+  } catch (error) {
+    res.status(500).send({ error: 'Erro ao excluir usuário' });
+  }
+});
+
+
 module.exports = router;

@@ -27,7 +27,7 @@
           <button @click="toggleUserStatus(user)">
             {{ user.active ? 'Desativar' : 'Ativar' }}
           </button>
-          <button @click="deleteUser(user.id)">Excluir</button>
+          <button @click="deleteUser(user._id)">Excluir</button>
         </div>
       </div>
     </div>
@@ -66,55 +66,32 @@ export default {
     },
 
     // Método para alternar status do usuário (Ativar/Desativar)
-    async toggleUserStatus(user) {
-      try {
-        const updatedStatus = !user.active;
-        await axios.patch(`http://localhost:5000/api/users/${user.id}`, {
-          active: updatedStatus
-        });
-        user.active = updatedStatus; // Atualiza o status no frontend
-        alert(`Usuário ${updatedStatus ? 'ativado' : 'desativado'} com sucesso!`);
-      } catch (error) {
-        console.error("Erro ao alterar status do usuário:", error);
-        alert("Erro ao atualizar o status do usuário.");
-      }
-    },
-
-
-
-    // Método para editar um usuário
-    editUser(user) {
-      const updatedEmail = prompt("Digite o novo email:", user.email);
-      if (updatedEmail) {
-        this.updateUser(user.id, updatedEmail);
-      }
-    },
-    // Método para atualizar um usuário
-    async updateUser(userId, newEmail) {
-      try {
-        await axios.put(`http://localhost:5000/api/users/${userId}`, {
-          email: newEmail
-        });
-        this.fetchUsers();
-        alert("Usuário atualizado com sucesso!");
-      } catch (error) {
-        console.error("Erro ao atualizar usuário:", error);
-        alert("Erro ao atualizar o usuário.");
-      }
-    },
+async toggleUserStatus(user) {
+  try {
+    const updatedStatus = !user.active;
+    await axios.patch(`http://localhost:5000/api/users/${user._id}`, {
+      active: updatedStatus
+    });
+    user.active = updatedStatus; // Atualiza o status no frontend
+    alert(`Usuário ${updatedStatus ? 'ativado' : 'desativado'} com sucesso!`);
+  } catch (error) {
+    console.error("Erro ao alterar status do usuário:", error);
+    alert("Erro ao atualizar o status do usuário.");
+  }
+},
     // Método para excluir um usuário
-    async deleteUser(userId) {
-      if (confirm("Tem certeza de que deseja excluir este usuário?")) {
-        try {
-          await axios.delete(`http://localhost:5000/api/users/${userId}`);
-          this.fetchUsers();
-          alert("Usuário excluído com sucesso!");
-        } catch (error) {
-          console.error("Erro ao excluir usuário:", error);
-          alert("Erro ao excluir o usuário.");
-        }
-      }
+async deleteUser(userId) {
+  if (confirm("Tem certeza de que deseja excluir este usuário?")) {
+    try {
+      await axios.delete(`http://localhost:5000/api/users/${userId}`); // Passa o _id recebido como parâmetro
+      this.fetchUsers(); // Atualiza a lista após exclusão
+      alert("Usuário excluído com sucesso!");
+    } catch (error) {
+      console.error("Erro ao excluir usuário:", error);
+      alert("Erro ao excluir o usuário.");
     }
+  }
+}
   }
 };
 </script>
