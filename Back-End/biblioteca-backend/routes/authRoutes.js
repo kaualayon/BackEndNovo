@@ -12,4 +12,7 @@ router.post('/login', authController.loginUser);  // Confirme que isso está cor
 // Rota para obter dados do usuário autenticado
 router.get('/user', authController.getUser);
 
+// Atualizar status do usuário (Ativar/Desativar)
+router.patch('/:id', authController.toggleUserStatus);
+
 module.exports = router;

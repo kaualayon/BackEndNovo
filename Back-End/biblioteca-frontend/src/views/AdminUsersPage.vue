@@ -1,12 +1,12 @@
 <template>
   <HeaderElement />
-  
+
   <!-- Div de fundo escuro -->
   <div class="background-overlay">
     <!-- Div do conteúdo centralizado -->
     <div class="admin-users-page">
       <h2>Gerenciamento de Usuários</h2>
-    
+
       <!-- Exibição de mensagem quando não há usuários -->
       <div v-if="users.length === 0" class="no-users">
         <p>Não há usuários registrados.</p>
@@ -15,9 +15,18 @@
       <!-- Exibição da lista de usuários -->
       <div v-else class="user-list">
         <div class="user-card" v-for="user in users" :key="user.id">
-          <p><strong>Nome de Usuário:</strong> {{ user.username }}</p>
+          <p><strong>ID:</strong> {{ user.id }}</p>
+          <p><strong>Nome:</strong> {{ user.username }}</p>
           <p><strong>Email:</strong> {{ user.email }}</p>
-          <button @click="editUser(user)">Editar</button>
+          <p>
+            <strong>Status:</strong>
+            <span :class="{'status-active': user.active, 'status-inactive': !user.active}">
+              {{ user.active ? 'Ativo' : 'Inativo' }}
+            </span>
+          </p>
+          <button @click="toggleUserStatus(user)">
+            {{ user.active ? 'Desativar' : 'Ativar' }}
+          </button>
           <button @click="deleteUser(user.id)">Excluir</button>
         </div>
       </div>
@@ -55,6 +64,24 @@ export default {
         alert("Erro ao carregar a lista de usuários.");
       }
     },
+
+    // Método para alternar status do usuário (Ativar/Desativar)
+    async toggleUserStatus(user) {
+      try {
+        const updatedStatus = !user.active;
+        await axios.patch(`http://localhost:5000/api/users/${user.id}`, {
+          active: updatedStatus
+        });
+        user.active = updatedStatus; // Atualiza o status no frontend
+        alert(`Usuário ${updatedStatus ? 'ativado' : 'desativado'} com sucesso!`);
+      } catch (error) {
+        console.error("Erro ao alterar status do usuário:", error);
+        alert("Erro ao atualizar o status do usuário.");
+      }
+    },
+
+
+
     // Método para editar um usuário
     editUser(user) {
       const updatedEmail = prompt("Digite o novo email:", user.email);
@@ -139,10 +166,11 @@ h2 {
   margin: 5px 0;
 }
 
+/* Botões */
 button {
   margin-right: 10px;
   padding: 8px 12px;
-  background-color: #D32F2F;
+  background-color: #1976D2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -151,7 +179,18 @@ button {
 }
 
 button:hover {
-  background-color: #B71C1C;
+  background-color: #115293;
+}
+
+/* Status do usuário */
+.status-active {
+  color: green;
+  font-weight: bold;
+}
+
+.status-inactive {
+  color: red;
+  font-weight: bold;
 }
 
 /* Responsividade */

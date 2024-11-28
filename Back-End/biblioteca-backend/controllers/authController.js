@@ -71,3 +71,26 @@ exports.getUser = async (req, res) => {
     return res.status(500).json({ error: 'Erro ao obter dados do usuário' });
   }
 };
+
+// Atualiza o status ativo/inativo de um usuário
+exports.toggleUserStatus = async (req, res) => {
+  const { id } = req.params; // ID do usuário vindo dos parâmetros
+  const { active } = req.body; // Novo status ativo/inativo
+
+  try {
+    // Verifica se o usuário existe
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado' });
+    }
+
+    // Atualiza o status
+    user.active = active;
+    await user.save();
+
+    res.status(200).json({ message: 'Status do usuário atualizado com sucesso', user });
+  } catch (error) {
+    console.error('Erro ao atualizar o status do usuário:', error);
+    res.status(500).json({ message: 'Erro interno ao atualizar o status do usuário' });
+  }
+};

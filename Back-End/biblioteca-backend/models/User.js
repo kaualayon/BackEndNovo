@@ -19,6 +19,8 @@ const userSchema = new mongoose.Schema({
   },
 
   role: { type: String, default: "user" },
+
+  active: { type: Boolean, default: true } // Campo para status do usuário
 });
 
 const User = mongoose.model('User', userSchema);

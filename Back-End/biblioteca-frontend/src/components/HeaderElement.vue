@@ -18,23 +18,22 @@
       />
       
        <!-- Sugestões dinâmicas -->
-      <div v-if="searchResults.length && searchQuery.trim()" class="suggestions-box">
-        <ul>
-          <li 
-            v-for="book in searchResults" 
-            :key="book.id" 
-            @click="selectBook(book)"
-            class="suggestion-item"
-          >
-            <img :src="book.image" alt="Capa do livro" class="book-image" />
-            <div class="book-details">
-              <h3>{{ book.title }}</h3>
-              <p>{{ book.author }}</p>
-            </div>
-          </li>
-        </ul>
+       <div v-if="searchResults.length && searchQuery.trim()" class="suggestions-box" ref="suggestionsBox">
+  <ul>
+    <li 
+      v-for="book in searchResults" 
+      :key="book.id" 
+      @click="selectBook(book)"
+      class="suggestion-item"
+    >
+      <img :src="book.image" alt="Capa do livro" class="book-image" />
+      <div class="book-details">
+        <h3>{{ book.title }}</h3>
+        <p>{{ book.author }}</p>
       </div>
-
+    </li>
+  </ul>
+</div>
       
       
       
@@ -173,11 +172,15 @@ export default {
     },
 
     selectBook(book) {
-      // Ação ao clicar em um livro na lista de sugestões
-      this.searchQuery = book.title; // Preenche o campo de pesquisa com o título selecionado
-      this.searchResults = []; // Esconde as sugestões
-      this.$router.push(`/book/${book.id}`); // Redireciona para a página do livro
+      // Ação ao clicar no livro
+      console.log("Livro selecionado:", book);
+      this.$router.push(`/book/${book.id}`);
+    
     },
+
+    
+    
+  
   
   },
 
