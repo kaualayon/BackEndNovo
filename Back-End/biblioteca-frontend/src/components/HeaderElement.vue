@@ -9,9 +9,13 @@
       </div>
     </div>
 
-    <!-- Barra de pesquisa com filtros -->
     <div class="search-bar">
-      <input type="text" v-model="searchQuery" placeholder="Buscar livros..." />
+      <input 
+        type="text" 
+        v-model="searchQuery" 
+        placeholder="Buscar livros..." 
+        @input="applyFilters"
+      />
       
       <div class="filter-container">
         <!-- Filtro de autor -->
@@ -30,6 +34,9 @@
         <input type="date" v-model="selectedPublicationDate" @change="applyFilters" />
       </div>
     </div>
+
+    
+
 
     <!-- Ícone de notificações com contador após a barra de pesquisa -->
     <div class="notification-icon" @click="toggleNotifications">
@@ -90,8 +97,10 @@ export default {
       selectedAuthor: '', // Filtro de autor
       selectedGenre: '', // Filtro de gênero
       selectedPublicationDate: '', // Filtro de data de publicação
-      authors: ['Autor 1', 'Autor 2', 'Autor 3'], // Lista de autores (deve vir do back-end)
-      genres: ['Ficção', 'Romance', 'Mistério'], // Lista de gêneros (deve vir do back-end)
+      authors: [], // Lista de autores (obtida do back-end)
+      genres: [], // Lista de gêneros (obtida do back-end)
+      books: [], // Lista de livros (obtida do back-end)
+      filteredBooks: [], // Lista de livros filtrados
       username: '', // Armazena o nome do usuário logado
     };
   },
@@ -114,20 +123,44 @@ export default {
       this.$router.push('/login');
     },
     applyFilters() {
-      // Aqui você pode chamar um método para filtrar a lista de livros
-      console.log('Aplicando filtros:', this.searchQuery, this.selectedAuthor, this.selectedGenre, this.selectedPublicationDate);
-      // Por exemplo, chamar uma API de busca filtrada ou filtrar localmente
+      // Aplica filtros à lista de livros
+      this.filteredBooks = this.books.filter(book => {
+        const matchesSearchQuery = book.title.toLowerCase().includes(this.searchQuery.toLowerCase());
+        const matchesAuthor = this.selectedAuthor ? book.author === this.selectedAuthor : true;
+        const matchesGenre = this.selectedGenre ? book.genre === this.selectedGenre : true;
+        const matchesPublicationDate = this.selectedPublicationDate
+          ? new Date(book.publicationYear).toISOString().split('T')[0] === this.selectedPublicationDate
+          : true;
+
+        return matchesSearchQuery && matchesAuthor && matchesGenre && matchesPublicationDate;
+      });
+    },
+    async fetchBooks() {
+      // Busca os livros do backend
+      try {
+        const response = await fetch('http://localhost:5000/api/books');
+        const data = await response.json();
+        this.books = data;
+
+        // Popula autores e gêneros únicos
+        this.authors = [...new Set(this.books.map(book => book.author))];
+        this.genres = [...new Set(this.books.map(book => book.genre))];
+
+        // Inicializa a lista de livros filtrados
+        this.filteredBooks = [...this.books];
+      } catch (error) {
+        console.error('Erro ao buscar os livros:', error);
+      }
     },
   },
   created() {
+    this.fetchBooks(); // Carrega os livros ao iniciar
     this.addNotification("Livro reservado com sucesso!");
     this.addNotification("Adicionado à lista de desejos.");
     // Exemplo: recupera o username do localStorage
     const user = JSON.parse(localStorage.getItem('user'));
     this.username = user?.username || 'Usuário';
   },
-
-  
 };
 </script>
 
