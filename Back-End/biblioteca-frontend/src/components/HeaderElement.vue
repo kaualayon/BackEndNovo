@@ -18,18 +18,22 @@
       />
       
        <!-- Sugestões dinâmicas -->
-       <div v-if="searchResults.length && searchQuery.trim()" class="suggestions-box">
+      <div v-if="searchResults.length && searchQuery.trim()" class="suggestions-box">
         <ul>
           <li 
             v-for="book in searchResults" 
             :key="book.id" 
             @click="selectBook(book)"
+            class="suggestion-item"
           >
-            {{ book.title }}
+            <img :src="book.image" alt="Capa do livro" class="book-image" />
+            <div class="book-details">
+              <h3>{{ book.title }}</h3>
+              <p>{{ book.author }}</p>
+            </div>
           </li>
         </ul>
       </div>
-
 
       
       
@@ -152,7 +156,10 @@ export default {
       try {
         const response = await fetch('http://localhost:5000/api/books');
         const data = await response.json();
-        this.books = data;
+        this.books = data.map(book => ({
+          ...book,
+          image: book.image || '/default-cover.jpg', // Define uma capa padrão se não houver imagem
+        }));
 
         // Popula autores e gêneros únicos
         this.authors = [...new Set(this.books.map(book => book.author))];
@@ -464,7 +471,7 @@ html, body {
   top: 100%;
   left: 0;
   width: 100%;
-  max-height: 200px;
+  max-height: 300px;
   overflow-y: auto;
   background: white;
   border: 1px solid #ccc;
@@ -478,14 +485,37 @@ html, body {
   padding: 0;
 }
 
-.suggestions-box li {
+.suggestion-item {
+  display: flex;
+  align-items: center;
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-.suggestions-box li:hover {
-  background-color: #f0f0f0;
+.suggestion-item:hover {
+  background-color: #f9f9f9;
+}
+
+.book-image {
+  width: 50px;
+  height: 70px;
+  object-fit: cover;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.book-details h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.book-details p {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: #666;
 }
 
 </style>
