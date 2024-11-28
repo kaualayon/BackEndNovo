@@ -58,6 +58,7 @@ const routes = [
     path: '/book/:id',
     name: 'BookDetail',
     component: BookDetail,
+    props: true // Isso permite que o parâmetro seja passado como uma prop para o componente
   },
 
   {
