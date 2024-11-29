@@ -15,6 +15,7 @@
                 <th>Imagem</th>
                 <th>Título</th>
                 <th>Autor</th>
+                <th>ISBN</th>
                 <th>Ações</th>
               </tr>
             </thead>
@@ -25,6 +26,7 @@
                 </td>
                 <td>{{ book.title }}</td>
                 <td>{{ book.author }}</td>
+                <td>{{ book.isbn }}</td>
                 <td>
                   <button class="edit-button" @click="selectBook(book)">Editar</button>
                 </td>
