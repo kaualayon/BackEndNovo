@@ -165,13 +165,14 @@ export default {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
   padding: 10px;
 }
+
 .content-container {
   max-width: 900px;
-  width: 100%;
   padding: 20px;
+  width: 100%;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -181,10 +182,10 @@ export default {
 h2 {
   font-size: 24px;
   margin-bottom: 20px;
-  text-align: center;
 }
 
 .book-table-container {
+  width: 100%;
   overflow-x: auto;
 }
 
@@ -194,20 +195,15 @@ h2 {
   margin-top: 20px;
 }
 
-.book-table th,
-.book-table td {
+.book-table th, .book-table td {
   padding: 12px;
   text-align: left;
   border: 1px solid #ddd;
 }
 
 .book-table th {
-  background-color: #f4f4f4;
+  background-color: #f2f2f2;
   font-weight: bold;
-}
-
-.book-table tr:nth-child(even) {
-  background-color: #f9f9f9;
 }
 
 .book-table tr:hover {
@@ -215,9 +211,11 @@ h2 {
 }
 
 .book-image {
-  width: 60px;
+  max-width: 80px; /* Limitar largura */
+  max-height: 120px; /* Limitar altura */
+  width: auto;
   height: auto;
-  border-radius: 4px;
+  border-radius: 5px;
 }
 
 button {

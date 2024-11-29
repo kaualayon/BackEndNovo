@@ -120,6 +120,7 @@ export default {
 .content-container {
   max-width: 900px;
   padding: 20px;
+  width: 100%;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
