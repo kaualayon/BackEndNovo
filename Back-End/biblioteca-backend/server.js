@@ -11,7 +11,8 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/books');
 const userRoutes = require('./routes/userRoutes'); // Importando as rotas de usuários
-const favoriteRoutes = require('./routes/favorites'); // Novas rotas
+const favoriteRoutes = require('./routes/favorites'); // Importa as rotas de favoritos
+
 
 dotenv.config();
 const app = express();
@@ -20,10 +21,11 @@ connectDB();
 app.use(cors());
 app.use(bodyParser.json());
 
+// Usando a rota de favoritos
+app.use('/api', favoriteRoutes);  // Configura a rota como /api/favorites
+
 // Usar as rotas de livros
 app.use('/api', bookRoutes);
-
-app.use('/api', favoriteRoutes); // Adiciona as rotas de favoritos
 
 // Usar as rotas de autenticação
 app.use('/api/auth', authRoutes);
