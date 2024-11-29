@@ -12,23 +12,37 @@
         <p>Não há usuários registrados.</p>
       </div>
 
-      <!-- Exibição da lista de usuários -->
-      <div v-else class="user-list">
-        <div class="user-card" v-for="user in users" :key="user.id">
-          <p><strong>ID:</strong> {{ user.id }}</p>
-          <p><strong>Nome:</strong> {{ user.username }}</p>
-          <p><strong>Email:</strong> {{ user.email }}</p>
-          <p>
-            <strong>Status:</strong>
-            <span :class="{'status-active': user.active, 'status-inactive': !user.active}">
-              {{ user.active ? 'Ativo' : 'Inativo' }}
-            </span>
-          </p>
-          <button @click="toggleUserStatus(user)">
-            {{ user.active ? 'Desativar' : 'Ativar' }}
-          </button>
-          <button @click="deleteUser(user._id)">Excluir</button>
-        </div>
+      <!-- Exibição da tabela de usuários -->
+      <div v-else class="user-table-container">
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in users" :key="user.id">
+              <td>{{ user.id }}</td>
+              <td>{{ user.username }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span :class="{'status-active': user.active, 'status-inactive': !user.active}">
+                  {{ user.active ? 'Ativo' : 'Inativo' }}
+                </span>
+              </td>
+              <td>
+                <button @click="toggleUserStatus(user)">
+                  {{ user.active ? 'Desativar' : 'Ativar' }}
+                </button>
+                <button @click="deleteUser(user._id)">Excluir</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -66,32 +80,33 @@ export default {
     },
 
     // Método para alternar status do usuário (Ativar/Desativar)
-async toggleUserStatus(user) {
-  try {
-    const updatedStatus = !user.active;
-    await axios.patch(`http://localhost:5000/api/users/${user._id}`, {
-      active: updatedStatus
-    });
-    user.active = updatedStatus; // Atualiza o status no frontend
-    alert(`Usuário ${updatedStatus ? 'ativado' : 'desativado'} com sucesso!`);
-  } catch (error) {
-    console.error("Erro ao alterar status do usuário:", error);
-    alert("Erro ao atualizar o status do usuário.");
-  }
-},
+    async toggleUserStatus(user) {
+      try {
+        const updatedStatus = !user.active;
+        await axios.patch(`http://localhost:5000/api/users/${user._id}`, {
+          active: updatedStatus
+        });
+        user.active = updatedStatus; // Atualiza o status no frontend
+        alert(`Usuário ${updatedStatus ? 'ativado' : 'desativado'} com sucesso!`);
+      } catch (error) {
+        console.error("Erro ao alterar status do usuário:", error);
+        alert("Erro ao atualizar o status do usuário.");
+      }
+    },
+
     // Método para excluir um usuário
-async deleteUser(userId) {
-  if (confirm("Tem certeza de que deseja excluir este usuário?")) {
-    try {
-      await axios.delete(`http://localhost:5000/api/users/${userId}`); // Passa o _id recebido como parâmetro
-      this.fetchUsers(); // Atualiza a lista após exclusão
-      alert("Usuário excluído com sucesso!");
-    } catch (error) {
-      console.error("Erro ao excluir usuário:", error);
-      alert("Erro ao excluir o usuário.");
+    async deleteUser(userId) {
+      if (confirm("Tem certeza de que deseja excluir este usuário?")) {
+        try {
+          await axios.delete(`http://localhost:5000/api/users/${userId}`);
+          this.fetchUsers();
+          alert("Usuário excluído com sucesso!");
+        } catch (error) {
+          console.error("Erro ao excluir usuário:", error);
+          alert("Erro ao excluir o usuário.");
+        }
+      }
     }
-  }
-}
   }
 };
 </script>
@@ -103,22 +118,23 @@ async deleteUser(userId) {
   min-height: 100vh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Reduz o espaçamento no topo */
   padding: 10px;
 }
 
 /* Div do conteúdo centralizado */
 .admin-users-page {
-  max-width: 400px;
-  margin: 20px;
-  padding: 10px;
+  max-width: 1000px; /* Aumenta o tamanho da tabela */
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
-  font-size: 28px;
+  font-size: 24px; /* Reduz um pouco o tamanho do título */
   font-weight: 600;
   text-transform: uppercase;
   color: #333;
@@ -126,26 +142,43 @@ h2 {
   text-align: center;
 }
 
-.user-list {
+/* Tabela de usuários */
+.user-table-container {
+  overflow-x: auto;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px; /* Reduz o espaço entre o título e a tabela */
+}
+
+.user-table th, .user-table td {
+  padding: 12px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.user-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.user-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.user-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Botões e espaçamento */
+.button-group {
   display: flex;
-  flex-direction: column;
-  gap: 15px;
+  gap: 10px; /* Adiciona espaçamento entre os botões */
 }
 
-.user-card {
-  background: #fff;
-  padding: 15px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.user-card p {
-  margin: 5px 0;
-}
-
-/* Botões */
 button {
-  margin-right: 10px;
   padding: 8px 12px;
   background-color: #1976D2;
   color: white;
