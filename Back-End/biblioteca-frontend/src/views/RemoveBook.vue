@@ -1,6 +1,6 @@
 <template>
+  <HeaderElement />
     <div class="remove-book-page">
-      <HeaderElement />
   
       <!-- Fundo escuro -->
       <div class="background-overlay">
@@ -25,8 +25,8 @@
         </div>
       </div>
   
-      <FooterElement />
     </div>
+    <FooterElement />
   </template>
   
   <script>
