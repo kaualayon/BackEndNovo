@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
 });
 
 // Obter os livros favoritos do usuário
-router.get('/', async (req, res) => {
+router.get('/favorites', async (req, res) => {
   try {
     const userId = req.user.id;
 
