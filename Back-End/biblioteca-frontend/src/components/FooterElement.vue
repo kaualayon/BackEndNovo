@@ -6,12 +6,13 @@
       </div>
       <div class="footer-links">
         <ul>
-          <li><a href="/home">Início</a></li>
-          <li><a href="/notificacao">Notificações</a></li>
-          <li><a href="/config">Configurações</a></li>
-          <li><a href="/relatorios">Relatórios e estatísticas</a></li>
-          <li><a href="/perfil">Conta</a></li>
-          <li><a href="/sobre">Sobre</a></li>
+          <li><router-link to="/home">Dashboard</router-link></li>
+        <li><router-link to="/favorites">Favoritos</router-link></li>
+        <li><router-link to="/notificacao">Notificações</router-link></li>
+        <li><router-link to="/config">Configurações</router-link></li>
+        <li><router-link to="/relatorios">Relatórios e estatísticas</router-link></li>
+        <li><router-link to="/perfil">Conta</router-link></li>
+        <li><router-link to="/sobre">Sobre</router-link></li>
         </ul>
       </div>
     </div>

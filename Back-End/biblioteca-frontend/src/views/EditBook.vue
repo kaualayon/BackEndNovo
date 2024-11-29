@@ -169,12 +169,13 @@ export default {
   padding: 10px;
 }
 .content-container {
-  max-width: 800px;
+  max-width: 900px;
   width: 100%;
   padding: 20px;
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
 }
 
 h2 {
