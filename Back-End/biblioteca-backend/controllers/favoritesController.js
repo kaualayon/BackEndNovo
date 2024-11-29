@@ -26,18 +26,19 @@ exports.addFavorite = async (req, res) => {
 
 // Obter os livros favoritos do usuário
 exports.getFavorites = async (req, res) => {
-  try {
-    const userId = req.user.id;
-
-    // Obtém os favoritos do usuário com os detalhes dos livros
-    const favorites = await Favorite.find({ userId }).populate('bookId');
-
-    res.status(200).json(favorites);  // Retorna os dados completos dos livros favoritos
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao buscar favoritos.', error });
-  }
-};
+    try {
+      const userId = req.user.id;
+      console.log('Buscando favoritos para o usuário:', userId);
+  
+      const favorites = await Favorite.find({ userId }).populate('bookId');
+      console.log('Favoritos encontrados:', favorites);
+  
+      res.status(200).json(favorites);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Erro ao buscar favoritos.', error });
+    }
+  };
 
 // Remover um livro dos favoritos
 exports.removeFavorite = async (req, res) => {
