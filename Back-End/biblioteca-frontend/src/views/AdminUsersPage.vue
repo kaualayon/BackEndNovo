@@ -35,10 +35,13 @@
                 </span>
               </td>
               <td>
-                <button @click="toggleUserStatus(user)">
-                  {{ user.active ? 'Desativar' : 'Ativar' }}
-                </button>
-                <button @click="deleteUser(user._id)">Excluir</button>
+                <div class="button-group">
+                  <button class="edit-button" @click="editUser(user)">Editar</button>
+                  <button class="toggle-button" @click="toggleUserStatus(user)">
+                    {{ user.active ? 'Desativar' : 'Ativar' }}
+                  </button>
+                  <button class="delete-button" @click="deleteUser(user._id)">Excluir</button>
+                </div>
               </td>
             </tr>
           </tbody>
@@ -57,7 +60,8 @@ import FooterElement from "@/components/FooterElement.vue";
 
 export default {
   components: {
-    HeaderElement, FooterElement
+    HeaderElement,
+    FooterElement
   },
   data() {
     return {
@@ -77,6 +81,11 @@ export default {
         console.error("Erro ao carregar usuários:", error);
         alert("Erro ao carregar a lista de usuários.");
       }
+    },
+
+    // Método para editar usuário
+    editUser(user) {
+      alert(`Função de edição do usuário ${user.username} ainda não implementada.`);
     },
 
     // Método para alternar status do usuário (Ativar/Desativar)
@@ -175,13 +184,27 @@ h2 {
 /* Botões e espaçamento */
 .button-group {
   display: flex;
-  gap: 10px; /* Adiciona espaçamento entre os botões */
+  gap: 10px; /* Espaçamento entre os botões */
+}
+
+/* Botões com cores distintas */
+.edit-button {
+  background-color: #4CAF50; /* Verde */
+  color: white;
+}
+
+.toggle-button {
+  background-color: #1976D2; /* Azul */
+  color: white;
+}
+
+.delete-button {
+  background-color: #D32F2F; /* Vermelho */
+  color: white;
 }
 
 button {
   padding: 8px 12px;
-  background-color: #1976D2;
-  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -189,7 +212,7 @@ button {
 }
 
 button:hover {
-  background-color: #115293;
+  opacity: 0.9;
 }
 
 /* Status do usuário */
