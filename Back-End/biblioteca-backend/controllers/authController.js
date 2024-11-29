@@ -37,9 +37,14 @@ exports.loginUser = async (req, res) => {
 
     res.json({token}); //Responde com o token JWT
   
-  }catch(error){
-    res.status(500).json({error: 'Erro ao fazer login'}); //Responde com erro ao fazer login
-
+  }catch (error) {
+    // Se o erro for 403, significa que a conta está desativada
+    if (error.response && error.response.status === 403) {
+      alert('Sua conta está desativada. Entre em contato com o suporte.');
+    } else {
+      alert('Erro ao fazer login. Verifique suas credenciais.');
+    }
+    console.error('Erro ao fazer login:', error);
   }
 };
 

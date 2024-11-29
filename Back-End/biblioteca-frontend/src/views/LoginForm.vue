@@ -64,12 +64,12 @@ export default {
       this.errorMessage = 'Token inválido recebido do servidor.';
     }
   } catch (error) {
-    if (!error.response) {
-      // Erro de rede ou de conexão
-      this.errorMessage = 'Erro de rede. Verifique sua conexão com a internet.';
+    if (error.response && error.response.status === 403) {
+      alert('Sua conta está desativada. Entre em contato com o suporte.');
     } else {
-      this.errorMessage = error.response?.data?.message || error.message || 'Erro ao realizar login.';
+      alert('Erro ao fazer login. Verifique suas credenciais.');
     }
+    
     console.error('Erro no login:', error);
   } finally {
     this.loading = false; // Desativa o loading após a requisição

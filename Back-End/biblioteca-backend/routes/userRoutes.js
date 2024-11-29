@@ -66,9 +66,24 @@ router.post('/login', async (req, res) => {
   const {email, password} = req.body;
   const user = users.find(user => user.email === email);
 
+  // Verifica se o usuário está ativo
+  if (!user.active) {
+    return res.status(403).json({ message: 'Conta desativada. Entre em contato com o suporte.' });
+  }
+
+  
+
+  if (!user) {
+    return res.status(404).json({ message: 'Usuário não encontrado' });
+  }
+
+
   if(!user || !(await bcrypt.compare(password, user.password))){
     return res.status(401).json({message: 'Credenciais inválidas!'});
   }
+
+  
+
 
   const token = jwt.sign({email}, process.env.JWT_SECRET, {expiresIn: '1h'});
   res.json({token});
