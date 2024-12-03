@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
-const bookSchema = new mongoose.Schema({
-    title: String,
-    author: String,
-    publicationYear: Number,
-    isbn:{type: String, required: true, unique: true}
+// Criando o esquema do livro com os campos
+const BookSchema = new mongoose.Schema({
+    title: { type: String, required: true },
+    author: { type: String, required: true },
+    year: { type: Number },
+    ISBN: { type: String, required: true, unique: true },
+    image: { type: String, required: true } 
 });
 
-
-
-module.exports = mongoose.model('Book', bookSchema);
+// Exportando o modelo do livrro criado
+module.exports = mongoose.model('Book', BookSchema);
