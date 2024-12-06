@@ -119,7 +119,7 @@ export default {
     // Caso não seja de nenhuma das duas situações acima, retorna o caminho original
     return imagePath; 
   },
-  
+
     reserveBook(book) {
       alert(`Você reservou: ${book.title}`);
     },
@@ -146,109 +146,117 @@ export default {
 </script>
 
 <style scoped>
-/* Reset básico de margens e padding */
+/* Reset básico */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-.loading {
-  font-size: 1.5rem;
-  text-align: center;
-  margin-top: 50px;
-}
-/* Cor de fundo e fonte principal */
 body {
-  background-color: #f4f7fb;
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
   color: #333;
+  line-height: 1.6;
 }
 
-/* Contêiner principal do detalhe do livro */
+/* Contêiner principal */
 .book-detail-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #fff;
-  padding: 30px;
+  background-color: #ffffff;
+  padding: 25px 30px;
   margin: 40px auto;
-  max-width: 900px;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Imagem do livro */
 .book-image img {
-  max-width: 250px;
-  max-height: 350px;
+  max-width: 200px;
+  max-height: 300px;
   object-fit: cover;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Informação do livro */
 .book-info {
   margin-top: 20px;
-  width: 80%;
+  width: 100%;
   text-align: left;
 }
 
-/* Títulos do livro */
+/* Título */
 h1 {
-  font-size: 2rem;
-  color: #333;
+  font-size: 1.8rem;
+  color: #2c3e50;
   margin-bottom: 10px;
   text-align: center;
+  font-weight: bold;
 }
 
-/* Autor do livro */
+/* Autor */
 .author {
-  font-size: 1.1rem;
-  color: #777;
+  font-size: 1rem;
+  color: #6c757d;
   font-style: italic;
+  text-align: center;
   margin-bottom: 15px;
+}
+
+/* Descrição */
+.description {
+  font-size: 1rem;
+  color: #495057;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* Avaliações */
+.ratings {
+  margin-top: 15px;
   text-align: center;
 }
 
-/* Seção de avaliações */
-.ratings {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.ratings h2 {
+  font-size: 1.2rem;
+  color: #343a40;
+  margin-bottom: 10px;
 }
 
 .rating-stars p {
-  font-size: 1.2rem;
-  color: #555;
-  margin-bottom: 10px;
+  font-size: 1rem;
+  color: #6c757d;
 }
 
-/* Botões de ação */
+/* Botões */
 .button-container {
   display: flex;
-  gap: 15px;
+  gap: 10px;
   justify-content: center;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 
 .button-container button {
-  padding: 12px 20px;
-  font-size: 1rem;
+  padding: 10px 15px;
+  font-size: 0.9rem;
   border: none;
   cursor: pointer;
-  border-radius: 6px;
-  transition: all 0.3s ease;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  font-weight: bold;
 }
 
 .reserve-button {
-  background-color: #4caf50;
+  background-color: #28a745;
   color: white;
 }
 
 .reserve-button:hover {
-  background-color: #45a049;
+  background-color: #218838;
 }
 
 .borrow-button {
@@ -261,26 +269,18 @@ h1 {
 }
 
 .add-to-wishlist {
-  background-color: #ff9800;
-  color: white;
+  background-color: #ffc107;
+  color: #343a40;
 }
 
 .add-to-wishlist:hover {
-  background-color: #e68900;
-}
-
-.share-button {
-  background-color: #888;
-  color: white;
-}
-
-.share-button:hover {
-  background-color: #666;
+  background-color: #e0a800;
 }
 
 /* Avaliação do usuário */
 .user-review {
-  margin-top: 30px;
+  margin-top: 25px;
+  text-align: center;
 }
 
 .star-rating {
@@ -291,23 +291,23 @@ h1 {
 
 .star {
   cursor: pointer;
-  font-size: 2rem;
-  color: #ddd;
+  font-size: 1.8rem;
+  color: #ccc;
   transition: color 0.3s ease;
 }
 
 .star.filled {
-  color: #f39c12;
+  color: #f1c40f;
 }
 
 textarea {
   width: 100%;
-  padding: 12px;
-  margin-top: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  transition: border 0.3s ease;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 4px;
+  border: 1px solid #ced4da;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease;
 }
 
 textarea:focus {
@@ -316,28 +316,34 @@ textarea:focus {
 
 /* Botão de enviar avaliação */
 .submit-review {
-  margin-top: 20px;
-  padding: 12px 25px;
+  margin-top: 10px;
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 6px;
-  font-size: 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
 }
 
 .submit-review:hover {
   background-color: #0056b3;
 }
 
-/* Seção de comentários */
+/* Comentários */
 .comments {
-  margin-top: 30px;
-  width: 90%;
+  margin-top: 20px;
+  width: 100%;
   text-align: left;
   padding-top: 15px;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #e9ecef;
+}
+
+.comments h2 {
+  font-size: 1.2rem;
+  color: #495057;
+  margin-bottom: 10px;
 }
 
 .comments ul {
@@ -346,13 +352,23 @@ textarea:focus {
 }
 
 .comments li {
-  padding: 15px 0;
-  border-bottom: 1px solid #ddd;
-  color: #444;
+  padding: 10px 0;
+  border-bottom: 1px solid #e9ecef;
+  color: #333;
+  font-size: 0.9rem;
 }
 
 .comments li:last-child {
   border-bottom: none;
 }
+
+/* Estado de carregamento */
+.loading {
+  font-size: 1.2rem;
+  text-align: center;
+  color: #6c757d;
+  margin-top: 50px;
+}
+
 </style>
 

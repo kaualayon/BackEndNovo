@@ -198,6 +198,7 @@ export default {
   } else {
     console.warn('Nenhum usuário encontrado no localStorage.');
     this.username = 'Usuário';
+    this.$router.push('/login'); // Redireciona para a página de login se não estiver logado
   }
   },
 };

@@ -46,36 +46,25 @@ export default {
 
   methods: {
     async handleLogin() {
-  this.loading = true;
-  this.errorMessage = ''; // Limpa qualquer mensagem de erro anterior
+      try {
+        const response = await axios.post('http://localhost:5000/api/auth/login', {
+          username: this.username,
+          password: this.password
+        });
 
-  try {
-    // Envia os dados de login para o servidor
-    console.log('Dados do login:', this.formData);
-    const response = await axios.post('http://localhost:5000/api/auth/login', this.formData);
-
-
-    // Verifica se o token foi retornado com sucesso
-    if (response.data.token) {
-      localStorage.setItem('authToken', response.data.token);
-      console.log('Token JWT armazenado com sucesso.');
-      // Redireciona para a página inicial ou para uma página protegida
-      this.$router.push('/home');
-    } else {
-      this.errorMessage = 'Token inválido recebido do servidor.';
+        if (response.data.token) {
+          // Salva o token no localStorage
+          localStorage.setItem('user', JSON.stringify({ username: this.username, token: response.data.token }));
+          
+          // Redireciona para a HomePage
+          this.$router.push('/home');
+        } else {
+          console.error('Erro de login:', response.data.message);
+        }
+      } catch (error) {
+        console.error('Erro ao fazer login:', error);
+      }
     }
-  } catch (error) {
-    if (error.response && error.response.status === 403) {
-      alert('Sua conta está desativada. Entre em contato com o suporte.');
-    } else {
-      alert('Erro ao fazer login. Verifique suas credenciais.');
-    }
-    
-    console.error('Erro no login:', error);
-  } finally {
-    this.loading = false; // Desativa o loading após a requisição
-  }
-}
 
   }
 };
