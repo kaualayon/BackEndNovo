@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router(); // Certifique-se de usar 'router' (não 'Router')
+const verifyToken = require('../Middleware/authMiddleware'); // Ajuste o caminho conforme sua estrutura
 const authController = require('../controllers/authController'); 
+
 
 
 // Rota de registro
@@ -12,7 +14,7 @@ router.post('/login', authController.loginUser);  // Confirme que isso está cor
 // Rota para obter dados do usuário autenticado
 router.get('/user', authController.getUser);
 
-router.get('/user/profile', authController.getUserProfile);
+router.get('/user/profile', verifyToken, authController.getUserProfile);
 
 // Rota para obter o perfil do usuário
 router.get('/profile', authController.getUserProfile);

@@ -82,19 +82,19 @@ exports.getUser = async (req, res) => {
 
 exports.getUserProfile = async (req, res) => {
   try {
-    // Obtém o ID do usuário a partir do token
-    const userId = req.user.id;
+    const userId = req.user.id; // ID do usuário extraído pelo middleware
 
-    // Busca os dados do usuário no banco
-    const user = await User.findById(userId).select('-password'); // Evita enviar a senha
+    // Busca os dados do usuário
+    const user = await User.findById(userId).select('-password'); // Não retorna a senha
     if (!user) {
       return res.status(404).json({ message: 'Usuário não encontrado.' });
     }
 
-    // Exemplo de empréstimos e reservas (ajuste conforme seu banco)
-    const loans = await Loan.find({ userId }); // Busca os empréstimos do usuário
-    const reservations = await Reservation.find({ userId }); // Busca as reservas do usuário
+    // Busca empréstimos e reservas
+    const loans = await Loan.find({ userId });
+    const reservations = await Reservation.find({ userId });
 
+    // Retorna os dados
     res.json({
       user: {
         name: user.name,
@@ -105,7 +105,7 @@ exports.getUserProfile = async (req, res) => {
       reservations,
     });
   } catch (error) {
-    console.error(error);
+    console.error('Erro ao buscar dados do usuário:', error);
     res.status(500).json({ message: 'Erro ao buscar dados do usuário.' });
   }
 };
