@@ -61,6 +61,20 @@ router.get('/books', async (req, res) => {
     }
   });
 
+  // Exemplo de rota no Express
+router.get('/books/:id', async (req, res) => {
+  const bookId = req.params.id;
+  try {
+    const book = await Book.findById(bookId); // Substitua pelo método usado no seu banco de dados
+    if (!book) {
+      return res.status(404).json({ message: "Livro não encontrado" });
+    }
+    res.json(book);
+  } catch (error) {
+    console.error("Erro no servidor:", error);
+    res.status(500).json({ message: "Erro no servidor" });
+  }
+});
 
 router.put('/books/:id', async (req, res) => {
     try {
