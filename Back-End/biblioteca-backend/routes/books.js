@@ -64,11 +64,11 @@ router.get('/books', async (req, res) => {
 
 router.put('/books/:id', async (req, res) => {
     try {
-        const { id } = req.params;
+      const bookId = req.params.id;
         const updatedData = req.body; // Os campos atualizados virão no corpo da requisição
 
         // Encontre o livro pelo ID e atualize-o
-        const updatedBook = await Book.findByIdAndUpdate(id, updatedData, { new: true }); // Certifique-se de usar o método correto do seu banco de dados
+        const updatedBook = await Book.findByIdAndUpdate(bookId, updatedData, { new: true }); // Certifique-se de usar o método correto do seu banco de dados
 
         if (!updatedBook) {
             return res.status(404).json({ message: 'Livro não encontrado.' });

@@ -78,7 +78,8 @@
             <p>Quantidade Disponível: <span :class="book.quantity > 0 ? 'available' : 'unavailable'">{{ book.quantity }}</span></p>
              <!-- Botões de Ação -->
               <div class="book-buttons">
-                <button @click="viewBookDetails(book.id)">Ver Detalhes</button>
+                <button @click="viewBookDetails(book._id)">Ver Detalhes</button>
+
                 <button @click="addToFavorites(book)">Adicionar aos Favoritos</button>
           </div>
           </div>
@@ -134,7 +135,7 @@ export default {
   },
 
   viewBookDetails(bookId) {
-    console.log(`Visualizando detalhes do livro com ID: ${bookId}`);
+    console.log("ID recebido:", bookId); // Verifica o valor do ID recebido
   if (bookId) {
     this.$router.push(`/book/${bookId}`);
   } else {
@@ -152,6 +153,7 @@ export default {
       if (!response.ok) throw new Error("Erro ao carregar livros da API");
 
       const books = await response.json();
+      console.log("Livros carregados:", books); // Verifique se o ID está presente aqui
       this.books = books; // Atualiza os livros no front-end
     } catch (error) {
       console.error("Erro ao carregar livros:", error);
