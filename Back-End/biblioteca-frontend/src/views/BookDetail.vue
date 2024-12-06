@@ -7,7 +7,7 @@
 
     <div class="book-detail-container" v-else-if="book">
       <div class="book-image">
-        <img :src="book.image" :alt="book.title" />
+        <img :src="getImageSrc(book.image)" alt="Capa do Livro" v-if="book.image" />
       </div>
       <div class="book-info">
         <h1>{{ book.title }}</h1>
@@ -99,6 +99,27 @@ export default {
     }
   },
   methods: {
+
+    getImageSrc(imagePath) {
+    console.log('book.image:', imagePath);  // Verifica o valor de imagePath
+
+    // Substitui barras invertidas por barras normais para garantir compatibilidade
+    imagePath = imagePath.replace(/\\/g, '/');
+
+    // Imagem Front
+    if (imagePath && imagePath.startsWith('/images')) {
+      return `${imagePath}`;  // Imagens vindas do back-end dentro da pasta public/images
+    }
+
+    // Se a imagem estiver na pasta "uploads" no back-end, monta a URL com o servidor
+    if (imagePath && imagePath.startsWith('uploads')) {
+      return `http://localhost:5000/${imagePath}`;  // Imagens vindas do back-end
+    }
+
+    // Caso não seja de nenhuma das duas situações acima, retorna o caminho original
+    return imagePath; 
+  },
+  
     reserveBook(book) {
       alert(`Você reservou: ${book.title}`);
     },
