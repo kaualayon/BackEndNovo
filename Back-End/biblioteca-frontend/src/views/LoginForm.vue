@@ -46,25 +46,27 @@ export default {
 
   methods: {
     async handleLogin() {
-      try {
-        const response = await axios.post('http://localhost:5000/api/auth/login', {
-          username: this.username,
-          password: this.password
-        });
+  try {
+    // Verificar se o email e a senha estão sendo capturados corretamente
+    console.log("Email:", this.email);
+    console.log("Password:", this.password);
 
-        if (response.data.token) {
-          // Salva o token no localStorage
-          localStorage.setItem('user', JSON.stringify({ username: this.username, token: response.data.token }));
-          
-          // Redireciona para a HomePage
-          this.$router.push('/home');
-        } else {
-          console.error('Erro de login:', response.data.message);
-        }
-      } catch (error) {
-        console.error('Erro ao fazer login:', error);
-      }
+    const response = await axios.post('http://localhost:5000/api/auth/login', {
+      email: this.formData.email,
+      password: this.formData.password,
+    });
+
+    if (response.data.token) {
+      const { username, token } = response.data;
+      localStorage.setItem('user', JSON.stringify({ username, token }));
+      this.$router.push('/home');
+    } else {
+      console.error('Erro de login:', response.data.message);
     }
+  } catch (error) {
+    console.error('Erro ao fazer login:', error);
+  }
+}
 
   }
 };
