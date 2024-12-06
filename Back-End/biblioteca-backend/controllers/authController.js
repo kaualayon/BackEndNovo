@@ -80,6 +80,37 @@ exports.getUser = async (req, res) => {
   }
 };
 
+exports.getUserProfile = async (req, res) => {
+  try {
+    // Obtém o ID do usuário a partir do token
+    const userId = req.user.id;
+
+    // Busca os dados do usuário no banco
+    const user = await User.findById(userId).select('-password'); // Evita enviar a senha
+    if (!user) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+
+    // Exemplo de empréstimos e reservas (ajuste conforme seu banco)
+    const loans = await Loan.find({ userId }); // Busca os empréstimos do usuário
+    const reservations = await Reservation.find({ userId }); // Busca as reservas do usuário
+
+    res.json({
+      user: {
+        name: user.name,
+        email: user.email,
+        registrationDate: user.createdAt,
+      },
+      loans,
+      reservations,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erro ao buscar dados do usuário.' });
+  }
+};
+
+
 // Atualiza o status ativo/inativo de um usuário
 exports.toggleUserStatus = async (req, res) => {
   const { id } = req.params; // ID do usuário vindo dos parâmetros

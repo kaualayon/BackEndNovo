@@ -1,15 +1,20 @@
 <template>
-
-  <!-- Incluindo o HeaderElement -->
   <HeaderElement />
-  
-    <div class="user-profile">
-      
-  
-      <!-- Título da Página de Perfil -->
-      <h2 class="page-title">Meu Perfil</h2>
-  
-      <!-- Informações do Usuário -->
+  <div class="user-profile">
+    <h2 class="page-title">Meu Perfil</h2>
+
+    <!-- Exibe mensagem de erro, se houver -->
+    <div v-if="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Exibe o carregamento enquanto busca os dados -->
+    <div v-else-if="!user" class="loading-message">
+      Carregando informações...
+    </div>
+
+    <!-- Exibe as informações do usuário -->
+    <div v-else>
       <div class="user-info">
         <div class="profile-picture">
           <img src="https://via.placeholder.com/150" alt="Foto do Usuário" />
@@ -21,87 +26,103 @@
           <p>Registro: {{ user.registrationDate }}</p>
         </div>
       </div>
-  
+
       <!-- Histórico de Empréstimos -->
       <div class="loan-history">
         <h3>Histórico de Empréstimos</h3>
         <div v-if="loans.length === 0" class="no-loans">
           <p>Você ainda não tem empréstimos registrados.</p>
         </div>
-        <div v-else>
-          <ul>
-            <li v-for="loan in loans" :key="loan.id">
-              <span>{{ loan.bookTitle }}</span> - <span>{{ loan.dueDate }}</span>
-              <button @click="viewLoanDetails(loan.id)">Ver Detalhes</button>
-            </li>
-          </ul>
-        </div>
+        <ul v-else>
+          <li v-for="loan in loans" :key="loan.id">
+            <span>{{ loan.bookTitle }}</span> - <span>{{ loan.dueDate }}</span>
+            <button @click="viewLoanDetails(loan.id)">Ver Detalhes</button>
+          </li>
+        </ul>
       </div>
-  
+
       <!-- Reservas -->
       <div class="reservations">
         <h3>Reservas Ativas</h3>
         <div v-if="reservations.length === 0" class="no-reservations">
           <p>Você não tem reservas ativas.</p>
         </div>
-        <div v-else>
-          <ul>
-            <li v-for="reservation in reservations" :key="reservation.id">
-              <span>{{ reservation.bookTitle }}</span> - <span>{{ reservation.reserveDate }}</span>
-              <button @click="viewReservationDetails(reservation.id)">Ver Detalhes</button>
-            </li>
-          </ul>
-        </div>
+        <ul v-else>
+          <li v-for="reservation in reservations" :key="reservation.id">
+            <span>{{ reservation.bookTitle }}</span> - <span>{{ reservation.reserveDate }}</span>
+            <button @click="viewReservationDetails(reservation.id)">Ver Detalhes</button>
+          </li>
+        </ul>
       </div>
-  
-      <!-- Botão de Logout -->
-      <button @click="logout" class="logout-btn">Sair</button>
     </div>
-    <FooterElement />
-  </template>
+    <button @click="logout" class="logout-btn">Sair</button>
+  </div>
+  <FooterElement />
+</template>
+
   
-  <script>
-  // Importando o HeaderElement
-  import HeaderElement from "@/components/HeaderElement.vue";
-  import FooterElement from "@/components/FooterElement.vue";
-  
-  export default {
-    components: {
-      HeaderElement, FooterElement
-    },
-    data() {
-      return {
-        user: {
-          name: 'João Silva',
-          email: 'joao.silva@example.com',
-          registrationDate: '01/01/2020',
+<script>
+import HeaderElement from "@/components/HeaderElement.vue";
+import FooterElement from "@/components/FooterElement.vue";
+import axios from "axios";
+
+export default {
+  components: {
+    HeaderElement,
+    FooterElement,
+  },
+  data() {
+    return {
+      user: null, // Dados do usuário
+      loans: [], // Histórico de empréstimos
+      reservations: [], // Reservas ativas
+      errorMessage: null, // Mensagem de erro, caso ocorra
+    };
+  },
+  async created() {
+    try {
+      // Obtém o token do localStorage
+      const userData = JSON.parse(localStorage.getItem("user"));
+      if (!userData || !userData.token) {
+        // Se não houver token, redireciona para a página de login
+        this.$router.push("/login");
+        return;
+      }
+
+      // Faz a requisição para obter os dados do usuário
+      const response = await axios.get("http://localhost:5000/api/user/profile", {
+        headers: {
+          Authorization: `Bearer ${userData.token}`, // Adiciona o token no cabeçalho
         },
-        loans: [
-          { id: 1, bookTitle: 'O Alquimista', dueDate: '15/11/2024' },
-          { id: 2, bookTitle: '1984', dueDate: '20/11/2024' },
-        ],
-        reservations: [
-          { id: 1, bookTitle: 'A Moreninha', reserveDate: '10/11/2024' },
-        ],
-      };
+      });
+
+      // Atualiza os dados do usuário
+      this.user = response.data.user;
+      this.loans = response.data.loans || [];
+      this.reservations = response.data.reservations || [];
+    } catch (error) {
+      console.error("Erro ao buscar os dados do usuário:", error);
+      this.errorMessage = "Erro ao carregar as informações do usuário.";
+    }
+  },
+  methods: {
+    viewLoanDetails(loanId) {
+      console.log(`Visualizando detalhes do empréstimo com ID: ${loanId}`);
+      // Implementar a lógica para visualizar detalhes do empréstimo
     },
-    methods: {
-      viewLoanDetails(loanId) {
-        console.log(`Visualizando detalhes do empréstimo com ID: ${loanId}`);
-        // Implementar a lógica para visualizar detalhes do empréstimo
-      },
-      viewReservationDetails(reservationId) {
-        console.log(`Visualizando detalhes da reserva com ID: ${reservationId}`);
-        // Implementar a lógica para visualizar detalhes da reserva
-      },
-      logout() {
-        console.log('Usuário desconectado');
-        // Lógica de logout (redirecionar para a página de login)
-        this.$router.push('/login');
-      },
+    viewReservationDetails(reservationId) {
+      console.log(`Visualizando detalhes da reserva com ID: ${reservationId}`);
+      // Implementar a lógica para visualizar detalhes da reserva
     },
-  };
-  </script>
+    logout() {
+      // Limpa os dados do localStorage e redireciona para login
+      localStorage.removeItem("user");
+      this.$router.push("/login");
+    },
+  },
+};
+</script>
+
   
   <style scoped>
  /* Estilo geral da página de perfil */

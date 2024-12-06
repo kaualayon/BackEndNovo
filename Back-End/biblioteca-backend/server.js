@@ -7,7 +7,8 @@ const bcrypt = require('bcryptjs')
 const dotenv = require('dotenv');
 const path = require('path');
 
-
+const Loan = require('./models/Loan');
+const Reservation = require('./models/Reservation');
 const authRoutes = require('./routes/authRoutes');
 const bookRoutes = require('./routes/books');
 const userRoutes = require('./routes/userRoutes'); // Importando as rotas de usuários
@@ -32,6 +33,9 @@ app.use('/api/auth', authRoutes);
 
 // Usar as rotas de autenticação
 app.use('/api/user', authRoutes);
+
+// Usar as rotas de autenticação do perfil
+app.use('/api/user/profile', authRoutes);
 
 // Usar as rotas de usuários
 app.use('/api/users', userRoutes);

@@ -12,6 +12,11 @@ router.post('/login', authController.loginUser);  // Confirme que isso está cor
 // Rota para obter dados do usuário autenticado
 router.get('/user', authController.getUser);
 
+router.get('/user/profile', authController.getUserProfile);
+
+// Rota para obter o perfil do usuário
+router.get('/profile', authController.getUserProfile);
+
 // Atualizar status do usuário (Ativar/Desativar)
 router.patch('/:id', authController.toggleUserStatus);
 
