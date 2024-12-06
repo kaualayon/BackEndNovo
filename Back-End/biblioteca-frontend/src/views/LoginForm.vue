@@ -54,6 +54,7 @@ export default {
     console.log('Dados do login:', this.formData);
     const response = await axios.post('http://localhost:5000/api/auth/login', this.formData);
 
+
     // Verifica se o token foi retornado com sucesso
     if (response.data.token) {
       localStorage.setItem('authToken', response.data.token);

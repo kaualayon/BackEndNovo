@@ -34,8 +34,11 @@ exports.loginUser = async (req, res) => {
 
     //Cria o token JWT para autenticação
     const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'}); //Token expira em 1 hora
+    res.status(200).json({
+      username: user.username,
+      token,
+    });
 
-    res.json({token}); //Responde com o token JWT
   
   }catch (error) {
     // Se o erro for 403, significa que a conta está desativada

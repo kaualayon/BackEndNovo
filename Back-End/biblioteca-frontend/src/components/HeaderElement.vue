@@ -189,9 +189,16 @@ export default {
     this.fetchBooks(); // Carrega os livros ao iniciar
     this.addNotification("Livro reservado com sucesso!");
     this.addNotification("Adicionado à lista de desejos.");
-    // Exemplo: recupera o username do localStorage
-    const user = JSON.parse(localStorage.getItem('user'));
-    this.username = user?.username || 'Usuário';
+    
+
+    // Recupera o username do localStorage
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user && user.username) {
+    this.username = user.username;
+  } else {
+    console.warn('Nenhum usuário encontrado no localStorage.');
+    this.username = 'Usuário';
+  }
   },
 };
 </script>
