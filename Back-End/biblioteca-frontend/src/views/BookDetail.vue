@@ -89,8 +89,8 @@ export default {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/books/${bookId}`
-      ); // Substitua pela rota do seu backend
+        `http://localhost:5000/api/books/${bookId}` // Substitua pela rota do seu backend
+      );
       this.book = response.data;
     } catch (error) {
       console.error("Erro ao carregar o livro:", error);
@@ -99,30 +99,53 @@ export default {
     }
   },
   methods: {
-
     getImageSrc(imagePath) {
-    console.log('book.image:', imagePath);  // Verifica o valor de imagePath
+      console.log("book.image:", imagePath); // Verifica o valor de imagePath
 
-    // Substitui barras invertidas por barras normais para garantir compatibilidade
-    imagePath = imagePath.replace(/\\/g, '/');
+      // Substitui barras invertidas por barras normais para garantir compatibilidade
+      imagePath = imagePath.replace(/\\/g, "/");
 
-    // Imagem Front
-    if (imagePath && imagePath.startsWith('/images')) {
-      return `${imagePath}`;  // Imagens vindas do back-end dentro da pasta public/images
-    }
+      // Imagem Front
+      if (imagePath && imagePath.startsWith("/images")) {
+        return `${imagePath}`; // Imagens vindas do back-end dentro da pasta public/images
+      }
 
-    // Se a imagem estiver na pasta "uploads" no back-end, monta a URL com o servidor
-    if (imagePath && imagePath.startsWith('uploads')) {
-      return `http://localhost:5000/${imagePath}`;  // Imagens vindas do back-end
-    }
+      // Se a imagem estiver na pasta "uploads" no back-end, monta a URL com o servidor
+      if (imagePath && imagePath.startsWith("uploads")) {
+        return `http://localhost:5000/${imagePath}`; // Imagens vindas do back-end
+      }
 
-    // Caso não seja de nenhuma das duas situações acima, retorna o caminho original
-    return imagePath; 
-  },
+      // Caso não seja de nenhuma das duas situações acima, retorna o caminho original
+      return imagePath;
+    },
 
     reserveBook(book) {
-      alert(`Você reservou: ${book.title}`);
-    },
+  // Exibe os dados antes de enviar a requisição
+  console.log("Reservando livro:", book);
+
+  const reservationData = {
+    userId: "67369ba43231494a994c0273", // ID temporário para testes
+    bookId: book._id,
+    bookTitle: book.title,
+  };
+
+  axios.post("http://localhost:5000/api/reservations", reservationData)
+    .then((response) => {
+      console.log("Resposta da reserva:", response.data);  // Verifique a resposta do servidor
+      const userChoice = confirm(
+        `Você reservou o livro "${book.title}". Deseja ir para a página de reservas ou continuar navegando?`
+      );
+      if (userChoice) {
+        this.$router.push("/reservas");
+      } else {
+        alert("Você optou por continuar navegando.");
+      }
+    })
+    .catch((error) => {
+      console.error("Erro ao reservar o livro:", error);
+      alert("Não foi possível reservar o livro. Tente novamente.");
+    });
+},
     borrowBook(book) {
       alert(`Você pegou emprestado: ${book.title}`);
     },

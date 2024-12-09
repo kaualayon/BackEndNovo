@@ -40,7 +40,7 @@ app.use('/api/user/profile', authRoutes);
 // Usar as rotas de usuários
 app.use('/api/users', userRoutes);
 
-app.use('/api', reservationRoutes);
+app.use(reservationRoutes);
 
 
 
