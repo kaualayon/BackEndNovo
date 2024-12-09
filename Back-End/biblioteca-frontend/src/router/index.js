@@ -122,6 +122,12 @@ const routes = [
     component: AboutPagee, // Define a nova página inicial
   },
 
+  {
+    path: '/',
+    name: 'RegisterForm',
+    component: RegisterForm, // Define a nova página inicial
+  },
+
  
   // Adicione mais rotas conforme necessário
 ];
