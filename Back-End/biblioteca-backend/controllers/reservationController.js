@@ -1,5 +1,5 @@
 const Reservation = require('../models/Reservation'); // Modelo de reservas
-const Book = require('../models/Book'); // Modelo de livros (ajuste o caminho conforme sua estrutura)
+const Book = require('../models/book'); // Modelo de livros (ajuste o caminho conforme sua estrutura)
 
 exports.createReservation = async (req, res) => {
   const { bookId } = req.body;
