@@ -120,32 +120,38 @@ export default {
     },
 
     reserveBook(book) {
-  // Exibe os dados antes de enviar a requisição
   console.log("Reservando livro:", book);
 
   const reservationData = {
-    userId: "67369ba43231494a994c0273", // ID temporário para testes
     bookId: book._id,
     bookTitle: book.title,
   };
 
-  axios.post("http://localhost:5000/api/reservations", reservationData)
+  // Recupera o token JWT do localStorage
+  const token = localStorage.getItem("token");
+
+  axios
+    .post("http://localhost:5000/api/reservations", reservationData, {
+      headers: {
+        Authorization: `Bearer ${token}`, // Envia o token no cabeçalho
+      },
+    })
     .then((response) => {
-      console.log("Resposta da reserva:", response.data);  // Verifique a resposta do servidor
-      const userChoice = confirm(
-        `Você reservou o livro "${book.title}". Deseja ir para a página de reservas ou continuar navegando?`
-      );
-      if (userChoice) {
-        this.$router.push("/reservas");
-      } else {
-        alert("Você optou por continuar navegando.");
-      }
+      console.log("Reserva criada:", response.data);
+      alert(`Livro "${book.title}" reservado com sucesso!`);
+      this.$router.push("/reservas");
     })
     .catch((error) => {
-      console.error("Erro ao reservar o livro:", error);
-      alert("Não foi possível reservar o livro. Tente novamente.");
+      console.error("Erro ao reservar livro:", error.response?.data || error);
+      alert(
+        `Não foi possível reservar o livro. Motivo: ${
+          error.response?.data?.message || "Erro desconhecido"
+        }`
+      );
     });
 },
+
+
     borrowBook(book) {
       alert(`Você pegou emprestado: ${book.title}`);
     },
