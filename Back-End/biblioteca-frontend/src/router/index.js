@@ -13,6 +13,7 @@ import AboutPagee from '../views/AboutPagee.vue';
 import EditBook from '../views/EditBook.vue';
 import RemoveBook from '../views/RemoveBook.vue';
 import FavoritesPage from '../views/FavoritesPage.vue';
+import UserReservations from '../views/UserReservations.vue';
 
 const routes = [
 
@@ -126,6 +127,12 @@ const routes = [
     path: '/',
     name: 'RegisterForm',
     component: RegisterForm, // Define a nova página inicial
+  },
+
+  {
+    path: '/reservas',
+    name: 'UserReservations',
+    component: UserReservations, // Define a nova página inicial
   },
 
  
