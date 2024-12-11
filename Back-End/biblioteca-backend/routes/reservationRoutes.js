@@ -1,17 +1,17 @@
 const express = require('express');
+const { createReservation } = require('../controllers/reservationController');
+const { getUserReservations } = require('../controllers/reservationController');
+const { returnBook } = require('../controllers/reservationController');
+const verifyToken = require('../Middleware/verifyToken');
 const router = express.Router();
-const verifyToken = require('../Middleware/authMiddleware'); // Middleware de autenticação
-const reservationController = require('../controllers/reservationController'); // Controlador de reservas
 
-// Rotas de reservas
 // Rota para criar uma reserva
-router.post('/api/reservations', verifyToken, reservationController.createReservation);
+router.post('/:bookId', verifyToken, createReservation);
 
-// Rota para listar todas as reservas do usuário autenticado
-router.get('/api/reservations', verifyToken, reservationController.getReservations);
+// Rota para devolver um livro
+router.post('/:reservationId/return', verifyToken, returnBook);
 
-// Rota para cancelar uma reserva
-router.patch('/api/reservations/:id/cancel', verifyToken, reservationController.cancelReservation);
-
+// Rota para obter as reservas de um usuário
+router.get('/user/reservations', verifyToken, getUserReservations)
 
 module.exports = router;

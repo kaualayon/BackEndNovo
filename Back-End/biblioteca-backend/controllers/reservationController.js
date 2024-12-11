@@ -1,71 +1,84 @@
 const Reservation = require('../models/Reservation'); // Modelo de reservas
 const Book = require('../models/book'); // Modelo de livros (ajuste o caminho conforme sua estrutura)
 
+// Post - Reservar livros
 exports.createReservation = async (req, res) => {
-    const { bookId } = req.body; // Recebe o ID do livro
-  
-    try {
-      // Verifica se o livro existe
-      const book = await Book.findById(bookId);
-      if (!book) {
-        return res.status(404).json({ message: 'Livro não encontrado.' });
-      }
-  
-      // Cria uma nova reserva vinculada ao usuário autenticado
-      const newReservation = new Reservation({
-        userId: req.user.id, // ID do usuário autenticado
-        bookId,
-        bookTitle: book.title, // Nome do livro
-      });
-  
-      await newReservation.save();
-      res.status(201).json({
-        message: 'Reserva criada com sucesso.',
-        reservation: newReservation,
-      });
-    } catch (error) {
-      console.error('Erro ao criar reserva:', error);
-      res.status(500).json({ message: 'Erro ao criar a reserva.' });
-    }
-  };
+  try {
+    const { bookId } = req.params;
+    const userId = req.user.id; // ID do usuário autenticado
 
-  exports.getReservations = async (req, res) => {
-    try {
-      // Busca todas as reservas vinculadas ao usuário autenticado
-      const reservations = await Reservation.find({ userId: req.user.id });
-  
-      if (!reservations || reservations.length === 0) {
-        return res.status(404).json({ message: 'Nenhuma reserva encontrada.' });
-      }
-  
-      res.status(200).json({ reservations });
-    } catch (error) {
-      console.error('Erro ao buscar reservas:', error);
-      res.status(500).json({ message: 'Erro ao buscar as reservas.' });
+    // Verificar se o livro existe e há cópias disponíveis
+    const book = await Book.findById(bookId);
+    if (!book) {
+      return res.status(404).json({ error: 'Livro não encontrado.' });
     }
-  };
+    if (book.availableCopies <= 0) {
+      return res.status(400).json({ error: 'Cópias indisponíveis para reserva.' });
+    }
 
-  exports.cancelReservation = async (req, res) => {
-    const { id } = req.params;
-  
-    try {
-      // Encontra a reserva vinculada ao usuário autenticado
-      const reservation = await Reservation.findOne({
-        _id: id,
-        userId: req.user.id,
-      });
-  
-      if (!reservation) {
-        return res.status(404).json({ message: 'Reserva não encontrada.' });
-      }
-  
-      // Atualiza o status para "cancelada"
-      reservation.status = 'cancelada';
-      await reservation.save();
-  
-      res.status(200).json({ message: 'Reserva cancelada com sucesso.' });
-    } catch (error) {
-      console.error('Erro ao cancelar reserva:', error);
-      res.status(500).json({ message: 'Erro ao cancelar a reserva.' });
+    // Criar uma nova reserva
+    const reservation = new Reservation({
+      book: bookId,
+      user: userId,
+    });
+    await reservation.save();
+
+    // Atualizar o número de cópias disponíveis no livro
+    book.availableCopies -= 1;
+    await book.save();
+
+    res.status(201).json({ message: 'Reserva criada com sucesso.', reservation });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao criar a reserva.', details: error.message });
+  }
+};
+
+//Put - Retornar livros reservados
+exports.returnBook = async (req, res) => {
+  try {
+    const { reservationId } = req.params;
+    const userId = req.user.id; // ID do usuário autenticado
+
+    // Encontrar a reserva
+    const reservation = await Reservation.findById(reservationId).populate('book');
+    if (!reservation) {
+      return res.status(404).json({ error: 'Reserva não encontrada.' });
     }
-  };
+
+    // Verificar se o usuário é o proprietário da reserva
+    if (reservation.user.toString() !== userId) {
+      return res.status(403).json({ error: 'Você não pode devolver este livro.' });
+    }
+
+    // Atualizar o status da reserva para "completed"
+    reservation.status = 'completed';
+    await reservation.save();
+
+    // Atualizar o número de cópias disponíveis do livro
+    const book = reservation.book;
+    book.availableCopies += 1;
+    await book.save();
+
+    res.status(200).json({ message: 'Livro devolvido com sucesso!' });
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao devolver o livro.', details: error.message });
+  }
+};
+
+// Get de retorno de informações
+exports.getUserReservations = async (req, res) => {
+  try {
+    const userId = req.user.id; // ID do usuário autenticado
+
+    // Buscar todas as reservas associadas ao usuário
+    const reservations = await Reservation.find({ user: userId }).populate('book');
+    
+    if (!reservations || reservations.length === 0) {
+      return res.status(404).json({ error: 'Você não tem reservas feitas.' });
+    }
+
+    res.status(200).json(reservations);
+  } catch (error) {
+    res.status(500).json({ error: 'Erro ao buscar as reservas.', details: error.message });
+  }
+};
