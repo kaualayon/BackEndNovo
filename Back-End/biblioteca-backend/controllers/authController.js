@@ -10,17 +10,17 @@ exports.registerUser = async (req, res) => {
     return res.status(400).json({ message: 'Tipo de conta inválido.' });
   }
 
-  try{
-    //Criptografa a senha antes de salvar no banco de dados
-    const hashedPassword = await bcrypt.hash(password, 10)
+  try {
+    // Criptografa a senha antes de salvar no banco de dados
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    //Cria um novo usuario com nome de usuario e senha criptografadas
-    const newUser = new User({username, email,  password: hashedPassword, role});
-    await newUser.save(); //Salva o usuario no bd
+    // Cria um novo usuário com nome de usuário e senha criptografada
+    const newUser = new User({ username, email, password: hashedPassword, role });
+    await newUser.save(); // Salva o usuário no banco de dados
 
-    res.status(201).json({   message: 'Usuario registrado com sucesso!'}); //Responde com sucesso ao registrar
-  }catch(error){
-    res.status(500).json({ error: 'Erro ao registrar usuário!'}); //Responde com erro ao registrar
+    return res.status(201).json({ message: 'Usuário registrado com sucesso!' }); // Responde com sucesso ao registrar
+  } catch (error) {
+    return res.status(500).json({ error: 'Erro ao registrar usuário!' }); // Responde com erro ao registrar
   }
 };
 
@@ -30,34 +30,34 @@ exports.loginUser = async (req, res) => {
 
   // Verifica se os campos de email e senha foram fornecidos
   if (!email || !password) {
-      return res.status(400).json({ error: 'Por favor, forneça ambos os campos: email e senha.' });
+    return res.status(400).json({ error: 'Por favor, forneça ambos os campos: email e senha.' });
   }
 
   try {
-      // Busca o usuário pelo email
-      const user = await User.findOne({ email });
+    // Busca o usuário pelo email
+    const user = await User.findOne({ email });
 
-      if (!user) {
-          return res.status(400).json({ error: 'Usuário não encontrado' });
-      }
+    if (!user) {
+      return res.status(400).json({ error: 'Usuário não encontrado' });
+    }
 
-      console.log('Usuário encontrado:', user);  // Loga os dados do usuário
-      console.log('Senha fornecida:', password);  // Loga a senha fornecida
+    console.log('Usuário encontrado:', user); // Loga os dados do usuário
+    console.log('Senha fornecida:', password); // Loga a senha fornecida
 
-      // Verifica se o usuário está bloqueado
-      if (!user.active) {
-          return res.status(403).json({ error: 'Usuário bloqueado. Não é possível fazer login.' });
-      }
+    // Verifica se o usuário está bloqueado
+    if (!user.active) {
+      return res.status(403).json({ error: 'Usuário bloqueado. Não é possível fazer login.' });
+    }
 
-      // Compara a senha fornecida com a armazenada no banco de dados
-      const isMatch = await bcrypt.compare(password.trim(), user.password);
-      
-      if (!isMatch) {
-          console.log('Senha incorreta');
-          return res.status(400).json({ error: 'Senha incorreta' });
-      }
+    // Compara a senha fornecida com a armazenada no banco de dados
+    const isMatch = await bcrypt.compare(password.trim(), user.password);
 
-      // Verifica se o `role` enviado é permitido
+    if (!isMatch) {
+      console.log('Senha incorreta');
+      return res.status(400).json({ error: 'Senha incorreta' });
+    }
+
+    // Verifica se o `role` enviado é permitido
     if (role !== user.role) {
       if (role === 'admin' && user.role !== 'admin') {
         return res.status(403).json({ message: 'Permissão negada para entrar como Administrador.' });
@@ -68,29 +68,20 @@ exports.loginUser = async (req, res) => {
       // await user.save();
     }
 
-      console.log('Senha correta');
+    console.log('Senha correta');
 
-      // Cria um JWT Token com o id e role do usuário, definindo o tempo de expiração para 1h
-      const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    // Cria um JWT Token com o id e role do usuário, definindo o tempo de expiração para 1h
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-      // Retorna o token e as informações do usuário como resposta
-      res.status(200).json({ message: "Login realizado", token, user });
-
-      // Retorna os dados do usuário
-    res.status(200).json({
-      token,
-      user: {
-        _id: user._id,
-        email: user.email,
-        role: user.role,
-      },
-    });
+    // Retorna o token e as informações do usuário como resposta
+    return res.status(200).json({ message: 'Login realizado', token, user });
 
   } catch (error) {
-      console.error(error); // Loga o erro
-      res.status(500).json({ error: 'Erro ao fazer login' });
+    console.error(error); // Loga o erro
+    return res.status(500).json({ error: 'Erro ao fazer login' });
   }
 };
+
 
 exports.getUser = async (req, res) => {
   // Tente pegar o token do cabeçalho da requisição
@@ -114,7 +105,7 @@ exports.getUser = async (req, res) => {
     }
 
     // Retorna apenas o username do usuário, sem os outros dados
-    res.json({ username: user.username });
+    res.json({ username: user.username, role: user.role, });
   } catch (err) {
     // Caso ocorra algum erro, como um erro na verificação do token
     return res.status(500).json({ error: 'Erro ao obter dados do usuário' });

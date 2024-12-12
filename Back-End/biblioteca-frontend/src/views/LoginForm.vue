@@ -12,12 +12,7 @@
       <label for="password">Senha</label>
       <input type="password" id="password" v-model="formData.password" placeholder="Digite sua senha" required>
 
-      <label for="role">Tipo de Usuário</label>
-      <select id="role" v-model="formData.role" required>
-        <option value="" disabled>Selecione</option>
-        <option value="admin">Administrador</option>
-        <option value="user">Usuário Normal</option>
-      </select>
+      
 
       <input type="submit" value="Entrar" :disabled="loading">
     </form>

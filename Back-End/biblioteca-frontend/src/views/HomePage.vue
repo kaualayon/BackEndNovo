@@ -2,12 +2,6 @@
   <!-- Incluindo o HeaderElement -->
   <HeaderElement />
 
-  <!-- Saudação ao usuário -->
-  <div class="welcome-message" v-if="username">
-    <h2>Bem-vindo, {{ username }}!</h2>
-    <p>Estamos felizes em tê-lo de volta. Explore nossos recursos abaixo.</p>
-  </div>
-
   <!-- Título da HomePage -->
   <h2 class="page-title">Dashboard</h2>
 
@@ -33,27 +27,31 @@
   </div>
 
   <!-- Gerenciamento de usuários (somente para admin) -->
-  <div class="catalog-actions" v-if="role === 'admin'">
+  <div v-if="role === 'admin'" class="catalog-actions">
     <router-link to="/AdminUsersPage">
       <button class="action-btn">Gerenciar Usuários</button>
     </router-link>
   </div>
 
+  <!-- Catálogo de Livros -->
   <div class="catalog-page">
     <!-- Título do Catálogo de Livros -->
     <h2 class="page-title">Catálogo de Livros</h2>
 
     <!-- Botões para Adicionar, Editar e Remover Livros (somente para admin) -->
-    <div class="catalog-actions" v-if="role === 'admin'">
-      <router-link to="/BookForm">
+    <div class="catalog-actions">
+      <router-link v-if="role === 'admin'" to="/BookForm">
         <button class="action-btn">Adicionar Livro</button>
       </router-link>
-      <router-link to="/editarLivro">
+      <router-link v-if="role === 'admin'" to="/editarLivro">
         <button class="action-btn">Editar Livro</button>
       </router-link>
-      <router-link to="/removerLivro">
+      <router-link v-if="role === 'admin'" to="/removerLivro">
         <button class="action-btn">Remover Livro</button>
       </router-link>
+      <div v-else>
+        <p class="error-message">Você não tem permissão para realizar esta ação.</p>
+      </div>
     </div>
 
     <!-- Catálogo de Livros -->
@@ -84,6 +82,7 @@
   <FooterElement />
 </template>
 
+
 <script>
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
@@ -97,8 +96,9 @@ export default {
   data() {
     return {
       books: [], // Lista de livros
-      role: null, // Papel do usuário (admin ou user)
+      role: "", // Papel do usuário (admin ou user)
       username: "User", // Nome do usuário
+      errorMessage: "", // Mensagem de erro caso o usuário não tenha permissão
     };
   },
 
@@ -110,16 +110,32 @@ export default {
 
   methods: {
     async fetchUserRole() {
-      try {
-        // Simula uma chamada à API para obter informações do usuário
-        const response = await fetch("http://localhost:5000/api/auth/user");
-        const userData = await response.json();
-        this.role = userData.role; // Exemplo: 'admin' ou 'user'
-        this.username = userData.username; // Atualiza o nome do usuário
-      } catch (error) {
-        console.error("Erro ao obter papel do usuário:", error);
-      }
-    },
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error("Token não encontrado");
+
+    const response = await fetch("http://localhost:5000/api/auth/user", {
+      method: "GET",
+      headers: {
+        "Authorization": `Bearer ${token}`,
+      },
+    });
+
+    // Verifique o que está sendo retornado pela API
+    const userData = await response.json();
+    console.log("Resposta da API:", userData); // Verifique a estrutura da resposta
+
+    if (userData.role) {
+      this.role = userData.role;  // Atualiza a variável de role
+      this.username = userData.username;
+      console.log("Role atribuída:", this.role);
+    } else {
+      console.error("A propriedade 'role' não foi encontrada na resposta da API.");
+    }
+  } catch (error) {
+    console.error("Erro ao obter papel do usuário:", error);
+  }
+},
 
     getImageSrc(imagePath) {
       if (!imagePath) return "";
@@ -161,6 +177,24 @@ export default {
     loadBooksFromStorage() {
       const books = localStorage.getItem("books");
       if (books) this.books = JSON.parse(books);
+    },
+
+    handleAdminAction(action) {
+      if (this.role !== 'admin') {
+        this.errorMessage = 'Você não tem permissão para realizar esta ação.';
+        return;
+      }
+
+      // Realiza a ação para administradores
+      this.errorMessage = ''; // Limpa a mensagem de erro
+      // Redireciona para a página correspondente
+      if (action === 'add') {
+        this.$router.push('/BookForm');
+      } else if (action === 'edit') {
+        this.$router.push('/editarLivro');
+      } else if (action === 'remove') {
+        this.$router.push('/removerLivro');
+      }
     },
   },
 };
