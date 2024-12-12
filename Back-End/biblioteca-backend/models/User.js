@@ -18,6 +18,8 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
 
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'books' }], // Campo para os favoritos
+
   role: { type: String, default: "user" },
 
   active: { type: Boolean, default: true } // Campo para status do usuário

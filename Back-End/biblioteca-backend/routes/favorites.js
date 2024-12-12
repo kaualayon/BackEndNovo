@@ -2,59 +2,84 @@ const express = require('express');
 const router = express.Router();
 const Favorite = require('../models/Favorite');
 const Book = require('../models/book');
+const User = require('../models/User'); // Certifique-se de que o caminho esteja correto
 
-// Adicionar um livro aos favoritos
-router.post('/', async (req, res) => {
+
+
+// Adicionar livro aos favoritos
+router.post('/:userId', async (req, res) => {
   try {
-    const { bookId } = req.body;
-    const userId = req.user.id; // A suposição é que o usuário está autenticado
+    const userId = req.params.userId;
+    const { bookId } = req.body; // O ID do livro a ser adicionado
 
-    // Verifica se o livro já está nos favoritos do usuário
-    const existingFavorite = await Favorite.findOne({ userId, bookId });
-    if (existingFavorite) {
-      return res.status(400).json({ message: 'Este livro já está nos favoritos.' });
+    // Encontrar o usuário
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "Usuário não encontrado" });
     }
 
-    const favorite = new Favorite({ userId, bookId });
-    await favorite.save();
-
-    res.status(201).json({ message: 'Livro adicionado aos favoritos!', favorite });
+    // Verificar se o livro já está nos favoritos
+    if (!user.favorites.includes(bookId)) {
+      user.favorites.push(bookId);
+      await user.save();
+      res.status(200).json({ message: "Livro adicionado aos favoritos" });
+    } else {
+      res.status(400).json({ error: "Este livro já está nos favoritos" });
+    }
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao adicionar favorito.', error });
+    console.error("Erro ao adicionar aos favoritos:", error);
+    res.status(500).json({ error: "Erro ao adicionar aos favoritos" });
   }
 });
 
-// Obter os livros favoritos do usuário
-router.get('/favorites', async (req, res) => {
+
+router.get('/:userId', async (req, res) => {
   try {
-    const userId = req.user.id;
+    const userId = req.params.userId;
 
-    // Obtém os favoritos do usuário com os detalhes dos livros
-    const favorites = await Favorite.find({ userId }).populate('bookId');
-    res.status(200).json(favorites.map(fav => fav.bookId));
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao buscar favoritos.', error });
-  }
-});
+    // Encontrar o usuário e popular os livros favoritos
+    const user = await User.findOne({ _id: userId }).populate('favorites');
 
-// Remover um livro dos favoritos
-router.delete('/:bookId', async (req, res) => {
-  try {
-    const { bookId } = req.params;
-    const userId = req.user.id;
-
-    const favorite = await Favorite.findOneAndDelete({ userId, bookId });
-    if (!favorite) {
-      return res.status(404).json({ message: 'Favorito não encontrado.' });
+    if (!user) {
+      return res.status(404).json({ error: "Usuário não encontrado" });
     }
 
-    res.status(200).json({ message: 'Livro removido dos favoritos!' });
+    res.status(200).json({ favorites: user.favorites });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Erro ao remover favorito.', error });
+    console.error("Erro ao carregar favoritos:", error);
+    res.status(500).json({ error: "Erro ao carregar favoritos" });
   }
 });
+
+
+// Remover livro dos favoritos
+router.delete('/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const { bookId } = req.body; // O ID do livro a ser removido
+
+    // Encontrar o usuário
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ error: "Usuário não encontrado" });
+    }
+
+    // Remover o livro dos favoritos
+    const index = user.favorites.indexOf(bookId);
+    if (index !== -1) {
+      user.favorites.splice(index, 1);
+      await user.save();
+      res.status(200).json({ message: "Livro removido dos favoritos" });
+    } else {
+      res.status(400).json({ error: "Este livro não está nos favoritos" });
+    }
+  } catch (error) {
+    console.error("Erro ao remover dos favoritos:", error);
+    res.status(500).json({ error: "Erro ao remover dos favoritos" });
+  }
+});
+
 
 module.exports = router;

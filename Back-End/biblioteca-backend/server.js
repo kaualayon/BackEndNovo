@@ -1,6 +1,8 @@
+
+const mongoose = require('mongoose');
+
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcryptjs')
@@ -22,9 +24,6 @@ connectDB();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Usando a rota de favoritos
-app.use('/api', favoriteRoutes);  // Configura a rota como /api/favorites
-
 // Usar as rotas de livros
 app.use('/api', bookRoutes);
 
@@ -42,10 +41,23 @@ app.use('/api/users', userRoutes);
 
 app.use('/api', reservationRoutes);
 
+// Usar as rotas de favoritos
+app.use('/api/favorites', favoriteRoutes);
 
 
 
-const PORT = process.env.PORT || 5000;
+
+// Conexão com o mongo db
+
+mongoose.connect(process.env.MONGO_URI, {
+    useNewUrlParser:true,useUnifiedTopology:true
+}
+   
+    
+    
+).then(()=>console.log('Mongodb conectado')).catch(err=>console.error('Erro ao conectar no mongo',err));
+
+const PORT = process.env.PORT || 5000; //Define a parte do servidor, usando variavel de ambiente ou padrão 5000
 
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);

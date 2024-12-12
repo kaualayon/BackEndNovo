@@ -47,16 +47,18 @@
     },
     methods: {
       async fetchFavorites() {
-    try {
-      const userId = localStorage.getItem('userId'); // Supondo que o ID do usuário está armazenado no localStorage
-      console.log(response.data); // Adicione esse log para verificar a resposta da API
-      const response = await axios.get(`http://localhost:5000/api/favorites/${userId}`);
-      this.favoriteBooks = response.data.favorites; // Alterado de 'favorites' para 'favoriteBooks'
-    } catch (error) {
-      console.error("Erro ao carregar favoritos:", error);
-      alert("Erro ao carregar a lista de favoritos.");
-    }
-  },
+  try {
+    const userId = localStorage.getItem('userId'); // ID do usuário no localStorage
+    console.log("userId:", userId); // Verifica o userId
+
+    const response = await axios.get(`http://localhost:5000/api/favorites/${userId}`);
+    console.log(response.data); // Log dentro do bloco try, depois da resposta ser recebida
+    this.favoriteBooks = response.data.favorites; // A resposta deve conter um array de livros favoritos
+  } catch (error) {
+    console.error("Erro ao carregar favoritos:", error);
+    alert("Erro ao carregar a lista de favoritos.");
+  }
+}
     },
   };
   </script>
