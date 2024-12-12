@@ -1,18 +1,14 @@
 <template>
   <HeaderElement />
-
-  <!-- Div de fundo escuro -->
+  
   <div class="background-overlay">
-    <!-- Div do conteúdo centralizado -->
     <div class="admin-users-page">
       <h2>Gerenciamento de Usuários</h2>
-
-      <!-- Exibição de mensagem quando não há usuários -->
+      
       <div v-if="users.length === 0" class="no-users">
         <p>Não há usuários registrados.</p>
       </div>
 
-      <!-- Exibição da tabela de usuários -->
       <div v-else class="user-table-container">
         <table class="user-table">
           <thead>
@@ -25,8 +21,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="user in users" :key="user.id">
-              <td>{{ user.id }}</td>
+            <tr v-for="user in users" :key="user._id">
+              <td>{{ user._id }}</td>
               <td>{{ user.username }}</td>
               <td>{{ user.email }}</td>
               <td>
@@ -36,7 +32,7 @@
               </td>
               <td>
                 <div class="button-group">
-                  <button class="edit-button" @click="editUser(user)">Editar</button>
+                  <button class="edit-button" @click="openEditModal(user)">Editar</button>
                   <button class="toggle-button" @click="toggleUserStatus(user)">
                     {{ user.active ? 'Desativar' : 'Ativar' }}
                   </button>
@@ -50,8 +46,34 @@
     </div>
   </div>
 
+  <!-- Modal de Edição -->
+  <div v-if="isEditModalOpen" class="modal">
+    <div class="modal-content">
+      <h3>Editar Usuário</h3>
+      <form @submit.prevent="updateUser">
+        <label for="username">Nome:</label>
+        <input type="text" id="username" v-model="editUserData.username" required />
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" v-model="editUserData.email" required />
+
+        <label for="active">Status:</label>
+        <select id="active" v-model="editUserData.active">
+          <option :value="true">Ativo</option>
+          <option :value="false">Inativo</option>
+        </select>
+
+        <div class="modal-buttons">
+          <button type="submit">Salvar</button>
+          <button type="button" @click="closeEditModal">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <FooterElement />
 </template>
+
 
 <script>
 import axios from 'axios';
@@ -65,7 +87,9 @@ export default {
   },
   data() {
     return {
-      users: [] // Armazena todos os usuários
+      users: [], // Armazena todos os usuários
+      isEditModalOpen: false, // Controle de exibição do modal
+    editUserData: null, // Dados do usuário em edição
     };
   },
   created() {
@@ -83,10 +107,33 @@ export default {
       }
     },
 
-    // Método para editar usuário
-    editUser(user) {
-      alert(`Função de edição do usuário ${user.username} ainda não implementada.`);
-    },
+    openEditModal(user) {
+    this.editUserData = { ...user }; // Clona os dados do usuário para edição
+    this.isEditModalOpen = true;
+  },
+
+  closeEditModal() {
+    this.editUserData = null;
+    this.isEditModalOpen = false;
+  },
+
+  async updateUser() {
+    try {
+      const { _id, username, email, active } = this.editUserData;
+      await axios.put(`http://localhost:5000/api/users/${_id}`, {
+        username,
+        email,
+        active,
+      });
+
+      alert("Usuário atualizado com sucesso!");
+      this.closeEditModal();
+      this.fetchUsers(); // Recarrega a lista de usuários
+    } catch (error) {
+      console.error("Erro ao atualizar usuário:", error);
+      alert("Erro ao atualizar os dados do usuário.");
+    }
+  },
 
     // Método para alternar status do usuário (Ativar/Desativar)
     async toggleUserStatus(user) {
@@ -179,6 +226,33 @@ h2 {
 
 .user-table tr:hover {
   background-color: #f1f1f1;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-width: 90%;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
 }
 
 /* Botões e espaçamento */

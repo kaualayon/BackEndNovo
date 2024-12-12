@@ -165,3 +165,25 @@ exports.toggleUserStatus = async (req, res) => {
     res.status(500).json({ message: 'Erro interno ao atualizar o status do usuário' });
   }
 };
+
+exports.editUser = async (req, res) => {
+  const { id } = req.params;
+  const { username, email, active } = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(
+      id,
+      { username, email, active },
+      { new: true } // Retorna o usuário atualizado
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuário não encontrado." });
+    }
+
+    res.status(200).json({ message: "Usuário atualizado com sucesso.", user });
+  } catch (error) {
+    console.error("Erro ao atualizar usuário:", error);
+    res.status(500).json({ message: "Erro interno do servidor." });
+  }
+};

@@ -22,6 +22,9 @@ router.get('/profile', authController.getUserProfile);
 // Atualizar status do usuário (Ativar/Desativar)
 router.patch('/:id', authController.toggleUserStatus);
 
+// Atualizar usuário 
+router.put('/users/:id', authController.editUser);
+
 
 
 module.exports = router;
