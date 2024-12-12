@@ -33,6 +33,12 @@
         required
       />
 
+      <label for="role">Tipo de Conta</label>
+      <select id="role" v-model="formData.role" required>
+        <option value="user">Usuário</option>
+        <option value="admin">Administrador</option>
+      </select>
+
       <input type="submit" :disabled="loading" value="Registrar" />
     </form>
 
@@ -54,7 +60,8 @@ export default {
       formData: {
         username: '',
         email: '',
-        password: ''
+        password: '',
+        role: 'user' // Valor padrão é 'user'
       },
       loading: false // Para controle de loading
     };
@@ -65,7 +72,7 @@ export default {
       try {
         // Envia a requisição de registro usando axios
         const response = await axios.post('http://localhost:5000/api/auth/register', this.formData);
-        
+
         // Exibe a mensagem de resposta do servidor
         if (response.data.message) {
           alert(response.data.message); // Exibe a mensagem de sucesso ou erro do back-end
@@ -88,6 +95,7 @@ export default {
   }
 };
 </script>
+
 
 
 <style scoped>

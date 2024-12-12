@@ -3,14 +3,19 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models/User'); 
 
 exports.registerUser = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
+
+  // Valida o campo role
+  if (!['user', 'admin'].includes(role)) {
+    return res.status(400).json({ message: 'Tipo de conta inválido.' });
+  }
 
   try{
     //Criptografa a senha antes de salvar no banco de dados
     const hashedPassword = await bcrypt.hash(password, 10)
 
     //Cria um novo usuario com nome de usuario e senha criptografadas
-    const newUser = new User({username, email,  password: hashedPassword});
+    const newUser = new User({username, email,  password: hashedPassword, role});
     await newUser.save(); //Salva o usuario no bd
 
     res.status(201).json({   message: 'Usuario registrado com sucesso!'}); //Responde com sucesso ao registrar
@@ -21,7 +26,7 @@ exports.registerUser = async (req, res) => {
 
 // Função para fazer login de usuários
 exports.loginUser = async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
 
   // Verifica se os campos de email e senha foram fornecidos
   if (!email || !password) {
@@ -52,6 +57,17 @@ exports.loginUser = async (req, res) => {
           return res.status(400).json({ error: 'Senha incorreta' });
       }
 
+      // Verifica se o `role` enviado é permitido
+    if (role !== user.role) {
+      if (role === 'admin' && user.role !== 'admin') {
+        return res.status(403).json({ message: 'Permissão negada para entrar como Administrador.' });
+      }
+
+      // (Opcional) Atualizar o `role` caso seja permitido
+      // user.role = role;
+      // await user.save();
+    }
+
       console.log('Senha correta');
 
       // Cria um JWT Token com o id e role do usuário, definindo o tempo de expiração para 1h
@@ -59,6 +75,17 @@ exports.loginUser = async (req, res) => {
 
       // Retorna o token e as informações do usuário como resposta
       res.status(200).json({ message: "Login realizado", token, user });
+
+      // Retorna os dados do usuário
+    res.status(200).json({
+      token,
+      user: {
+        _id: user._id,
+        email: user.email,
+        role: user.role,
+      },
+    });
+
   } catch (error) {
       console.error(error); // Loga o erro
       res.status(500).json({ error: 'Erro ao fazer login' });

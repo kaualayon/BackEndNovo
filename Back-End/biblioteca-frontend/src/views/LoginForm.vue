@@ -12,11 +12,18 @@
       <label for="password">Senha</label>
       <input type="password" id="password" v-model="formData.password" placeholder="Digite sua senha" required>
 
+      <label for="role">Tipo de Usuário</label>
+      <select id="role" v-model="formData.role" required>
+        <option value="" disabled>Selecione</option>
+        <option value="admin">Administrador</option>
+        <option value="user">Usuário Normal</option>
+      </select>
+
       <input type="submit" value="Entrar" :disabled="loading">
     </form>
 
     <div class="message">
-      <p>Ainda não tem uma conta? <router-link to="/register">Cadastre-se</router-link></p>
+      <p>Ainda não tem uma conta? <router-link to="/">Cadastre-se</router-link></p>
     </div>
 
     <!-- Mensagem de erro -->
@@ -25,65 +32,66 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 
 export default {
-  name: 'LoginPage',
+  name: "LoginPage",
 
   data() {
     return {
       formData: {
-        email: '',
-        password: ''
+        email: "",
+        password: "",
+        role: "", // Adicionado o campo role
       },
       loading: false,
-      errorMessage: '' // Armazena mensagens de erro
+      errorMessage: "", // Armazena mensagens de erro
     };
   },
 
   methods: {
     async handleLogin() {
       try {
-        // Envia a requisição para o backend com o email e senha
-        const response = await axios.post('http://localhost:5000/api/auth/login', {
+        // Envia a requisição para o backend com email, senha e role
+        const response = await axios.post("http://localhost:5000/api/auth/login", {
           email: this.formData.email,
-          password: this.formData.password
+          password: this.formData.password,
+          role: this.formData.role, // Envia o tipo de usuário
         });
 
         // Verifica se a resposta contém um token (sucesso no login)
         if (response.status === 200 && response.data.token) {
-          const user = response.data.user; // Usuário retornado do backend
-          
+          const user = response.data.user;
+
           // Salva o token e as informações do usuário no localStorage
-          localStorage.setItem('token', response.data.token);
-          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("user", JSON.stringify(user));
+          localStorage.setItem("userId", user._id); // Armazena o ID do usuário separadamente
 
           // LOG DE DEPURAÇÃO
-          console.log('User info from backend:', user); // Log para depuração
+          console.log("User info from backend:", user);
 
-          // Salva o ID do usuário separadamente
-          localStorage.setItem('userId', user._id); // Armazena o ID do usuário separadamente
-          console.log('userId armazenado no localStorage:', user._id); // Log para depuração
-
-           // Redireciona para a página do usuário (baseado no role)
-           if (user.role === 'admin') {
-            this.$router.push('/home');  
-            alert('Login bem-sucedido como Administrador!');
-          } else {
-            this.$router.push('/home');
-            alert('Login bem-sucedido como Usuário Normal!');
-          }
-
+         // Verifica o papel retornado do backend
+      if (user.role === "admin") {
+        this.$router.push("/home");
+        alert("Login bem-sucedido como Administrador!");
+      } else if (user.role === "user") {
+        this.$router.push("/home");
+        alert("Login bem-sucedido como Usuário Normal!");
+      } else {
+        alert("Função de usuário desconhecida!");
+      }
+    
         }
       } catch (error) {
         console.error(error);
-        alert('Erro ao realizar o login. Verifique suas credenciais.');
+        this.errorMessage = "Erro ao realizar o login. Verifique suas credenciais.";
       }
-    }
-
-  }
+    },
+  },
 };
 </script>
+
 
 <style scoped>
 /* Estilo para o container do formulário de login */

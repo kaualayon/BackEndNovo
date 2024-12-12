@@ -1,64 +1,60 @@
 <template>
-
   <!-- Incluindo o HeaderElement -->
   <HeaderElement />
 
   <!-- Saudação ao usuário -->
   <div class="welcome-message" v-if="username">
-      <h2>Bem-vindo, {{ username }}!</h2>
-      <p>Estamos felizes em tê-lo de volta. Explore nossos recursos abaixo.</p>
+    <h2>Bem-vindo, {{ username }}!</h2>
+    <p>Estamos felizes em tê-lo de volta. Explore nossos recursos abaixo.</p>
+  </div>
+
+  <!-- Título da HomePage -->
+  <h2 class="page-title">Dashboard</h2>
+
+  <!-- Status de Empréstimos, Devoluções e Reservas -->
+  <div class="status-cards">
+    <div class="status-card">
+      <h3>Empréstimos Ativos</h3>
+      <p class="status-number">{{ activeLoans }}</p>
+      <p class="status-info">Livros emprestados atualmente</p>
     </div>
 
-    <!-- Título da HomePage -->
-    <h2 class="page-title">Dashboard</h2>
-
-   <!-- Status de Empréstimos, Devoluções e Reservas -->
-   <div class="status-cards">
-      <div class="status-card">
-        <h3>Empréstimos Ativos</h3>
-        <p class="status-number">{{ activeLoans }}</p>
-        <p class="status-info">Livros emprestados atualmente</p>
-      </div>
-
-      <div class="status-card">
-        <h3>Devoluções Pendentes</h3>
-        <p class="status-number">{{ pendingReturns }}</p>
-        <p class="status-info">Livros aguardando devolução</p>
-      </div>
-
-      <div class="status-card">
-        <h3>Reservas</h3>
-        <p class="status-number">{{ activeReservations }}</p>
-        <p class="status-info">Livros reservados</p>
-      </div>
+    <div class="status-card">
+      <h3>Devoluções Pendentes</h3>
+      <p class="status-number">{{ pendingReturns }}</p>
+      <p class="status-info">Livros aguardando devolução</p>
     </div>
-    <!-- Botões para Adicionar e Editar Livros -->
-    <div class="catalog-actions">
-        <router-link to="/AdminUsersPage">
-          <button class="action-btn">Gerenciar Usuários</button>
-        </router-link>
-      </div>
 
+    <div class="status-card">
+      <h3>Reservas</h3>
+      <p class="status-number">{{ activeReservations }}</p>
+      <p class="status-info">Livros reservados</p>
+    </div>
+  </div>
 
-  
+  <!-- Gerenciamento de usuários (somente para admin) -->
+  <div class="catalog-actions" v-if="role === 'admin'">
+    <router-link to="/AdminUsersPage">
+      <button class="action-btn">Gerenciar Usuários</button>
+    </router-link>
+  </div>
+
   <div class="catalog-page">
-    
-
     <!-- Título do Catálogo de Livros -->
     <h2 class="page-title">Catálogo de Livros</h2>
 
-    <!-- Botões para Adicionar e Editar Livros -->
-    <div class="catalog-actions">
-        <router-link to="/BookForm">
-          <button class="action-btn">Adicionar Livro</button>
-        </router-link>
-        <router-link to="/editarLivro">
-          <button class="action-btn">Editar Livro</button>
-        </router-link>
-        <router-link to="/removerLivro">
-          <button class="action-btn">Remover Livro</button>
-        </router-link>
-      </div>
+    <!-- Botões para Adicionar, Editar e Remover Livros (somente para admin) -->
+    <div class="catalog-actions" v-if="role === 'admin'">
+      <router-link to="/BookForm">
+        <button class="action-btn">Adicionar Livro</button>
+      </router-link>
+      <router-link to="/editarLivro">
+        <button class="action-btn">Editar Livro</button>
+      </router-link>
+      <router-link to="/removerLivro">
+        <button class="action-btn">Remover Livro</button>
+      </router-link>
+    </div>
 
     <!-- Catálogo de Livros -->
     <div class="book-catalog">
@@ -70,18 +66,15 @@
           <div class="book-card" v-for="book in books" :key="book.id">
             <div class="book-image">
               <img :src="getImageSrc(book.image)" alt="Capa do Livro" v-if="book.image" />
-
-
             </div>
             <h4>{{ book.title }}</h4>
             <p>{{ book.author }}</p>
             <p>Quantidade Disponível: <span :class="book.quantity > 0 ? 'available' : 'unavailable'">{{ book.quantity }}</span></p>
-             <!-- Botões de Ação -->
-              <div class="book-buttons">
-                <button @click="viewBookDetails(book._id)">Ver Detalhes</button>
-
-                <button @click="addToFavorites(book)">Adicionar aos Favoritos</button>
-          </div>
+            <!-- Botões de Ação -->
+            <div class="book-buttons">
+              <button @click="viewBookDetails(book._id)">Ver Detalhes</button>
+              <button @click="addToFavorites(book)">Adicionar aos Favoritos</button>
+            </div>
           </div>
         </div>
       </div>
@@ -92,123 +85,87 @@
 </template>
 
 <script>
-// Importando o HeaderElement e FooterElement
 import HeaderElement from "@/components/HeaderElement.vue";
 import FooterElement from "@/components/FooterElement.vue";
 
 export default {
   name: "HomePage",
   components: {
-     HeaderElement, FooterElement
+    HeaderElement,
+    FooterElement,
   },
   data() {
     return {
-      books: [], // Adicionando o array de livros
-
+      books: [], // Lista de livros
+      role: null, // Papel do usuário (admin ou user)
+      username: "User", // Nome do usuário
     };
   },
 
   created() {
-    this.loadBooksFromStorage(); // Carregar os livros do localStorage ao carregar a página
-    this.loadBooksFromAPI(); // Carrega os livros ao criar o componente
+    this.loadBooksFromStorage();
+    this.loadBooksFromAPI();
+    this.fetchUserRole(); // Carregar o papel do usuário
   },
 
   methods: {
-    getImageSrc(imagePath) {
-    console.log('book.image:', imagePath);  // Verifica o valor de imagePath
-
-    // Substitui barras invertidas por barras normais para garantir compatibilidade
-    imagePath = imagePath.replace(/\\/g, '/');
-
-    // Imagem Front
-    if (imagePath && imagePath.startsWith('/images')) {
-      return `${imagePath}`;  // Imagens vindas do back-end dentro da pasta public/images
-    }
-
-    // Se a imagem estiver na pasta "uploads" no back-end, monta a URL com o servidor
-    if (imagePath && imagePath.startsWith('uploads')) {
-      return `http://localhost:5000/${imagePath}`;  // Imagens vindas do back-end
-    }
-
-    // Caso não seja de nenhuma das duas situações acima, retorna o caminho original
-    return imagePath; 
-  },
-
-  viewBookDetails(bookId) {
-    console.log("ID recebido:", bookId); // Verifica o valor do ID recebido
-  if (bookId) {
-    this.$router.push(`/book/${bookId}`);
-  } else {
-    console.error('ID do livro não encontrado!');
-  }
-  
+    async fetchUserRole() {
+      try {
+        // Simula uma chamada à API para obter informações do usuário
+        const response = await fetch("http://localhost:5000/api/auth/user");
+        const userData = await response.json();
+        this.role = userData.role; // Exemplo: 'admin' ou 'user'
+        this.username = userData.username; // Atualiza o nome do usuário
+      } catch (error) {
+        console.error("Erro ao obter papel do usuário:", error);
+      }
     },
 
-  
-
+    getImageSrc(imagePath) {
+      if (!imagePath) return "";
+      imagePath = imagePath.replace(/\\/g, "/");
+      if (imagePath.startsWith("/images")) return `${imagePath}`;
+      if (imagePath.startsWith("uploads")) return `http://localhost:5000/${imagePath}`;
+      return imagePath;
+    },
 
     async loadBooksFromAPI() {
-    try {
-      const response = await fetch('http://localhost:5000/api/books'); // Substitua pela URL correta da sua API
-      if (!response.ok) throw new Error("Erro ao carregar livros da API");
+      try {
+        const response = await fetch("http://localhost:5000/api/books");
+        if (!response.ok) throw new Error("Erro ao carregar livros da API");
+        this.books = await response.json();
+      } catch (error) {
+        console.error("Erro ao carregar livros:", error);
+      }
+    },
 
-      const books = await response.json();
-      console.log("Livros carregados:", books); // Verifique se o ID está presente aqui
-      this.books = books; // Atualiza os livros no front-end
-    } catch (error) {
-      console.error("Erro ao carregar livros:", error);
-    }
-  },
-
-    reserveBook(book) {
-      if (book.quantity > 0) {
-        book.quantity--; // Reduz a quantidade disponível
-        alert(`Você reservou o livro: ${book.title}`);
+    viewBookDetails(bookId) {
+      if (bookId) {
+        this.$router.push(`/book/${bookId}`);
       } else {
-        alert("Este livro não está disponível no momento.");
-      }
-    },
-    returnBook(book) {
-      if (book.quantity < book.totalQuantity) {
-        book.quantity++; // Aumenta a quantidade disponível
-        alert(`Você devolveu o livro: ${book.title}`);
-      } else {
-        alert("Não há devoluções pendentes para este livro.");
+        console.error("ID do livro não encontrado!");
       }
     },
 
-    addBookToCatalog(newBook) {
-      newBook.quantity = 1; // Define quantidade inicial como 1 para novos livros
-      this.books.push(newBook); // Adiciona o novo livro à lista
-      this.saveBooksToStorage(); // Salva no localStorage
-    },
-
-    saveBooksToStorage() {
-      localStorage.setItem('books', JSON.stringify(this.books)); // Atualiza os dados no localStorage
-    },
-
-    loadBooksFromStorage() {
-      const books = localStorage.getItem('books');
-      if (books) {
-        this.books = JSON.parse(books); // Converte os dados do localStorage para o array de objetos
-      }
-    },
     addToFavorites(book) {
       const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-      const isAlreadyFavorite = favorites.find((fav) => fav.id === book.id);
-
-      if (isAlreadyFavorite) {
+      if (favorites.find((fav) => fav.id === book.id)) {
         alert("Este livro já está nos favoritos!");
         return;
       }
-
       favorites.push(book);
       localStorage.setItem("favorites", JSON.stringify(favorites));
       alert("Livro adicionado aos favoritos!");
     },
+
+    loadBooksFromStorage() {
+      const books = localStorage.getItem("books");
+      if (books) this.books = JSON.parse(books);
+    },
   },
 };
 </script>
+
 
 
 <style scoped>
