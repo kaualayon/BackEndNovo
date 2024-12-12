@@ -19,35 +19,49 @@ exports.registerUser = async (req, res) => {
   }
 };
 
+// Função para fazer login de usuários
 exports.loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  try{
-    //Busca o usuario pelo nome de usuario
-    const user = await User.findOne({email});
-    if(!user) return res.status(400).json({ error: 'Usuário não encontrado'}); //Retorna erro se o usuario não existir
+  // Verifica se os campos de email e senha foram fornecidos
+  if (!email || !password) {
+      return res.status(400).json({ error: 'Por favor, forneça ambos os campos: email e senha.' });
+  }
 
-    //Compara a sneha fornecida com a senha armazenada no banco
-    const isMatch = await bcrypt.compare(password, user.password);
-    if(!isMatch) return res.status(400).json({ error: 'Senha incorreta'}); //Retorna erro se a senha estiver incorreta
+  try {
+      // Busca o usuário pelo email
+      const user = await User.findOne({ email });
 
+      if (!user) {
+          return res.status(400).json({ error: 'Usuário não encontrado' });
+      }
 
-    //Cria o token JWT para autenticação
-    const token = jwt.sign({ id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'}); //Token expira em 1 hora
-    res.status(200).json({
-      username: user.username,
-      token,
-    });
+      console.log('Usuário encontrado:', user);  // Loga os dados do usuário
+      console.log('Senha fornecida:', password);  // Loga a senha fornecida
 
-  
-  }catch (error) {
-    // Se o erro for 403, significa que a conta está desativada
-    if (error.response && error.response.status === 403) {
-      alert('Sua conta está desativada. Entre em contato com o suporte.');
-    } else {
-      alert('Erro ao fazer login. Verifique suas credenciais.');
-    }
-    console.error('Erro ao fazer login:', error);
+      // Verifica se o usuário está bloqueado
+      if (!user.active) {
+          return res.status(403).json({ error: 'Usuário bloqueado. Não é possível fazer login.' });
+      }
+
+      // Compara a senha fornecida com a armazenada no banco de dados
+      const isMatch = await bcrypt.compare(password.trim(), user.password);
+      
+      if (!isMatch) {
+          console.log('Senha incorreta');
+          return res.status(400).json({ error: 'Senha incorreta' });
+      }
+
+      console.log('Senha correta');
+
+      // Cria um JWT Token com o id e role do usuário, definindo o tempo de expiração para 1h
+      const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+      // Retorna o token e as informações do usuário como resposta
+      res.status(200).json({ message: "Login realizado", token, user });
+  } catch (error) {
+      console.error(error); // Loga o erro
+      res.status(500).json({ error: 'Erro ao fazer login' });
   }
 };
 

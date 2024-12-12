@@ -17,9 +17,6 @@
 
     <div class="message">
       <p>Ainda não tem uma conta? <router-link to="/register">Cadastre-se</router-link></p>
-      <p>
-        Entrar como admin? <router-link to="/AdminLogin">Entrar como admin</router-link>
-      </p>
     </div>
 
     <!-- Mensagem de erro -->
@@ -46,27 +43,43 @@ export default {
 
   methods: {
     async handleLogin() {
-  try {
-    // Verificar se o email e a senha estão sendo capturados corretamente
-    console.log("Email:", this.email);
-    console.log("Password:", this.password);
+      try {
+        // Envia a requisição para o backend com o email e senha
+        const response = await axios.post('http://localhost:5000/api/auth/login', {
+          email: this.formData.email,
+          password: this.formData.password
+        });
 
-    const response = await axios.post('http://localhost:5000/api/auth/login', {
-      email: this.formData.email,
-      password: this.formData.password,
-    });
+        // Verifica se a resposta contém um token (sucesso no login)
+        if (response.status === 200 && response.data.token) {
+          const user = response.data.user; // Usuário retornado do backend
+          
+          // Salva o token e as informações do usuário no localStorage
+          localStorage.setItem('token', response.data.token);
+          localStorage.setItem('user', JSON.stringify(user));
 
-    if (response.data.token) {
-      const { username, token } = response.data;
-      localStorage.setItem('user', JSON.stringify({ username, token }));
-      this.$router.push('/home');
-    } else {
-      console.error('Erro de login:', response.data.message);
+          // LOG DE DEPURAÇÃO
+          console.log('User info from backend:', user); // Log para depuração
+
+          // Salva o ID do usuário separadamente
+          localStorage.setItem('userId', user._id); // Armazena o ID do usuário separadamente
+          console.log('userId armazenado no localStorage:', user._id); // Log para depuração
+
+           // Redireciona para a página do usuário (baseado no role)
+           if (user.role === 'admin') {
+            this.$router.push('/home');  
+            alert('Login bem-sucedido como Administrador!');
+          } else {
+            this.$router.push('/home');
+            alert('Login bem-sucedido como Usuário Normal!');
+          }
+
+        }
+      } catch (error) {
+        console.error(error);
+        alert('Erro ao realizar o login. Verifique suas credenciais.');
+      }
     }
-  } catch (error) {
-    console.error('Erro ao fazer login:', error);
-  }
-}
 
   }
 };
