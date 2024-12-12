@@ -64,30 +64,35 @@
     },
     methods: {
       async fetchReservations() {
-        try {
-          const userData = JSON.parse(localStorage.getItem("user"));
-          if (!userData || !userData.token) {
-            // Se não houver token, redireciona para login
-            this.$router.push("/login");
-            return;
-          }
-  
-          // Faz a requisição para obter as reservas
-          const response = await axios.get("http://localhost:5000/api/reservations", {
-            headers: {
-              Authorization: `Bearer ${userData.token}`,
-            },
-          });
-  
-          // Atualiza os dados
-          this.reservations = response.data.reservations || [];
-        } catch (error) {
-          console.error("Erro ao buscar as reservas:", error);
-          this.errorMessage = "Erro ao carregar as reservas.";
-        } finally {
-          this.loading = false;
-        }
+  this.loading = true; // Inicia o estado de carregamento
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error("Token não encontrado");
+
+    const response = await axios.get("http://localhost:5000/api/user/reservations", {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
+    });
+
+    // Verifique o que está sendo retornado na resposta
+    console.log('Resposta da API:', response.data);
+
+    // Se a resposta for um array com as reservas diretamente, atribua diretamente à variável reservations
+    this.reservations = response.data || [];
+  } catch (error) {
+    console.error("Erro ao buscar as reservas:", error.response?.data || error);
+    // Exibe a mensagem de erro
+    this.errorMessage = error.response?.data?.error || "Erro ao carregar as reservas.";
+    // Se o erro for relacionado ao token inválido (código 403)
+    if (error.response?.status === 403) {
+      alert("Token inválido. Faça login novamente.");
+      this.$router.push("/login");  // Redireciona para a página de login
+    }
+  } finally {
+    this.loading = false; // Finaliza o estado de carregamento
+  }
+},
       formatDate(date) {
         return new Date(date).toLocaleDateString("pt-BR", {
           year: "numeric",
@@ -100,7 +105,7 @@
       this.fetchReservations();
     },
   };
-  </script>
+  </script>  
   
   <style scoped>
   .reservations-page {

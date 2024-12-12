@@ -120,37 +120,30 @@ export default {
     },
 
     reserveBook(book) {
-  console.log("Reservando livro:", book);
-
   const reservationData = {
     bookId: book._id,
     bookTitle: book.title,
   };
 
-  // Recupera o token JWT do localStorage
   const token = localStorage.getItem("token");
 
   axios
     .post("http://localhost:5000/api/reservations", reservationData, {
       headers: {
-        Authorization: `Bearer ${token}`, // Envia o token no cabeçalho
+        Authorization: `Bearer ${token}`, // Token JWT no cabeçalho
       },
     })
-    .then((response) => {
-      console.log("Reserva criada:", response.data);
+    .then(() => {
       alert(`Livro "${book.title}" reservado com sucesso!`);
+
+      
       this.$router.push("/reservas");
     })
     .catch((error) => {
       console.error("Erro ao reservar livro:", error.response?.data || error);
-      alert(
-        `Não foi possível reservar o livro. Motivo: ${
-          error.response?.data?.message || "Erro desconhecido"
-        }`
-      );
+      alert(`Erro ao reservar livro: ${error.response?.data?.message || "Erro desconhecido"}`);
     });
 },
-
 
     borrowBook(book) {
       alert(`Você pegou emprestado: ${book.title}`);

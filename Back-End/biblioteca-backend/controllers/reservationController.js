@@ -1,35 +1,27 @@
 const Reservation = require('../models/Reservation'); // Modelo de reservas
 const Book = require('../models/book'); // Modelo de livros (ajuste o caminho conforme sua estrutura)
 
-// Post - Reservar livros
 exports.createReservation = async (req, res) => {
   try {
-    const { bookId } = req.params;
-    const userId = req.user.id; // ID do usuário autenticado
+    const userId = req.user._id; // Recupera o ID do usuário autenticado
+    const { bookId, bookTitle } = req.body;
 
-    // Verificar se o livro existe e há cópias disponíveis
-    const book = await Book.findById(bookId);
-    if (!book) {
-      return res.status(404).json({ error: 'Livro não encontrado.' });
-    }
-    if (book.availableCopies <= 0) {
-      return res.status(400).json({ error: 'Cópias indisponíveis para reserva.' });
+    if (!bookId || !bookTitle) {
+      return res.status(400).json({ error: "Os campos 'bookId' e 'bookTitle' são obrigatórios." });
     }
 
-    // Criar uma nova reserva
-    const reservation = new Reservation({
-      book: bookId,
-      user: userId,
+    const newReservation = new Reservation({
+      userId,
+      bookId,
+      bookTitle,
     });
-    await reservation.save();
 
-    // Atualizar o número de cópias disponíveis no livro
-    book.availableCopies -= 1;
-    await book.save();
+    await newReservation.save();
 
-    res.status(201).json({ message: 'Reserva criada com sucesso.', reservation });
+    res.status(201).json({ message: "Reserva criada com sucesso!" });
   } catch (error) {
-    res.status(500).json({ error: 'Erro ao criar a reserva.', details: error.message });
+    console.error("Erro ao criar reserva:", error);
+    res.status(500).json({ error: "Erro ao criar a reserva." });
   }
 };
 
@@ -37,10 +29,10 @@ exports.createReservation = async (req, res) => {
 exports.returnBook = async (req, res) => {
   try {
     const { reservationId } = req.params;
-    const userId = req.user.id; // ID do usuário autenticado
+    const userId = req.user._id; // ID do usuário autenticado
 
     // Encontrar a reserva
-    const reservation = await Reservation.findById(reservationId).populate('book');
+    const reservation = await Reservation.findById(reservationId);
     if (!reservation) {
       return res.status(404).json({ error: 'Reserva não encontrada.' });
     }
@@ -68,10 +60,10 @@ exports.returnBook = async (req, res) => {
 // Get de retorno de informações
 exports.getUserReservations = async (req, res) => {
   try {
-    const userId = req.user.id; // ID do usuário autenticado
+    const userId = req.user._id // ID do usuário autenticado
 
     // Buscar todas as reservas associadas ao usuário
-    const reservations = await Reservation.find({ user: userId }).populate('book');
+    const reservations = await Reservation.find({ user: userId })
     
     if (!reservations || reservations.length === 0) {
       return res.status(404).json({ error: 'Você não tem reservas feitas.' });
