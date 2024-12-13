@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Favorite = require('../models/Favorite');
 const Book = require('../models/book');
-const User = require('../models/User'); // Certifique-se de que o caminho esteja correto
+const User = require('../models/User'); 
 
 
 
@@ -33,7 +33,7 @@ router.post('/:userId', async (req, res) => {
   }
 });
 
-
+//Pegando a lista de favoritos
 router.get('/:userId', async (req, res) => {
   try {
     const userId = req.params._id; // ID do usuário autenticado

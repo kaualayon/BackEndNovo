@@ -1,6 +1,6 @@
 const express = require('express');
-const router = express.Router(); // Certifique-se de usar 'router' (não 'Router')
-const verifyToken = require('../Middleware/verifyToken'); // Ajuste o caminho conforme sua estrutura
+const router = express.Router(); 
+const verifyToken = require('../Middleware/verifyToken'); 
 const authController = require('../controllers/authController'); 
 
 

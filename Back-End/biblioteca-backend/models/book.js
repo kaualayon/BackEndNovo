@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//Criando o banco de dados do livro
 const bookSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -39,5 +40,5 @@ const bookSchema = new mongoose.Schema({
 });
 
 
-
+//Exportand o modelo
 module.exports = mongoose.model('Book', bookSchema);

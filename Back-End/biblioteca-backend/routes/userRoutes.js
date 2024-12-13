@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs')
-const { User } = require('../models/User'); // Seu modelo de usuário
+const { User } = require('../models/User');
 
-// Defina suas rotas de usuários aqui, como listar, editar ou excluir
+// Pegando a lista de usuarios
 router.get('/', async (req, res) => {
   try {
     const users = await User.find();
@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// Rota no backend
+//Pegando o usuario especifico
 router.get('/user', async (req, res) => {
   try {
     // Verifica se o token existe no cabeçalho da requisição
@@ -121,6 +121,7 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+//Rota para atualizar usuário
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const { username, email, active } = req.body;

@@ -95,7 +95,7 @@ router.put('/books/:id', async (req, res) => {
     }
 });
 
-
+//Excluindo o livro
 router.delete('/books/:id', async (req, res) => {
     try {
         const { id } = req.params;

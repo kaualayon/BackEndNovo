@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+//Criando o banco de dados das reservas
 const reservationSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -26,4 +27,5 @@ const reservationSchema = new mongoose.Schema({
   },
 });
 
+//Exportando o modelo
 module.exports = mongoose.model('Reservation', reservationSchema);

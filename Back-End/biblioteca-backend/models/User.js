@@ -2,6 +2,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
+//Criando o modelo de Useer
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -27,4 +28,5 @@ const userSchema = new mongoose.Schema({
 
 const User = mongoose.model('User', userSchema);
 
+//Exportando o modelo
 module.exports = { User };
