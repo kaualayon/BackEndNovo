@@ -36,19 +36,17 @@ router.post('/:userId', async (req, res) => {
 
 router.get('/:userId', async (req, res) => {
   try {
-    const userId = req.params.userId;
-
-    // Encontrar o usuário e popular os livros favoritos
-    const user = await User.findOne({ _id: userId }).populate('favorites');
+    const userId = req.params._id; // ID do usuário autenticado
+    const user = await User.findById(userId).populate("favorites");
 
     if (!user) {
-      return res.status(404).json({ error: "Usuário não encontrado" });
+      return res.status(404).json({ error: "Usuário não encontrado." });
     }
 
     res.status(200).json({ favorites: user.favorites });
   } catch (error) {
     console.error("Erro ao carregar favoritos:", error);
-    res.status(500).json({ error: "Erro ao carregar favoritos" });
+    res.status(500).json({ error: "Erro ao carregar favoritos." });
   }
 });
 
